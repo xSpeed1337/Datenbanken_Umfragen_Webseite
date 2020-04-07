@@ -4,7 +4,7 @@
 </head>
 <body>
 <?php
-$hallo = "Hallo Welt!";
+$hallo = "Hallo Welt";
 echo $hallo;
 ?>
 </body>
