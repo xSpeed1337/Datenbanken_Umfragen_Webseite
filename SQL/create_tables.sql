@@ -1,6 +1,6 @@
-DROP SCHEMA IF EXISTS create_database;
-CREATE SCHEMA IF NOT EXISTS create_database DEFAULT CHARACTER SET utf8;
-USE create_database;
+DROP SCHEMA IF EXISTS Survey_Site_Database;
+CREATE SCHEMA IF NOT EXISTS Survey_Site_Database DEFAULT CHARACTER SET utf8;
+USE Survey_Site_Database;
 
 DROP TABLE IF EXISTS surveyor;
 CREATE TABLE surveyor
@@ -14,17 +14,23 @@ CREATE TABLE survey
 (
     title_short CHAR(5) PRIMARY KEY UNIQUE,
     title       VARCHAR(32) UNIQUE NOT NULL,
-    username    VARCHAR(32),
-    FOREIGN KEY (username) REFERENCES surveyor (username)
+    username    VARCHAR(32)        NOT NULL,
+    CONSTRAINT cstr_survey_username
+        FOREIGN KEY (username) REFERENCES surveyor (username)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS question;
 CREATE TABLE question
 (
     id            INT PRIMARY KEY AUTO_INCREMENT,
-    question_text VARCHAR(500),
-    title_short   CHAR(5),
-    FOREIGN KEY (title_short) REFERENCES survey (title_short)
+    question_text VARCHAR(500) NOT NULL,
+    title_short   CHAR(5)      NOT NULL,
+    CONSTRAINT cstr_question_title_short
+        FOREIGN KEY (title_short) REFERENCES survey (title_short)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS course;
@@ -41,7 +47,10 @@ CREATE TABLE student
     firstname    VARCHAR(32) NOT NULL,
     lastname     VARCHAR(32) NOT NULL,
     course_short VARCHAR(5)  NOT NULL,
-    FOREIGN KEY (course_short) REFERENCES course (course_short)
+    CONSTRAINT cstr_student_course_short
+        FOREIGN KEY (course_short) REFERENCES course (course_short)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS assigned_course;
@@ -49,9 +58,15 @@ CREATE TABLE assigned_course
 (
     title_short  CHAR(5),
     course_short VARCHAR(5),
-    FOREIGN KEY (title_short) references survey (title_short),
-    FOREIGN KEY (course_short) references course (course_short),
-    CONSTRAINT pk_assigned_course PRIMARY KEY (title_short, course_short)
+    PRIMARY KEY (title_short, course_short),
+    CONSTRAINT cstr_assigned_course_title_short
+        FOREIGN KEY (title_short) REFERENCES survey (title_short)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE,
+    CONSTRAINT cstr_assigned_course_course_short
+        FOREIGN KEY (course_short) REFERENCES course (course_short)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS answer;
@@ -59,10 +74,16 @@ CREATE TABLE answer
 (
     id     INT,
     matnr  INT(7),
-    answer INT(1),
-    FOREIGN KEY (id) references question (id),
-    FOREIGN KEY (matnr) references student (matnr),
-    CONSTRAINT pk_answer PRIMARY KEY (id, matnr)
+    answer INT(1) CHECK (answer >= 1 AND answer <= 5),
+    PRIMARY KEY (id, matnr),
+    CONSTRAINT cstr_answer_qid
+        FOREIGN KEY (id) REFERENCES question (id)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE,
+    CONSTRAINT cstr_answer_matnr
+        FOREIGN KEY (matnr) REFERENCES student (matnr)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
 );
 
 DROP TABLE IF EXISTS finished;
@@ -70,7 +91,13 @@ CREATE TABLE finished
 (
     title_short CHAR(5),
     matnr       INT(7),
-    FOREIGN KEY (title_short) references survey (title_short),
-    FOREIGN KEY (matnr) references student (matnr),
-    CONSTRAINT pk_finished PRIMARY KEY (title_short, matnr)
+    PRIMARY KEY (title_short, matnr),
+    CONSTRAINT cstr_finished_title_short
+        FOREIGN KEY (title_short) REFERENCES survey (title_short)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE,
+    CONSTRAINT cstr_finished_matnr
+        FOREIGN KEY (matnr) REFERENCES student (matnr)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
 );
