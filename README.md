@@ -15,8 +15,8 @@ The web-application uses the following technology stack:
 
 ## Authors
 * **Lukas Fink** - *Implementation / Planning / Concept* - [xSpeed1337](https://github.com/xSpeed1337)
-* **Elena Deckert** - *Implementation / Planning / Concept*
-* **Antonia Gabriel** - *Implementation / Planning / Concept*
+* **Elena Deckert** - *Implementation / Planning / Concept* - [ElenaDeckert](https://github.com/ElenaDeckert)
+* **Antonia Gabriel** - *Implementation / Planning / Concept* - [A1Gabriel](https://github.com/A1Gabriel)
 
 
 ## Acknowledgments
