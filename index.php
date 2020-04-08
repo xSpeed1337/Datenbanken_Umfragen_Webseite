@@ -1,3 +1,7 @@
+<?php
+include_once "php-scripts/utilities.php"
+?>
+
 <html>
 <head>
     <title>Hallo Welt</title>
@@ -5,7 +9,7 @@
 <body>
 <?php
 $hallo = "Hallo Welt";
-echo $hallo;
+writeName($hallo);
 ?>
 </body>
 </html>
