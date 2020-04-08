@@ -53,8 +53,8 @@ CREATE TABLE student
             ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS assigned_course;
-CREATE TABLE assigned_course
+DROP TABLE IF EXISTS survey_assigned_course;
+CREATE TABLE survey_assigned_course
 (
     title_short  CHAR(5),
     course_short VARCHAR(5),
@@ -69,8 +69,8 @@ CREATE TABLE assigned_course
             ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS answer;
-CREATE TABLE answer
+DROP TABLE IF EXISTS question_answer;
+CREATE TABLE question_answer
 (
     id     INT,
     matnr  INT(7),
@@ -86,8 +86,8 @@ CREATE TABLE answer
             ON DELETE CASCADE
 );
 
-DROP TABLE IF EXISTS finished;
-CREATE TABLE finished
+DROP TABLE IF EXISTS survey_finished;
+CREATE TABLE survey_finished
 (
     title_short CHAR(5),
     matnr       INT(7),
