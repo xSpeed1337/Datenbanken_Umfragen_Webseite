@@ -40,7 +40,7 @@ CREATE TABLE student
     matnr        INT(7) PRIMARY KEY UNIQUE,
     firstname    VARCHAR(32) NOT NULL,
     lastname     VARCHAR(32) NOT NULL,
-    course_short VARCHAR(5),
+    course_short VARCHAR(5)  NOT NULL,
     FOREIGN KEY (course_short) REFERENCES course (course_short)
 );
 
@@ -51,7 +51,7 @@ CREATE TABLE assigned_course
     course_short VARCHAR(5),
     FOREIGN KEY (title_short) references survey (title_short),
     FOREIGN KEY (course_short) references course (course_short),
-    PRIMARY KEY (title_short, course_short)
+    CONSTRAINT pk_assigned_course PRIMARY KEY (title_short, course_short)
 );
 
 DROP TABLE IF EXISTS answer;
@@ -62,7 +62,7 @@ CREATE TABLE answer
     answer INT(1),
     FOREIGN KEY (id) references question (id),
     FOREIGN KEY (matnr) references student (matnr),
-    PRIMARY KEY (id, matnr)
+    CONSTRAINT pk_answer PRIMARY KEY (id, matnr)
 );
 
 DROP TABLE IF EXISTS finished;
@@ -72,5 +72,5 @@ CREATE TABLE finished
     matnr       INT(7),
     FOREIGN KEY (title_short) references survey (title_short),
     FOREIGN KEY (matnr) references student (matnr),
-    PRIMARY KEY (title_short, matnr)
+    CONSTRAINT pk_finished PRIMARY KEY (title_short, matnr)
 );
