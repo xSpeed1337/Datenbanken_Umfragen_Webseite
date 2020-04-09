@@ -1,27 +1,30 @@
 <?php
 
-function writeName($name) {
-    echo $name;
-}
+class utilities {
 
-function checkStudentAssigned() {
+    public function writeName($name) {
+        echo $name;
+    }
 
-}
+    public function checkStudentAssigned() {
 
-function writeAnswer() {
+    }
 
-}
+    public function writeAnswerToDB() {
 
-function writeComment() {
+    }
 
-}
+    public function writeCommentToDB() {
 
-function finishSurvey() {
+    }
 
-}
+    public function finishSurvey() {
 
-function analysis() {
+    }
 
+    public function analysis() {
+
+    }
 }
 
 ?>

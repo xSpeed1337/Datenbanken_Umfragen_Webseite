@@ -9,7 +9,8 @@ include_once "php-scripts/utilities.php"
 <body>
 <?php
 $hallo = "Hallo Welt";
-writeName($hallo);
+$utilities = new utilities();
+$utilities->writeName($hallo);
 ?>
 </body>
 </html>
