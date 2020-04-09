@@ -18,6 +18,9 @@ The web-application uses the following technology stack:
 * **Elena Deckert** - *Implementation / Planning / Concept* - [ElenaDeckert](https://github.com/ElenaDeckert)
 * **Antonia Gabriel** - *Implementation / Planning / Concept* - [A1Gabriel](https://github.com/A1Gabriel)
 
+## License
+
+This project is licensed under the Apache 2.0 License - see the [LICENSE.md](LICENSE.md) file for details.
 
 ## Acknowledgments
 * Was created as a Baden-Wuerttemberg Cooperative State University (DHBW) Ravensburg project for the lecture *Datenbanken*
