@@ -1,6 +1,6 @@
 <?php
 
-class Dbh {
+class DatabaseHandler {
 
     private $host = "localhost";
     private $user = "root";

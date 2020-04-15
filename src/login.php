@@ -13,7 +13,7 @@ include_once "php-scripts/utilities.php"
 <button>Login</button>
 <?php
 $utilities = new utilities();
-
+$utilities->writeCourses();
 ?>
 </body>
 </html>
