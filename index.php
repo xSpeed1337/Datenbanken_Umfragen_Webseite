@@ -1,16 +1,13 @@
-<?php
-include_once "php-scripts/utilities.php"
-?>
-
 <html>
 <head>
-    <title>Hallo Welt</title>
+    <title></title>
 </head>
 <body>
 <?php
-$hallo = "Hallo Welt";
-$utilities = new utilities();
-$utilities->writeName($hallo);
+// Redirecting to Login.php
+// TODO Check for session token
+header("Location: src/login.php");
+exit();
 ?>
 </body>
 </html>

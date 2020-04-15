@@ -1,6 +1,8 @@
 <?php
 
-class utilities {
+include_once "DatabaseHandler.php";
+
+class utilities extends Dbh{
 
     public function writeName($name) {
         echo $name;
@@ -26,5 +28,3 @@ class utilities {
 
     }
 }
-
-?>
