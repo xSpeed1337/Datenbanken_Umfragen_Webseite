@@ -36,7 +36,7 @@ CREATE TABLE question
 DROP TABLE IF EXISTS course;
 CREATE TABLE course
 (
-    course_short VARCHAR(5) PRIMARY KEY,
+    course_short VARCHAR(6) PRIMARY KEY,
     course_name  VARCHAR(64) NOT NULL
 );
 
