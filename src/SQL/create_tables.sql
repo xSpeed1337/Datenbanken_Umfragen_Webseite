@@ -36,7 +36,7 @@ CREATE TABLE question
 DROP TABLE IF EXISTS course;
 CREATE TABLE course
 (
-    course_short VARCHAR(6) PRIMARY KEY,
+    course_short VARCHAR(10) PRIMARY KEY,
     course_name  VARCHAR(64) NOT NULL
 );
 
@@ -46,7 +46,7 @@ CREATE TABLE student
     matnr        INT(7) PRIMARY KEY UNIQUE,
     firstname    VARCHAR(32) NOT NULL,
     lastname     VARCHAR(32) NOT NULL,
-    course_short VARCHAR(5)  NOT NULL,
+    course_short VARCHAR(10)  NOT NULL,
     CONSTRAINT cstr_student_course_short
         FOREIGN KEY (course_short) REFERENCES course (course_short)
             ON UPDATE CASCADE
@@ -57,7 +57,7 @@ DROP TABLE IF EXISTS survey_assigned_course;
 CREATE TABLE survey_assigned_course
 (
     title_short  CHAR(5),
-    course_short VARCHAR(5),
+    course_short VARCHAR(10),
     PRIMARY KEY (title_short, course_short),
     CONSTRAINT cstr_assigned_course_title_short
         FOREIGN KEY (title_short) REFERENCES survey (title_short)
