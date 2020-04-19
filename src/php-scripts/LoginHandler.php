@@ -10,12 +10,8 @@ class LoginHandler extends DatabaseHandler{
 
         SESSION_START();
 
-        //if (isset($_POST["username"]))
-        //{
-
             $_username = $_POST["username"];
             $_password = $_POST["password"];
-
 
             $sql = "SELECT * FROM surveyor where username = '$_username' and password = '$_password' Limit 1";
 
@@ -28,20 +24,13 @@ class LoginHandler extends DatabaseHandler{
             }else{
                 echo "Login fehlgeschlagen Befrager";
             }
-
-        //}
-
     }
 
     public function loginStudent(){
 
         SESSION_START();
 
-        //if (isset($_POST["Matrikelnummer"]))
-        //{
-
             $_matnr = $_POST["Matrikelnummer"];
-
 
             $sql = "SELECT * FROM student where matnr = '$_matnr' Limit 1";
 
@@ -54,8 +43,6 @@ class LoginHandler extends DatabaseHandler{
             }else{
                 echo "Login fehlgeschlagen Student";
             }
-
-        //}
     }
 
 }
@@ -66,15 +53,3 @@ if (isset($_POST["loginInter"])){
 }elseif (isset($_POST["loginStudent"])) {
     $h->loginStudent();
 }
-
-/*switch (isset($_POST)){
-
-    case "loginInter":
-        $h->loginSurveyor();
-        break;
-
-    case "loginStudent":
-        $h->loginStudent();
-        break;
-
-}*/
