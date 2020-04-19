@@ -67,8 +67,9 @@ if (isset($_POST["username"])){
     $h->loginStudent();
 }*/
 $h = new LoginHandler();
-if (isset($_POST["Matrikelnummer"])){
+if (isset($_POST["Matrikelnummer"])) {
     $h->loginStudent();
-}elseif (isset($_POST["username"])){
+}
+if (isset($_POST["username"])){
     $h->loginSurveyor();
 }
