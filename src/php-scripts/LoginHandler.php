@@ -10,8 +10,8 @@ class LoginHandler extends DatabaseHandler{
 
         SESSION_START();
 
-        if (isset($_POST["username"]))
-        {
+        //if (isset($_POST["username"]))
+        //{
 
             $_username = $_POST["username"];
             $_password = $_POST["password"];
@@ -29,7 +29,7 @@ class LoginHandler extends DatabaseHandler{
                 echo "Login fehlgeschlagen Befrager";
             }
 
-        }
+        //}
 
     }
 
@@ -37,8 +37,8 @@ class LoginHandler extends DatabaseHandler{
 
         SESSION_START();
 
-        if (isset($_POST["Matrikelnummer"]))
-        {
+        //if (isset($_POST["Matrikelnummer"]))
+        //{
 
             $_matnr = $_POST["Matrikelnummer"];
 
@@ -55,7 +55,7 @@ class LoginHandler extends DatabaseHandler{
                 echo "Login fehlgeschlagen Student";
             }
 
-        }
+        //}
     }
 
 }
@@ -63,7 +63,7 @@ class LoginHandler extends DatabaseHandler{
 $h = new LoginHandler();
 if (isset($_POST["username"])){
     $h->loginSurveyor();
-}else{
+}elseif (isset($_POST["Matrikelnummer"])){
     $h->loginStudent();
 }
 
