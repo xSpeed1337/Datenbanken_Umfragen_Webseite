@@ -22,8 +22,6 @@ class LoginHandler extends DatabaseHandler{
             $stmt = $this->connect()->query($sql);
 
             $row = $stmt->fetch();
-            echo '<br>' . $row['username'] . '<br>';
-            echo $row['password'] . '<br>';
 
             if($row > 0){
                 include("../Pages/MySurveys_Interviewer.php");
@@ -45,11 +43,11 @@ class LoginHandler extends DatabaseHandler{
             $_matnr = $_POST["Matrikelnummer"];
 
 
-            $sql = "SELECT * FROM student where matnr = $_matnr Limit 1";
+            $sql = "SELECT * FROM student where matnr = '$_matnr' Limit 1";
 
             $stmt = $this->connect()->query($sql);
 
-            $row = mysqli_num_rows($sql);
+            $row = $stmt->fetch();
 
             if($row > 0){
                 include("../Pages/MySurveys_Student.php");
