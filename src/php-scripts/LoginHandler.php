@@ -70,7 +70,7 @@ if (isset($_POST["Matrikelnummer"])) {
 
 switch (isset($_POST)){
 
-    case "username":
+    case "username" && "password":
         $h->loginSurveyor();
         break;
 
