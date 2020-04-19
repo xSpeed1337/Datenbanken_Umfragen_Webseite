@@ -6,7 +6,6 @@ include_once "DatabaseHandler.php";
 class LoginHandler extends DatabaseHandler{
 
 
-
     public function loginSurveyor(){
 
         echo "in loginSurveyor";
@@ -59,4 +58,9 @@ class LoginHandler extends DatabaseHandler{
 
         }
     }
+
 }
+
+$h = new LoginHandler();
+$h->loginSurveyor();
+$h->loginStudent();
