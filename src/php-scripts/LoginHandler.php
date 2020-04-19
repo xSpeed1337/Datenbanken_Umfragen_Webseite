@@ -9,11 +9,12 @@ class LoginHandler extends DatabaseHandler{
 
     public function loginSurveyor(){
 
+        echo "in loginSurveyor";
         SESSION_START();
 
         if (isset($_POST["username"]))
         {
-
+            echo "in isset username";
             $_username = $_POST["username"];
             $_password = $_POST["password"];
 
