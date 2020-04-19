@@ -70,11 +70,11 @@ if (isset($_POST["Matrikelnummer"])) {
 
 switch (isset($_POST)){
 
-    case "password":
+    case "loginInter":
         $h->loginSurveyor();
         break;
 
-    case "Matrikelnummer":
+    case "loginStudent":
         $h->loginStudent();
         break;
 
