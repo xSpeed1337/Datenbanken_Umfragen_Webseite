@@ -8,7 +8,7 @@
 <body>
 
 
-<form method="POST">
+<form method="POST" action="../php-scripts/LoginHandler.php">
 <table>
 
     <tr>
