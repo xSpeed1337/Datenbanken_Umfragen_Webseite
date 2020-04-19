@@ -68,7 +68,7 @@ if (isset($_POST["Matrikelnummer"])) {
     $h->loginStudent();
 }*/
 
-switch ($_POST){
+switch (isset($_POST)){
 
     case "username":
         $h->loginSurveyor();
