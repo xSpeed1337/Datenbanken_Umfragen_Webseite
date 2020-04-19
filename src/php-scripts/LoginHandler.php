@@ -60,16 +60,10 @@ class LoginHandler extends DatabaseHandler{
 
 }
 
-/*$h = new LoginHandler();
+$h = new LoginHandler();
 if (isset($_POST["username"])){
     $h->loginSurveyor();
-}elseif (isset($_POST["Matrikelnummer"])){
-    $h->loginStudent();
-}*/
-$h = new LoginHandler();
+}
 if (isset($_POST["Matrikelnummer"])) {
     $h->loginStudent();
-}
-if (isset($_POST["username"])){
-    $h->loginSurveyor();
 }
