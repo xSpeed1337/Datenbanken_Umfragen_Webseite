@@ -18,11 +18,16 @@ class LoginHandler extends DatabaseHandler{
             $_password = $_POST["password"];
 
 
-            $sql = "SELECT * FROM surveyor where username = $_username and password = $_password Limit 1";
+            $sql = "SELECT * FROM surveyor where username = '$_username' and password = '$_password' Limit 1";
 
             $stmt = $this->connect()->query($sql);
 
-            $row = mysqli_num_rows($sql);
+            while($row = $stmt->fetch()){
+                echo '<br>' . $row['username'] . '<br>';
+                echo $row['password'];
+            }
+
+            //$row = mysqli_num_rows($sql);
 
             if($row > 0){
                 include("../Pages/MySurveys_Interviewer");
@@ -62,5 +67,9 @@ class LoginHandler extends DatabaseHandler{
 }
 
 $h = new LoginHandler();
-$h->loginSurveyor();
-$h->loginStudent();
+if (isset($_POST["username"])){
+    $h->loginSurveyor();
+}else{
+    $h->loginStudent();
+}
+
