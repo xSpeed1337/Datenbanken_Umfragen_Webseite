@@ -8,12 +8,11 @@ class LoginHandler extends DatabaseHandler{
 
     public function loginSurveyor(){
 
-        echo "in loginSurveyor";
         SESSION_START();
 
         if (isset($_POST["username"]))
         {
-            echo "in isset username";
+
             $_username = $_POST["username"];
             $_password = $_POST["password"];
 
@@ -22,15 +21,12 @@ class LoginHandler extends DatabaseHandler{
 
             $stmt = $this->connect()->query($sql);
 
-            while($row = $stmt->fetch()){
-                echo '<br>' . $row['username'] . '<br>';
-                echo $row['password'];
-            }
-
-            //$row = mysqli_num_rows($sql);
+            $row = $stmt->fetch();
+            echo '<br>' . $row['username'] . '<br>';
+            echo $row['password'] . '<br>';
 
             if($row > 0){
-                include("../Pages/MySurveys_Interviewer");
+                include("../Pages/MySurveys_Interviewer.php");
             }else{
                 echo "Login fehlgeschlagen Befrager";
             }
