@@ -46,7 +46,7 @@ CREATE TABLE student
     matnr        INT(7) PRIMARY KEY UNIQUE,
     firstname    VARCHAR(32) NOT NULL,
     lastname     VARCHAR(32) NOT NULL,
-    course_short VARCHAR(10)  NOT NULL,
+    course_short VARCHAR(10) NOT NULL,
     CONSTRAINT cstr_student_course_short
         FOREIGN KEY (course_short) REFERENCES course (course_short)
             ON UPDATE CASCADE
@@ -101,3 +101,21 @@ CREATE TABLE survey_finished
             ON UPDATE CASCADE
             ON DELETE CASCADE
 );
+
+DROP TABLE IF EXISTS survey_commented;
+CREATE TABLE survey_commented
+(
+    title_short CHAR(5),
+    matnr       INT(7),
+    comment     VARCHAR(500),
+    PRIMARY KEY (title_short, matnr),
+    CONSTRAINT cstr_commented_title_short
+        FOREIGN KEY (title_short) REFERENCES survey (title_short)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE,
+    CONSTRAINT cstr_commented_matnr
+        FOREIGN KEY (matnr) REFERENCES student (matnr)
+            ON UPDATE CASCADE
+            ON DELETE CASCADE
+);
+
