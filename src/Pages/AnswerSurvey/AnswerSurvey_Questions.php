@@ -1,6 +1,6 @@
 <?php session_start();
 include_once "../../php-scripts/DatabaseHandler.php";
-include_once "../../php-scripts/SurveyAnswer.php";
+include "../../php-scripts/SurveyAnswer.php";
 ?>
 
 <!DOCTYPE html>
@@ -15,12 +15,12 @@ include_once "../../php-scripts/SurveyAnswer.php";
 <?php
 
 if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false)) {
-
-    $_SESSION["currentSite"] = 1;
+    $obj = new SurveyAnswerHandler();
+    $_SESSION["CurrentSite"] = 1;
     //Mit Post-Variable Fragebogen Titel zuordnen bei Klick auf Fragebogen beantworten
     $_SESSION["FB_title_short"] = "TEST";
 
-    $_SESSION["NumberOfQuestions"] = getAnzQuestions($_SESSION["FB_title_short"]);
+    $_SESSION["NumberOfQuestions"] = $obj->getAnzQuestions($_SESSION["FB_title_short"]);
 
 
 } elseif(isset($_POST["PrevQuestion"]) == true) {
@@ -58,15 +58,15 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
         <tr style="height:50px">
             <td><button type="submit"
                         <?php
-                        if($_SESSION ["CurrentSite"] == $_SESSION["NumberOfPages"])
+                         if($_SESSION["CurrentSite"] == 1)
                             echo "disabled";
                         ?>
                         name="PrevQuestion">Vorherige Frage</button>
 
                 <button type="submit"
                         <?php
-                        if($_SESSION["CurrentSite"] == 1)
-                            echo "disabled";
+                        if($_SESSION ["CurrentSite"] == $_SESSION["NumberOfQuestions"])
+                         echo "disabled";
                         ?>
                         name="NextQuestion">Nächste Frage</button></td>
         </tr>

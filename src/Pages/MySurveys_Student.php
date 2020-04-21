@@ -22,7 +22,6 @@
             <td style="padding-right:20px">Ersteller</td>
             <form>
             <td><button type="submit" name="StartSurvey">Starten</button></td>
-            <td><button type="submit" name="DisplaySurvey">Anzeigen</button></td>
             </form>
         </tr>
 

@@ -6,6 +6,13 @@ include_once "DatabaseHandler.php";
 class SurveyAnswerHandler extends DatabaseHandler{
 
 
+    //Welcher Fragebogen wurde aufgerufen? - Titel generieren title
+
+
+
+
+
+//Gesamtanzahl Fragen ermitteln
     public function getAnzQuestions($fb_short_title){
 
         $sql = "SELECT COUNT(*) AS 'NUMBER_OF_QUESTIONS' FROM question WHERE title_short = '".$fb_short_title."'";
@@ -22,5 +29,3 @@ class SurveyAnswerHandler extends DatabaseHandler{
     }
 
 }
-
-
