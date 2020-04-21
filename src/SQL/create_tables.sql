@@ -1,8 +1,12 @@
 -- Tabellen erzeugen
+-- @author Lukas Fink
 
 DROP SCHEMA IF EXISTS Survey_Site_Database;
 CREATE SCHEMA IF NOT EXISTS Survey_Site_Database DEFAULT CHARACTER SET utf8;
 USE Survey_Site_Database;
+
+-- Umfrager-Tabelle
+-- @author
 
 DROP TABLE IF EXISTS surveyor;
 CREATE TABLE surveyor
@@ -10,6 +14,9 @@ CREATE TABLE surveyor
     username VARCHAR(32) PRIMARY KEY UNIQUE,
     password VARCHAR(32) NOT NULL
 );
+
+-- Umfragen-Tabelle
+-- @author
 
 DROP TABLE IF EXISTS survey;
 CREATE TABLE survey
@@ -23,6 +30,9 @@ CREATE TABLE survey
             ON DELETE CASCADE
 );
 
+-- Frage-Tabelle
+-- @author
+
 DROP TABLE IF EXISTS question;
 CREATE TABLE question
 (
@@ -35,12 +45,18 @@ CREATE TABLE question
             ON DELETE CASCADE
 );
 
+-- Kurs-Tabelle
+-- @author
+
 DROP TABLE IF EXISTS course;
 CREATE TABLE course
 (
     course_short VARCHAR(10) PRIMARY KEY,
     course_name  VARCHAR(64) NOT NULL
 );
+
+-- Studenten-Tabelle
+-- @author
 
 DROP TABLE IF EXISTS student;
 CREATE TABLE student
@@ -54,6 +70,9 @@ CREATE TABLE student
             ON UPDATE CASCADE
             ON DELETE CASCADE
 );
+
+-- "Kurs berechtigt für Umfrage"-Tabelle
+-- @author
 
 DROP TABLE IF EXISTS survey_assigned_course;
 CREATE TABLE survey_assigned_course
@@ -70,6 +89,9 @@ CREATE TABLE survey_assigned_course
             ON UPDATE CASCADE
             ON DELETE CASCADE
 );
+
+-- "beantwortete Frage"-Tabelle
+-- @author
 
 DROP TABLE IF EXISTS question_answer;
 CREATE TABLE question_answer
@@ -88,6 +110,9 @@ CREATE TABLE question_answer
             ON DELETE CASCADE
 );
 
+-- "Umfragestatus"-Tabelle
+-- @author
+
 DROP TABLE IF EXISTS survey_finished;
 CREATE TABLE survey_finished
 (
@@ -103,6 +128,9 @@ CREATE TABLE survey_finished
             ON UPDATE CASCADE
             ON DELETE CASCADE
 );
+
+-- "kommentiert Umfrage"-Tabelle
+-- @author
 
 DROP TABLE IF EXISTS survey_commented;
 CREATE TABLE survey_commented
@@ -122,6 +150,7 @@ CREATE TABLE survey_commented
 );
 
 -- Testdaten einfügen
+-- @author Lukas Fink
 
 INSERT INTO surveyor
 VALUES ('Admin', 'test');
