@@ -1,3 +1,5 @@
+-- Tabellen erzeugen
+
 DROP SCHEMA IF EXISTS Survey_Site_Database;
 CREATE SCHEMA IF NOT EXISTS Survey_Site_Database DEFAULT CHARACTER SET utf8;
 USE Survey_Site_Database;
@@ -118,3 +120,32 @@ CREATE TABLE survey_commented
             ON UPDATE CASCADE
             ON DELETE CASCADE
 );
+
+-- Testdaten einfügen
+
+INSERT INTO surveyor
+VALUES ('Admin', 'test');
+
+INSERT INTO survey
+VALUES ('test1', 'Test Survey', 'Admin');
+
+INSERT INTO question(question_text, title_short)
+VALUES ('Wie ist die Test Survey?', 'test1');
+
+INSERT INTO course
+VALUES ('WWI118', 'Wirtschaftsinformatik 2018');
+
+INSERT INTO student
+VALUES ('1234567', 'Max', 'Mustermann', 'WWI118');
+
+INSERT INTO survey_assigned_course
+VALUES ('test1', 'WWI118');
+
+INSERT INTO question_answer
+VALUES ('1', '1234567', '3');
+
+INSERT INTO survey_finished
+VALUES ('test1', '1234567');
+
+INSERT INTO survey_commented
+VALUES ('test1', '1234567', 'Umfrage war ganz ok');
