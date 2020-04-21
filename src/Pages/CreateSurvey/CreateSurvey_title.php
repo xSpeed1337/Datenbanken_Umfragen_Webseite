@@ -10,7 +10,7 @@
 <h2>Fragebogen anlegen</h2>
 
 
-<form method="POST">
+<form method="POST" action="../../php-scripts/CreateSurvey.php">
 <table>
     <tr>
         <td>Titel:</td>
