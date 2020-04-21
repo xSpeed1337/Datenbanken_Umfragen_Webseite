@@ -118,4 +118,3 @@ CREATE TABLE survey_commented
             ON UPDATE CASCADE
             ON DELETE CASCADE
 );
-
