@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header('Location: ../login.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,27 +21,30 @@
 
 <form method="POST">
 
-<table>
-    <tr>
-        <td>Frage 1:</td>
-        <td style="padding-left: 20px"><input type="text" name="Question"/></td>
-    </tr>
-    <tr>
-        <td>Frage 2:</td>
-        <td style="padding-left: 20px"><input type="text" name="Question"/></td>
-    </tr>
-    <tr>
-        <td>Frage 3:</td>
-        <td style="padding-left: 20px"><input type="text" name="Question"/></td>
-    </tr>
+    <table>
+        <tr>
+            <td>Frage 1:</td>
+            <td style="padding-left: 20px"><input type="text" name="Question"/></td>
+        </tr>
+        <tr>
+            <td>Frage 2:</td>
+            <td style="padding-left: 20px"><input type="text" name="Question"/></td>
+        </tr>
+        <tr>
+            <td>Frage 3:</td>
+            <td style="padding-left: 20px"><input type="text" name="Question"/></td>
+        </tr>
 
-    <tr style="height:50px">
-        <td><button type="submit" name="Back">Zurück</button></td>
-        <td><button type="submit" name="Continue">Weiter</button></td>
-    </tr>
+        <tr style="height:50px">
+            <td>
+                <button type="submit" name="Back">Zurück</button>
+            </td>
+            <td>
+                <button type="submit" name="Continue">Weiter</button>
+            </td>
+        </tr>
 
-</table>
+    </table>
 </form>
-
 </body>
 </html>
