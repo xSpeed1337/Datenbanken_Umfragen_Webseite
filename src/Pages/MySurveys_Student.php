@@ -21,6 +21,10 @@ $obj = new StudentSurveyHandler();
 
     <?php
 
+    /*Elena Deckert*/
+    /*Generieren der Fragebögen, die für den Studenten freigeschaltet sind
+      + Button um die Beantwortung des Fragebogens zu starten*/
+
     $surveys = $obj->getSurveysStudent($_SESSION["Matrikelnummer"]);
 
     echo "<table>";
