@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -17,7 +21,7 @@
     </tr>
 
     <tr>
-        <td  style="padding-top: 20px">Benutzername:</td>
+        <td style="padding-top: 20px">Benutzername:</td>
 
         <td style="padding-right: 20px; padding-top: 20px"><input type="text" name="username" placeholder="Benutzername" /></td>
 
