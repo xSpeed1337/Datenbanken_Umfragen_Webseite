@@ -6,7 +6,7 @@ class LoginHandler extends DatabaseHandler {
 
     public function loginSurveyor() {
 
-        SESSION_START();
+        session_start();
 
         $_username = $_POST["username"];
         $_password = $_POST["password"];
@@ -28,7 +28,7 @@ class LoginHandler extends DatabaseHandler {
 
     public function loginStudent() {
 
-        SESSION_START();
+        session_start();
 
         $_matnr = $_POST["Matrikelnummer"];
 
