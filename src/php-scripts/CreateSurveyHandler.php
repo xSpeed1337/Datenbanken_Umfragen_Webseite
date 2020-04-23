@@ -1,8 +1,8 @@
 <?php
 
-include_once "DatabaseHandler.php";
+include_once "utilities.php";
 
-class CreateSurvey extends DatabaseHandler
+class CreateSurveyHandler extends utilities
 {
 
     public function set_Title_and_number_Questions(){
@@ -17,7 +17,7 @@ class CreateSurvey extends DatabaseHandler
 
 
         if($stmt == true){
-            include("../Pages/CreateSurvey/CreateSurvey_questions.php");
+            header("Location: ../Pages/CreateSurvey/CreateSurvey_question.php");
         }else{
             echo "Datenübermittlung fehlgeschlagen";
         }
@@ -36,9 +36,9 @@ class CreateSurvey extends DatabaseHandler
 
 }
 
-$h = new CreateSurvey();
+$h = new CreateSurveyHandler();
 if (isset($_POST["CreateFB"])){
-    include("../Pages/CreateSurvey/CreateSurvey_title.php");
+    header("Location: ../Pages/CreateSurvey/CreateSurvey_title.php");
 }elseif(isset($_POST["Continue"])){
     $h->createTitle();
 }
