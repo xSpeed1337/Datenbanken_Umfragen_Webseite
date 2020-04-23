@@ -18,7 +18,6 @@ class LoginHandler extends DatabaseHandler {
         $row = $stmt->fetch();
 
         if ($row > 0) {
-            include("../Pages/MySurveys_Interviewer.php");
             $_SESSION['username'] = $_username;
             header("Location: ../Pages/MySurveys_Interviewer.php");
         } else {
@@ -39,7 +38,6 @@ class LoginHandler extends DatabaseHandler {
         $row = $stmt->fetch();
 
         if ($row > 0) {
-            include("../Pages/MySurveys_Student.php");
             $_SESSION['matnr'] = $_matnr;
             header("Location: ../Pages/MySurveys_Student.php");
         } else {
