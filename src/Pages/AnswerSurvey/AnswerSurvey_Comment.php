@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['matnr'])) {
+    header('Location: ../login.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +18,6 @@
 <body>
 
 <div>
-
     <h2>Evaluation der Vorlesung "Einführung in die BWL"</h2>
 
     <form method="POST"/>
@@ -24,19 +33,20 @@
         </tr>
 
         <tr style="height:50px">
-            <td><button type="submit" name="PrevQuestion">Vorherige Frage</button>
-                <button type="submit" name="NextQuestion">Nächste Frage</button></td>
+            <td>
+                <button type="submit" name="PrevQuestion">Vorherige Frage</button>
+                <button type="submit" name="NextQuestion">Nächste Frage</button>
+            </td>
         </tr>
 
         <tr style="height:70px">
-            <td><button type="submit" name="BackToHP">Zum Hauptmenü</button>
-                <button type="submit" name="SaveFB">Umfrage abschließen</button></td>
+            <td>
+                <button type="submit" name="BackToHP">Zum Hauptmenü</button>
+                <button type="submit" name="SaveFB">Umfrage abschließen</button>
+            </td>
         </tr>
-
     </table>
     </form>
-
 </div>
-
 </body>
 </html>

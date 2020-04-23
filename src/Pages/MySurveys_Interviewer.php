@@ -12,7 +12,7 @@
 
 /*Müssen die Buttons type="Submit" sein oder geht es auch ohne Type*/
 
-<form method="POST" action="../php-scripts/CreateSurvey.php">
+<form method="POST">
     <button type="submit" name="CreateFB">Fragebogen anlegen</button>
     <button type="submit" name="CreateCourse">Kurs anlegen</button>
 
