@@ -1,17 +1,15 @@
 <?php
 
-include_once "DatabaseHandler.php";
-
-class utilities extends DatabaseHandler{
-
-    public function writeCourses() {
-        $sql = "SELECT * FROM course";
-        $stmt = $this->connect()->query($sql);
-        while($row = $stmt->fetch()){
-            echo '<br>' . $row['course_short'] . '<br>';
-            echo $row['course_name'];
-        }
+function database_connect() {
+    global $databaseLink;
+    if ($databaseLink) {
+        return $databaseLink;
     }
+    $databaseLink = mysqli_connect("localhost", "root", "", "Survey_Site_Database") or die('Could not connect to server.');
+    return $databaseLink;
+}
+
+class utilities {
 
     public function checkStudentAssigned() {
 
@@ -32,3 +30,6 @@ class utilities extends DatabaseHandler{
     public function analysis() {
 
     }
+
+
+}

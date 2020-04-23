@@ -1,24 +1,26 @@
 <?php
 
-include_once "DatabaseHandler.php";
+require "utilities.php";
 
-class LoginHandler extends DatabaseHandler {
+class LoginHandler {
 
     public function loginSurveyor() {
-
-        session_start();
 
         $_username = $_POST["username"];
         $_password = $_POST["password"];
 
-        $sql = "SELECT * FROM surveyor where username = '$_username' and password = '$_password' Limit 1";
+        $sql = "SELECT * FROM surveyor where username = ? and password = ?";
+        $stmt = mysqli_stmt_init(database_connect());
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            echo "SQL statement failed";
+        } else {
+            mysqli_stmt_bind_param($stmt, "ss", $_username, $_password);
+            mysqli_stmt_execute($stmt);
+        }
 
-        $stmt = $this->connect()->query($sql);
+        $result = $stmt->get_result();
 
-        $row = $stmt->fetch();
-
-        if ($row > 0) {
-            include("../Pages/MySurveys_Interviewer.php");
+        if ($result->num_rows > 0) {
             $_SESSION['username'] = $_username;
             header("Location: ../Pages/MySurveys_Interviewer.php");
         } else {
@@ -28,19 +30,21 @@ class LoginHandler extends DatabaseHandler {
 
     public function loginStudent() {
 
-        session_start();
+        $_matnr = $_POST["Matrikelnummer"];
 
-        $_matnr = $_POST["matnr"];
+        $sql = "SELECT * FROM student where matnr = ? Limit 1";
+        $stmt = mysqli_stmt_init(database_connect());
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            echo "SQL statement failed";
+        } else {
+            mysqli_stmt_bind_param($stmt, "s", $_matnr);
+            mysqli_stmt_execute($stmt);
+        }
 
-        $sql = "SELECT * FROM student where matnr = '$_matnr' Limit 1";
+        $result = $stmt->get_result();
 
-        $stmt = $this->connect()->query($sql);
-
-        $row = $stmt->fetch();
-
-        if ($row > 0) {
-            include("../Pages/MySurveys_Student.php");
-            $_SESSION['matnr'] = $_matnr;
+        if ($result->num_rows > 0) {
+            $_SESSION['Matrikelnummer'] = $_matnr;
             header("Location: ../Pages/MySurveys_Student.php");
         } else {
             echo "Login fehlgeschlagen Student";
