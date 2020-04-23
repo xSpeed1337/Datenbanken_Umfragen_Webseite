@@ -17,7 +17,8 @@ class LoginHandler {
         if (!mysqli_stmt_prepare($stmt, $sql)) {
             echo "SQL statement failed";
         } else {
-            mysqli_stmt_bind_param($stmt, "ss", $_username, $_password);
+            //mysqli_stmt_bind_param($stmt, "ss", $_username, $_password);
+            mysqli_stmt_bind_param($stmt, "ss", $_username);
             mysqli_stmt_execute($stmt);
         }
 

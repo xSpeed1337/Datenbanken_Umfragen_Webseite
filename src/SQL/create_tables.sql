@@ -12,7 +12,7 @@ DROP TABLE IF EXISTS surveyor;
 CREATE TABLE surveyor
 (
     username VARCHAR(32) PRIMARY KEY UNIQUE,
-    password VARCHAR(32) NOT NULL
+    password VARCHAR(60) NOT NULL
 );
 
 -- Umfragen-Tabelle
