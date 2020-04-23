@@ -30,7 +30,7 @@ class LoginHandler extends DatabaseHandler {
 
         session_start();
 
-        $_matnr = $_POST["Matrikelnummer"];
+        $_matnr = $_POST["matnr"];
 
         $sql = "SELECT * FROM student where matnr = '$_matnr' Limit 1";
 
@@ -40,7 +40,7 @@ class LoginHandler extends DatabaseHandler {
 
         if ($row > 0) {
             include("../Pages/MySurveys_Student.php");
-            $_SESSION['Matrikelnummer'] = $_matnr;
+            $_SESSION['matnr'] = $_matnr;
             header("Location: ../Pages/MySurveys_Student.php");
         } else {
             echo "Login fehlgeschlagen Student";
