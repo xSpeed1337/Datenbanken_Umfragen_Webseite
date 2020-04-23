@@ -7,6 +7,7 @@ class CourseHandler {
 
         $course_short = $_POST["CourseDesc"];
         $course_name = $_POST["CourseName"];
+        $amount_students = (int)$_POST["AnzStudents"];
 
         //check if course already exists
         $check_sql = "SELECT * FROM course WHERE course_short = ? OR course_name = ?";
@@ -33,7 +34,10 @@ class CourseHandler {
                 mysqli_stmt_bind_param($create_stmt, "ss", $course_short, $course_name);
                 mysqli_stmt_execute($create_stmt);
             }
-            echo "Kurs erstellt";
+
+            $_SESSION['course_short'] = $course_short;
+            $_SESSION['amount_students'] = $amount_students;
+            header("Location: ../Pages/CreateCourse/CreateCourse_students.php");
         }
     }
 

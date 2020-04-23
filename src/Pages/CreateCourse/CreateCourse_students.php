@@ -4,6 +4,9 @@ session_start();
 if (!isset($_SESSION['username'])) {
     header('Location: ../login.php');
     exit();
+} elseif (!isset($_SESSION['course_short']) && !isset($_SESSION['amount_students'])) {
+    header('Location: ../MySurveys_Interviewer.php');
+    exit();
 }
 ?>
 
@@ -23,20 +26,18 @@ if (!isset($_SESSION['username'])) {
         <tr>
             <th>Matrikelnummer</th>
             <th>Name</th>
+            <th>Kurs</th>
         </tr>
 
-        <tr>
-            <td><input type="text" name="MatNr"/></td>
-            <td style="padding-left:20px"><input type="text" name="StudentName"/></td>
-        </tr>
-        <tr>
-            <td><input type="text" name="MatNr"/></td>
-            <td style="padding-left:20px"><input type="text" name="StudentName"/></td>
-        </tr>
-        <tr>
-            <td><input type="text" name="MatNr"/></td>
-            <td style="padding-left:20px"><input type="text" name="StudentName"/></td>
-        </tr>
+        <?php
+        for ($i = 0; $i < (int)$_SESSION['amount_students']; $i++) {
+            echo "<tr>
+            <td><input type=\"text\" name=\"MatNr" . $i . "\"/></td>
+            <td style=\"padding-left:20px\"><input type=\"text\" name=\"StudentName" . $i . "\"/></td>
+            <td style=\"padding-left:20px\"><input disabled type=\"text\" name=\"StudentName\" value='" . $_SESSION['course_short'] . "'/></td>
+        </tr>";
+        }
+        ?>
 
         <tr style="height:50px">
             <td>
