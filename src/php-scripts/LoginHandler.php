@@ -8,8 +8,11 @@ class LoginHandler {
 
         $_username = $_POST["username"];
         $_password = $_POST["password"];
+        $_encrypted_password = password_hash($_password, PASSWORD_DEFAULT);
 
-        $sql = "SELECT * FROM surveyor where username = ? and password = ?";
+        echo $_encrypted_password;
+
+        $sql = "SELECT * FROM surveyor where username = '$_username'";
         $stmt = mysqli_stmt_init(database_connect());
         if (!mysqli_stmt_prepare($stmt, $sql)) {
             echo "SQL statement failed";
@@ -20,12 +23,23 @@ class LoginHandler {
 
         $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
+        if($result->num_rows > 0){
+            if(password_verify($_password, $_encrypted_password)){
+                $_SESSION['username'] = $_username;
+                header("Location: ../Pages/MySurveys_Interviewer.php");
+            }else{
+                echo "wrong password";
+            }
+        }else{
+            echo "username doesn't exists";
+        }
+
+        /*if ($result->num_rows > 0) {
             $_SESSION['username'] = $_username;
             header("Location: ../Pages/MySurveys_Interviewer.php");
         } else {
             echo "Login fehlgeschlagen Befrager";
-        }
+        }*/
     }
 
     public function loginStudent() {
