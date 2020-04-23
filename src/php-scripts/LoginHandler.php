@@ -2,54 +2,55 @@
 
 include_once "DatabaseHandler.php";
 
+class LoginHandler extends DatabaseHandler {
 
-class LoginHandler extends DatabaseHandler{
+    public function loginSurveyor() {
 
+        session_start();
 
-    public function loginSurveyor(){
+        $_username = $_POST["username"];
+        $_password = $_POST["password"];
 
-        SESSION_START();
+        $sql = "SELECT * FROM surveyor where username = '$_username' and password = '$_password' Limit 1";
 
-            $_username = $_POST["username"];
-            $_password = $_POST["password"];
+        $stmt = $this->connect()->query($sql);
 
-            $sql = "SELECT * FROM surveyor where username = '$_username' and password = '$_password' Limit 1";
+        $row = $stmt->fetch();
 
-            $stmt = $this->connect()->query($sql);
-
-            $row = $stmt->fetch();
-
-            if($row > 0){
-                include("../Pages/MySurveys_Interviewer.php");
-            }else{
-                echo "Login fehlgeschlagen Befrager";
-            }
+        if ($row > 0) {
+            include("../Pages/MySurveys_Interviewer.php");
+            $_SESSION['username'] = $_username;
+            header("Location: ../Pages/MySurveys_Interviewer.php");
+        } else {
+            echo "Login fehlgeschlagen Befrager";
+        }
     }
 
-    public function loginStudent(){
+    public function loginStudent() {
 
-        SESSION_START();
+        session_start();
 
-            $_matnr = $_POST["Matrikelnummer"];
+        $_matnr = $_POST["matnr"];
 
-            $sql = "SELECT * FROM student where matnr = '$_matnr' Limit 1";
+        $sql = "SELECT * FROM student where matnr = '$_matnr' Limit 1";
 
-            $stmt = $this->connect()->query($sql);
+        $stmt = $this->connect()->query($sql);
 
-            $row = $stmt->fetch();
+        $row = $stmt->fetch();
 
-            if($row > 0){
-                include("../Pages/MySurveys_Student.php");
-            }else{
-                echo "Login fehlgeschlagen Student";
-            }
+        if ($row > 0) {
+            include("../Pages/MySurveys_Student.php");
+            $_SESSION['matnr'] = $_matnr;
+            header("Location: ../Pages/MySurveys_Student.php");
+        } else {
+            echo "Login fehlgeschlagen Student";
+        }
     }
-
 }
 
 $h = new LoginHandler();
-if (isset($_POST["loginInter"])){
+if (isset($_POST["loginInter"])) {
     $h->loginSurveyor();
-}elseif (isset($_POST["loginStudent"])) {
+} elseif (isset($_POST["loginStudent"])) {
     $h->loginStudent();
 }

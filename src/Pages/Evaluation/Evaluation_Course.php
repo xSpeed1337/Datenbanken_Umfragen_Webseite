@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header('Location: ../login.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,7 +21,7 @@
 
     <h2>Auswertung</h2>
 
-    <form method="POST" />
+    <form method="POST"/>
     <table>
         <tr>
             <td style="padding-right:20px">Titel:</td>
@@ -32,12 +42,14 @@
         </tr>
 
         <tr style="height:80px">
-            <td><button type="submit" name="Quit">Abbrechen</button>
-                <button type="submit" name="Continue">Weiter</button></td>
+            <td>
+                <button type="submit" name="Quit">Abbrechen</button>
+                <button type="submit" name="Continue">Weiter</button>
+            </td>
         </tr>
 
     </table>
-</form>
+    </form>
 </div>
 </body>
 </html>

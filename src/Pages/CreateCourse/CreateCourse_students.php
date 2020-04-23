@@ -1,3 +1,13 @@
+<?php
+
+session_start();
+
+if (!isset($_SESSION['username'])) {
+    header('Location: ../login.php');
+    exit();
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +18,6 @@
 <body>
 
 <h2>Kurs anlegen</h2>
-
 
 <form method="POST">
     <table>
@@ -31,13 +40,12 @@
         </tr>
 
         <tr style="height:50px">
-            <td><button type="submit" name="Back">Zurück</button>
+            <td>
+                <button type="submit" name="Back">Zurück</button>
                 <button type="submit" name="SaveCourse">Speichern</button>
             </td>
         </tr>
     </table>
 </form>
-
-
 </body>
 </html>

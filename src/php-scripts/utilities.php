@@ -32,4 +32,3 @@ class utilities extends DatabaseHandler{
     public function analysis() {
 
     }
-}
