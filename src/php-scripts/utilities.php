@@ -2,16 +2,7 @@
 
 include_once "DatabaseHandler.php";
 
-class utilities extends DatabaseHandler{
-
-    public function writeCourses() {
-        $sql = "SELECT * FROM course";
-        $stmt = $this->connect()->query($sql);
-        while($row = $stmt->fetch()){
-            echo '<br>' . $row['course_short'] . '<br>';
-            echo $row['course_name'];
-        }
-    }
+class utilities extends DatabaseHandler {
 
     public function checkStudentAssigned() {
 
@@ -32,3 +23,4 @@ class utilities extends DatabaseHandler{
     public function analysis() {
 
     }
+}
