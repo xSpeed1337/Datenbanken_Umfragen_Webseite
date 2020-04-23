@@ -39,11 +39,16 @@ class LoginHandler extends DatabaseHandler{
             $row = $stmt->fetch();
 
             if($row > 0){
-                include("../Pages/MySurveys_Student.php");
+                //include("../Pages/MySurveys_Student.php");
+                $_SESSION["Matrikelnummer"] = $_matnr;
+                header('Location: http://localhost/Datenbanken_Umfrage_App/src/Pages/MySurveys_Student.php');
             }else{
                 echo "Login fehlgeschlagen Student";
             }
+
     }
+
+
 
 }
 

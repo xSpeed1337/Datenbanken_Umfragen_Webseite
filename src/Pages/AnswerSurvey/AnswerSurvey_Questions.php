@@ -1,6 +1,8 @@
 <?php
 include_once "../../php-scripts/DatabaseHandler.php";
-include "../../php-scripts/SurveyAnswerHandler.php";
+include "../../php-scripts/StudentSurveyHandler.php";
+session_start();
+$obj = new StudentSurveyHandler();
 ?>
 
 <!DOCTYPE html>
@@ -14,95 +16,88 @@ include "../../php-scripts/SurveyAnswerHandler.php";
 
 
 <?php
-session_start();
 
-if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false)) {
-    $obj = new SurveyAnswerHandler();
-    $_SESSION["CurrentSite"] = 1;
-
-    //Mit Post-Variable Fragebogen Titel zuordnen bei Klick auf Fragebogen beantworten
-    $_SESSION["FB_Title"] = "TEST";
-
-    //Wie viele Fragen enthält der Fragebogen?
-    $_SESSION["NumberOfQuestions"] = $obj->getAnzQuestions($_SESSION["FB_Title"]);
-
-
-} elseif(isset($_POST["PrevQuestion"]) == true) {
-    $_SESSION["currentSite"] ++;
-
-}elseif(isset($_POST["NextQuestion"]) == true) {
-    $_SESSION ["currentSite"] --;
-}
-
+//Wird die Seite zum ersten Mal aufgerufen?
+if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false) && (isset($_POST["BackToHP"]) == false)){
+    $_SESSION["CurrentQuestion"] = 1;
 
 //Welcher Fragebogen wurde aufgerufen? - Titel generieren
-//if ((isset($_POST["StartSurvey"]) {
-//    $_SESSION["SurveyTitle"] = title von Fragebogen;
-//}
+    if(isset ($_POST["SurveyTitle"])) {
+        $_SESSION["SelectedSurvey"] = $_POST["SurveyTitle"];
+    }
 
+    $_SESSION["SurveyTitleShort"] = $_POST["SurveyTitleShort"];
 
+    //Wie viele Fragen enthält der Fragebogen?
+    //$_SESSION["NumberOfQuestions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
+    $_SESSION["Questions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
+    $_SESSION["NumberOfQuestions"] = count($_SESSION["Questions"]);
+
+} elseif(isset($_POST["PrevQuestion"]) == true) {
+    $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
+    $_SESSION["CurrentQuestion"] --;
+
+}elseif(isset($_POST["NextQuestion"]) == true) {
+    $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
+    $_SESSION ["CurrentQuestion"] ++;
+
+}elseif(isset($_POST["BackToHP"]) == true) {
+    $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
+    header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
+}
+
+echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
 
 
 ?>
 
-<h2>Evaluation der Vorlesung "Einführung in die BWL"</h2>
 
-<?php
-//Fragen aufrufen
-?>
-
-
-<?php echo $_SESSION["CurrentSite"] . "/" . $_SESSION["NumberOfQuestions"] ?>
-
-
-
-<form method="POST" action="AnswerSurvey_Questions.php"/>
 <table>
+    <form method="POST" action="AnswerSurvey_Questions.php"/>
     <tr>
-        <td style="padding-right:20px">Frage 1:Wurden die Inhalte der Vorlesung verständlich erklärt?</td>
+        <td style="padding-right:20px">Frage
+            <?php echo $_SESSION["CurrentQuestion"] . "/" . $_SESSION["NumberOfQuestions"] ?>:<br>
+            <?php echo $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["question_text"];?></td>
     </tr>
 
-    <tr>
-        <td style="padding-top:20px" >
-            1<input type="radio" name="Radio" value="1"/><br>
-            2<input type="radio" name="Radio" value="2"/><br>
-            3<input type="radio" name="Radio" value="3"/><br>
-            4<input type="radio" name="Radio" value="4"/><br>
-            5<input type="radio" name="Radio" value="5"/></td>
-    </tr>
 
+    <tr>
+        <td style='padding-top:20px' >
+            1<input type='radio' name='Radio' value='1' checked/><br>
+            2<input type='radio' name='Radio' value='2'/><br>
+            3<input type='radio' name='Radio' value='3'/><br>
+            4<input type='radio' name='Radio' value='4'/><br>
+            5<input type='radio' name='Radio' value='5'/>
+        </td>
+    </tr>
 
     <tr style="height:50px">
-        <td><button type="submit"
+        <td>
+            <button type="submit"
                 <?php
-                if($_SESSION["CurrentSite"] == 1)
+                if($_SESSION["CurrentQuestion"] == 1)
                     echo "disabled";
                 ?>
-                    name="PrevQuestion">Vorherige Frage</button>
+                    name="PrevQuestion">
+                Vorherige Frage
+            </button>
 
             <button type="submit"
                 <?php
-                if($_SESSION ["CurrentSite"] == $_SESSION["NumberOfQuestions"])
+                if($_SESSION ["CurrentQuestion"] == $_SESSION["NumberOfQuestions"])
                     echo "disabled";
                 ?>
-                    name="NextQuestion">Nächste Frage</button></td>
+                    name="NextQuestion">
+                Nächste Frage</button>
+        </td>
     </tr>
 
     <tr style="height:50px">
-
- //Speichern, falls aktuelle Frage noch beantwortet wurde
-
-            <form method="POST" action="MySurveys_Student.php">
-                 <td><button type="submit" name="BackToHP">Zurück zum Hauptmenü</button></td>
-                    <?php
-                    if(isset($_POST["BackToHP"])){
-                        header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');}
-                    ?>
-            </form>
+        <td><button type="submit" name="BackToHP">Zurück zum Hauptmenü</button></td>
     </tr>
+    </form>
 
 </table>
-</form>
 
 
 </body>
