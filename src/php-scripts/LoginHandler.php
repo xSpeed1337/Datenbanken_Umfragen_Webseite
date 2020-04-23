@@ -26,7 +26,8 @@ class LoginHandler {
         if($result->num_rows > 0){
             if(password_verify($_password, $_encrypted_password)){
                 $_SESSION['username'] = $_username;
-                header("Location: ../Pages/MySurveys_Interviewer.php");
+                echo $_encrypted_password;
+                //header("Location: ../Pages/MySurveys_Interviewer.php");
             }else{
                 echo "wrong password";
             }
