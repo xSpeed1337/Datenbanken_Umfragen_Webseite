@@ -24,7 +24,7 @@ if (!isset($_SESSION['username'])) {
     <button type="submit" name="CreateFB">Fragebogen anlegen</button>
 </form>
 
-<form method="post" action="CreateCourse/CreateCourse_students.php">
+<form method="post" action="CreateCourse/CreateCourse_description.php">
     <button type="submit" name="CreateCourse">Kurs anlegen</button>
 </form>
 
