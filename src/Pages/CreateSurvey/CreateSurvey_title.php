@@ -1,13 +1,3 @@
-<?php
-
-session_start();
-
-if (!isset($_SESSION['username'])) {
-    header('Location: ../login.php');
-    exit();
-}
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -21,27 +11,25 @@ if (!isset($_SESSION['username'])) {
 
 
 <form method="POST">
-    <table>
-        <tr>
-            <td>Titel:</td>
-            <td><input type="text" name="FBTitle"/></td>
-        </tr>
+<table>
+    <tr>
+        <td>Titel:</td>
+        <td><input type="text" name="FBTitle"/></td>
+    </tr>
         <td>Anzahl Fragen:</td>
         <td><input type="text" name="AnzQuestions"/></td>
-        <tr>
+    <tr>
 
-        </tr>
+    </tr>
 
-        <tr style="height:50px">
-            <td>
-                <button type="submit" name="BackToHP">Zurück zum Hauptmenü</button>
-            </td>
-            <td>
-                <button type="submit" name="Continue">Weiter</button>
-            </td>
-        </tr>
+    <tr style="height:50px">
+        <td><button type="submit" name="BackToHP">Zurück zum Hauptmenü</button></td>
+        <td><button type="submit" name="Continue">Weiter</button></td>
+    </tr>
 
-    </table>
+</table>
 </form>
+
+
 </body>
 </html>

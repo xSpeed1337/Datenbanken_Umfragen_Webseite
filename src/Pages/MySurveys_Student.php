@@ -1,5 +1,5 @@
 <?php
-include_once "../php-scripts/DatabaseHandler.php";
+include_once "../php-scripts/utilities.php";
 include "../php-scripts/StudentSurveyHandler.php";
 session_start();
 $obj = new StudentSurveyHandler();
