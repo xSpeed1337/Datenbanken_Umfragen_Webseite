@@ -10,6 +10,10 @@ function database_connect() {
     return $databaseLink;
 }
 
+function alert($message) {
+    echo "<script>alert('$message'); window.location.href='../Pages/login.php';</script>";
+}
+
 class utilities {
 
     public function checkStudentAssigned() {

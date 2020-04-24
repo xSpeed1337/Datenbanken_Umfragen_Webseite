@@ -83,10 +83,6 @@ class LoginHandler {
 
 }
 
-function alert($message) {
-    echo "<script>alert('$message'); window.location.href='../Pages/login.php';</script>";
-}
-
 $h = new LoginHandler();
 
 if (isset($_POST["register"])) {
