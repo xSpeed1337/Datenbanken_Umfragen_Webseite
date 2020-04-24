@@ -19,11 +19,11 @@ if (!isset($_SESSION['username'])) {
 
 <h2>Online-Bewertungsumfragen</h2>
 
-<form method="post" action="CreateSurvey/CreateSurvey_course.php">
+<form method="GET" action="CreateSurvey/CreateSurvey_course.php">
     <button type="submit" name="CreateFB">Fragebogen anlegen</button>
 </form>
 
-<form method="post" action="CreateCourse/CreateCourse_description.php">
+<form method="GET" action="CreateCourse/CreateCourse_description.php">
     <button type="submit" name="CreateCourse">Kurs anlegen</button>
 </form>
 
