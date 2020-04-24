@@ -21,19 +21,21 @@ if (!isset($_SESSION['username'])) {
 
 <h2>Kurs anlegen</h2>
 
-<form method="POST">
+<form method="POST" action="../../php-scripts/CreateCourseHandler.php">
     <table>
         <tr>
             <th>Matrikelnummer</th>
-            <th>Name</th>
+            <th>First Name</th>
+            <th>Last Name</th>
             <th>Kurs</th>
         </tr>
 
         <?php
         for ($i = 0; $i < (int)$_SESSION['amount_students']; $i++) {
             echo "<tr>
-            <td><input type=\"text\" name=\"MatNr" . $i . "\"/></td>
-            <td style=\"padding-left:20px\"><input type=\"text\" name=\"StudentName" . $i . "\"/></td>
+            <td><input type=\"number\" required minlength='7' maxlength='7' name=\"MatNr" . $i . "\"/></td>
+            <td style=\"padding-left:20px\"><input type=\"text\" required name=\"StudentFirstName" . $i . "\"/></td>
+            <td style=\"padding-left:20px\"><input type=\"text\" required name=\"StudentLastName" . $i . "\"/></td>
             <td style=\"padding-left:20px\"><input disabled type=\"text\" name=\"StudentName\" value='" . $_SESSION['course_short'] . "'/></td>
         </tr>";
         }
