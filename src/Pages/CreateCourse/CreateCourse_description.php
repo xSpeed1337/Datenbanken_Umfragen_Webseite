@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (!isset($_SESSION['username'])) {
@@ -17,21 +16,21 @@ if (!isset($_SESSION['username'])) {
 </head>
 <body>
 <h2>Kurs anlegen</h2>
-<form method="POST" action="../../php-scripts/CreateCourseHandler.php">
+<form method="post" action="../../php-scripts/CreateCourseHandler.php">
     <table>
         <tr>
             <td>Kurskurzbezeichnung:</td>
-            <td><input type="text" name="CourseDesc"/></td>
+            <td><input required type="text" maxlength="10" name="CourseDesc"/></td>
         </tr>
 
         <tr>
             <td>Kursname:</td>
-            <td><input type="text" name="CourseName"/></td>
+            <td><input required type="text" maxlength="64" name="CourseName"/></td>
         </tr>
 
         <tr>
             <td style="padding-top:20px">Anzahl Studenten:</td>
-            <td style="padding-top:20px"><input type="text" name="AnzStudents"/></td>
+            <td style="padding-top:20px"><input required type="number" min="1" name="AnzStudents"/></td>
         </tr>
 
         <tr style="height:50px">
