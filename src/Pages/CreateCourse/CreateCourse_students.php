@@ -4,7 +4,7 @@ session_start();
 if (!isset($_SESSION['username'])) {
     header('Location: ../login.php');
     exit();
-} elseif (!isset($_SESSION['course_short']) && !isset($_SESSION['amount_students'])) {
+} elseif (!isset($_SESSION['course_short'])) {
     header('Location: ../MySurveys_Interviewer.php');
     exit();
 }
@@ -21,7 +21,7 @@ if (!isset($_SESSION['username'])) {
 
 <h2>Kurs anlegen</h2>
 
-<form method="POST" action="../../php-scripts/CreateCourseHandler.php">
+<form id="studentForm" method="POST" action="../../php-scripts/CreateCourseHandler.php">
     <table>
         <tr>
             <th>Matrikelnummer</th>
@@ -31,23 +31,23 @@ if (!isset($_SESSION['username'])) {
         </tr>
 
         <?php
-        for ($i = 0; $i < (int)$_SESSION['amount_students']; $i++) {
-            echo "<tr>
-            <td><input type=\"number\" required minlength='7' maxlength='7' name=\"MatNr" . $i . "\"/></td>
-            <td style=\"padding-left:20px\"><input type=\"text\" required name=\"StudentFirstName" . $i . "\"/></td>
-            <td style=\"padding-left:20px\"><input type=\"text\" required name=\"StudentLastName" . $i . "\"/></td>
-            <td style=\"padding-left:20px\"><input disabled type=\"text\" name=\"StudentName\" value='" . $_SESSION['course_short'] . "'/></td>
+        echo "<tr>
+            <td><input required min='1000000' max='9999999' type=\"number\" min name=\"MatNr\"/></td>
+            <td style=\"padding-left:20px\"><input required type=\"text\" name=\"StudentFirstName\"/></td>
+            <td style=\"padding-left:20px\"><input required type=\"text\" name=\"StudentLastName\"/></td>
+            <td style=\"padding-left:20px\"><input required disabled type=\"text\" name=\"StudentName\" value='" . $_SESSION['course_short'] . "'/></td>
         </tr>";
-        }
         ?>
 
         <tr style="height:50px">
             <td>
-                <button type="submit" name="Back">Zurück</button>
-                <button type="submit" name="SaveCourse">Speichern</button>
+                <button type="submit" name="SaveCourse">Student speichern</button>
             </td>
         </tr>
     </table>
+</form>
+<form action="../MySurveys_Interviewer.php" method="GET">
+    <button type="submit" name="Quit">Abbrechen</button>
 </form>
 </body>
 </html>

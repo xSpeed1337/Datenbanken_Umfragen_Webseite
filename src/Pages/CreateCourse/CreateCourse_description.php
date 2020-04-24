@@ -28,19 +28,16 @@ if (!isset($_SESSION['username'])) {
             <td><input required type="text" maxlength="64" name="CourseName"/></td>
         </tr>
 
-        <tr>
-            <td style="padding-top:20px">Anzahl Studenten:</td>
-            <td style="padding-top:20px"><input required type="number" min="1" name="AnzStudents"/></td>
-        </tr>
-
         <tr style="height:50px">
             <td>
-                <button type="submit" name="Quit">Abbrechen</button>
                 <button type="submit" name="Continue">Weiter</button>
             </td>
         </tr>
 
     </table>
+</form>
+<form action="../MySurveys_Interviewer.php" method="GET">
+    <button type="submit" name="Quit">Abbrechen</button>
 </form>
 </body>
 </html>
