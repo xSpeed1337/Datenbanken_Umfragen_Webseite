@@ -153,7 +153,7 @@ CREATE TABLE survey_commented
 -- @author Lukas Fink
 
 INSERT INTO surveyor
-VALUES ('Admin', 'test');
+VALUES ('Admin', '$2y$10$/F3UGuNq7FV21Je0lGroDefOS0xVhoywQbCj32Mxo7vIQLJLOIsgi');
 
 INSERT INTO survey
 VALUES ('test1', 'Test Survey', 'Admin');

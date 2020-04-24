@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 function database_connect() {
     global $databaseLink;
