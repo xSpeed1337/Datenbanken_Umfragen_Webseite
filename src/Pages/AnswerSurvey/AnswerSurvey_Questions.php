@@ -4,7 +4,7 @@
 
 include_once "../../php-scripts/utilities.php";
 include "../../php-scripts/StudentSurveyHandler.php";
-//session_start();
+
 $obj = new StudentSurveyHandler();
 ?>
 
@@ -22,7 +22,7 @@ $obj = new StudentSurveyHandler();
 
 ////////////////////////////////////////////////////////////////
 /*Wird diese Seite zum ersten Mal aufgerufen?*/
-if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false) && (isset($_POST["BackToHP"]) == false)){
+if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false) && (isset($_POST["BackToHP"]) == false) && (isset($_POST["Next"]) == false)){
     $_SESSION["CurrentQuestion"] = 1;
 
 
@@ -54,11 +54,16 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
 }elseif(isset($_POST["BackToHP"]) == true) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
     header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
+
+}elseif(isset($_POST["Next"]) == true) {
+    $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
+    header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/AnswerSurvey/AnswerSurvey_Comment.php');
 }
 
 
 ////////////////////////////////////////////////////////////////
-/*Anzeige des Fragebogentitels*/
+/*Anzeige des Fragebogentitels, der Anzahl Fragen, der aktuellen Frage, der Radiobuttons,
+sowie der Vorherige/Nächste Frage und Zurück zum Hauptmenü Buttons*/
 echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
 
 ?>
@@ -89,13 +94,9 @@ echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
                 Vorherige Frage
             </button>
 
-            <button type="submit"
-                <?php
-                if($_SESSION ["CurrentQuestion"] == $_SESSION["NumberOfQuestions"])
-                    echo "disabled";
-                ?>
-                    name="NextQuestion">
-                Nächste Frage</button>
+            <button type="submit" name="<?=$_SESSION ['CurrentQuestion'] == $_SESSION['NumberOfQuestions'] ? "Next" : "NextQuestion"?>">
+                <?=$_SESSION ['CurrentQuestion'] == $_SESSION['NumberOfQuestions'] ? "Weiter" : "Nächste Frage"?>
+            </button>
         </td>
     </tr>
 
