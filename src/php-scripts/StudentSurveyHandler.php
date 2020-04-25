@@ -7,6 +7,7 @@ class StudentSurveyHandler {
         $this->db = database_connect();
     }
 
+    ////////////////////////////////////////////////////////////////
 
     /*Elena Deckert*/
     /*Generierung der Infos zu den Fragebögen, die einem Student zugeordnet sind (in MySurveys_Student.php)*/
@@ -101,7 +102,7 @@ class StudentSurveyHandler {
 
         if($results == false){
             echo
-            "1<input type='radio' name='Radio' value='1' checked/><br>
+            "1<input type='radio' name='Radio' value='1'/><br>
              2<input type='radio' name='Radio' value='2'/><br>
              3<input type='radio' name='Radio' value='3'/><br>
              4<input type='radio' name='Radio' value='4'/><br>
@@ -155,6 +156,71 @@ class StudentSurveyHandler {
         }
 }
 
+
+    ////////////////////////////////////////////////////////////////
+
+    /*Elena Deckert*/
+    /*Speichern bzw. Updaten des Kommentars*/
+    public function saveComment($title_short, $matnr) {
+
+        $stmt = $this->db->prepare("SELECT * FROM survey_commented WHERE title_short = ? AND matnr = ?");
+        $stmt->bind_param("si", $title_short, $matnr);
+        $stmt->execute();
+        $stmt->store_result();
+
+        $result = "";
+        $stmt->bind_result($result);
+        $stmt->fetch();
+
+        if($stmt->num_rows == 0){
+            //echo "Create";
+            $cmd = null;
+            $cmd = mysqli_prepare($this->db,"INSERT INTO survey_commented VALUES(?, ?, ?)");
+            mysqli_stmt_bind_param($cmd, "sis",$title_short, $matnr, $comment);
+            mysqli_stmt_execute($cmd);
+        }
+
+        else{
+            //echo "Update";
+            $cmd = null;
+            $cmd = mysqli_prepare($this->db,"UPDATE survey_commented SET comment = ? WHERE title_short = ? AND matnr = ?");
+            mysqli_stmt_bind_param($cmd, "sii",$comment, $title_short, $matnr);
+            mysqli_stmt_execute($cmd);
+        }
+
+        //mysqli_close($db);
+
+    }
+
+    ////////////////////////////////////////////////////////////////
+
+    /*Elena Deckert*/
+    /*Vorbelegen des Kommentars, falls bereits eins eingegeben wurde*/
+    public function getComment($title_short, $matnr, $comment) {
+
+    $cmd = mysqli_prepare($this->db, "SELECT comment FROM survey_commented WHERE title_short = ? AND matnr = ?");
+    mysqli_stmt_bind_param($cmd, "si", $title_short, $matnr);
+    mysqli_stmt_execute($cmd);
+    $results = mysqli_stmt_get_result($cmd);
+    $result = mysqli_fetch_assoc($results);
+
+    if($result == false) {
+        echo
+        "<textarea name='Comment' rows='10' cols='60'></textarea>";
+    }else{
+        echo
+        "<textarea name='Comment' rows='10' cols='60'>" . "'$comment'" . "</textarea>";
+    }
+
+    }
+
+    ////////////////////////////////////////////////////////////////
+
+    /*Elena Deckert*/
+    /*Abschließen des Fragebogens*/
+public function finishSurvey() {
+
+}
 
 
 
