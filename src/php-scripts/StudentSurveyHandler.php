@@ -67,7 +67,7 @@ class StudentSurveyHandler {
         $stmt->fetch();
 
         if($stmt->num_rows == 0){
-            echo "Create";
+            //echo "Create";
             $cmd = null;
             $cmd = mysqli_prepare($this->db,"INSERT INTO question_answer(id, matnr, answer) VALUES( ?, ?, ?)");
             mysqli_stmt_bind_param($cmd, "iis",$questionID, $matnr, $answer);
@@ -75,7 +75,7 @@ class StudentSurveyHandler {
         }
 
         else{
-            echo "Update";
+            //echo "Update";
             $cmd = null;
             $cmd = mysqli_prepare($this->db,"UPDATE question_answer SET answer = ? WHERE id = ? AND matnr = ?");
             mysqli_stmt_bind_param($cmd, "sii",$answer, $questionID, $matnr);

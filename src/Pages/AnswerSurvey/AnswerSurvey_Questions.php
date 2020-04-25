@@ -4,7 +4,7 @@
 
 include_once "../../php-scripts/utilities.php";
 include "../../php-scripts/StudentSurveyHandler.php";
-session_start();
+//session_start();
 $obj = new StudentSurveyHandler();
 ?>
 
