@@ -161,10 +161,10 @@ class StudentSurveyHandler {
 
     /*Elena Deckert*/
     /*Speichern bzw. Updaten des Kommentars*/
-    public function saveComment($title_short, $matnr) {
+    public function saveComment($comment,$fb_short_title, $matnr) {
 
         $stmt = $this->db->prepare("SELECT * FROM survey_commented WHERE title_short = ? AND matnr = ?");
-        $stmt->bind_param("si", $title_short, $matnr);
+        $stmt->bind_param("si", $fb_short_title, $matnr);
         $stmt->execute();
         $stmt->store_result();
 
@@ -176,19 +176,19 @@ class StudentSurveyHandler {
             //echo "Create";
             $cmd = null;
             $cmd = mysqli_prepare($this->db,"INSERT INTO survey_commented VALUES(?, ?, ?)");
-            mysqli_stmt_bind_param($cmd, "sis",$title_short, $matnr, $comment);
+            mysqli_stmt_bind_param($cmd, "sis",$fb_short_titlet, $matnr, $comment);
             mysqli_stmt_execute($cmd);
+            echo "Insert";
         }
 
         else{
             //echo "Update";
             $cmd = null;
             $cmd = mysqli_prepare($this->db,"UPDATE survey_commented SET comment = ? WHERE title_short = ? AND matnr = ?");
-            mysqli_stmt_bind_param($cmd, "sii",$comment, $title_short, $matnr);
+            mysqli_stmt_bind_param($cmd, "sii",$comment, $fb_short_title, $matnr);
             mysqli_stmt_execute($cmd);
+            echo "Update";
         }
-
-        //mysqli_close($db);
 
     }
 
@@ -196,10 +196,10 @@ class StudentSurveyHandler {
 
     /*Elena Deckert*/
     /*Vorbelegen des Kommentars, falls bereits eins eingegeben wurde*/
-    public function getComment($title_short, $matnr, $comment) {
+    public function getComment($fb_short_title, $matnr, $comment) {
 
     $cmd = mysqli_prepare($this->db, "SELECT comment FROM survey_commented WHERE title_short = ? AND matnr = ?");
-    mysqli_stmt_bind_param($cmd, "si", $title_short, $matnr);
+    mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
     mysqli_stmt_execute($cmd);
     $results = mysqli_stmt_get_result($cmd);
     $result = mysqli_fetch_assoc($results);

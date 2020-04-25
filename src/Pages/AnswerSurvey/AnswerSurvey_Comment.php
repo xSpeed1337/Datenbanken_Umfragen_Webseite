@@ -1,12 +1,11 @@
 <?php
 
-session_start();
+/*Gesamtes Dokument: Elena Deckert*/
 
-/*if (!isset($_SESSION['matnr'])) {
-    header('Location: ../login.php');
-    exit();
-}
-*/
+include_once "../../php-scripts/utilities.php";
+include "../../php-scripts/StudentSurveyHandler.php";
+
+$obj = new StudentSurveyHandler();
 ?>
 
 <!DOCTYPE html>
@@ -18,8 +17,29 @@ session_start();
 </head>
 <body>
 
+
+<?php
+
+////////////////////////////////////////////////////////////////
+/*Anzeige des Fragebogentitels*/
+echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
+
+
+////////////////////////////////////////////////////////////////
+/*Speichern des Kommentars in der Datenbank, sobald "Vorherige Frage" oder "Zurück zum Hauptmenü" geklickt wurde*/
+
+if(isset($_POST["PrevQuestion"]) == true) {
+    $obj->saveComment($comment, $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+    $_SESSION["CurrentQuestion"]--;
+
+}elseif(isset($_POST["BackToHP"]) == true) {
+    $obj->saveComment($comment, $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+    header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
+}
+?>
+
+
 <div>
-    <h2>Evaluation der Vorlesung "Einführung in die BWL"</h2>
 
     <form method="POST"/>
     <table>
@@ -48,5 +68,6 @@ session_start();
     </table>
     </form>
 </div>
+
 </body>
 </html>

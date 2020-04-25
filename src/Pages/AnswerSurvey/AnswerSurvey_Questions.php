@@ -104,7 +104,6 @@ echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
         <td><button type="submit" name="BackToHP">Zurück zum Hauptmenü</button></td>
     </tr>
     </form>
-
 </table>
 
 
