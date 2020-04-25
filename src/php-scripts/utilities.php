@@ -1,4 +1,5 @@
 <?php
+session_start();
 
 function database_connect() {
     global $databaseLink;
@@ -7,6 +8,10 @@ function database_connect() {
     }
     $databaseLink = mysqli_connect("localhost", "root", "", "Survey_Site_Database") or die('Could not connect to server.');
     return $databaseLink;
+}
+
+function alert($message) {
+    echo "<script>alert('$message'); window.location.href='../Pages/login.php';</script>";
 }
 
 class utilities {
