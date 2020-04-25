@@ -173,21 +173,20 @@ class StudentSurveyHandler {
         $stmt->fetch();
 
         if($stmt->num_rows == 0){
-            //echo "Create";
+            echo "Create";
             $cmd = null;
             $cmd = mysqli_prepare($this->db,"INSERT INTO survey_commented VALUES(?, ?, ?)");
             mysqli_stmt_bind_param($cmd, "sis",$fb_short_titlet, $matnr, $comment);
             mysqli_stmt_execute($cmd);
-            echo "Insert";
         }
 
         else{
-            //echo "Update";
+            echo "Update";
             $cmd = null;
             $cmd = mysqli_prepare($this->db,"UPDATE survey_commented SET comment = ? WHERE title_short = ? AND matnr = ?");
             mysqli_stmt_bind_param($cmd, "sii",$comment, $fb_short_title, $matnr);
             mysqli_stmt_execute($cmd);
-            echo "Update";
+
         }
 
     }

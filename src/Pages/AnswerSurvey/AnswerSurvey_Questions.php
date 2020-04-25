@@ -21,13 +21,15 @@ $obj = new StudentSurveyHandler();
 <?php
 
 ////////////////////////////////////////////////////////////////
+
 /*Wird diese Seite zum ersten Mal aufgerufen?*/
 if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false) && (isset($_POST["BackToHP"]) == false) && (isset($_POST["Next"]) == false)){
     $_SESSION["CurrentQuestion"] = 1;
 
 
     ////////////////////////////////////////////////////////////////
-/*Fragebogentitel generieren*/
+
+    /*Fragebogentitel generieren*/
     if(isset ($_POST["SurveyTitle"])) {
         $_SESSION["SelectedSurvey"] = $_POST["SurveyTitle"];
     }
@@ -36,13 +38,15 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
 
 
     ////////////////////////////////////////////////////////////////
-/*Wie viele Fragen enthält der Fragebogen?*/
+
+    /*Wie viele Fragen enthält der Fragebogen?*/
     $_SESSION["Questions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
     $_SESSION["NumberOfQuestions"] = count($_SESSION["Questions"]);
 
 
     ////////////////////////////////////////////////////////////////
-/*Speichern der Antworten in der Datenbank, sobald "Nächste Frage", "Vorherige Frage" oder "Zurück zum Hauptmenü" geklickt wurde*/
+
+    /*Speichern der Antworten in der Datenbank, sobald "Nächste Frage", "Vorherige Frage" oder "Zurück zum Hauptmenü" geklickt wurde*/
 } elseif(isset($_POST["PrevQuestion"]) == true) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
     $_SESSION["CurrentQuestion"]--;
@@ -62,6 +66,7 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
 
 
 ////////////////////////////////////////////////////////////////
+
 /*Anzeige des Fragebogentitels, der Anzahl Fragen, der aktuellen Frage, der Radiobuttons,
 sowie der Vorherige/Nächste Frage und Zurück zum Hauptmenü Buttons*/
 echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";

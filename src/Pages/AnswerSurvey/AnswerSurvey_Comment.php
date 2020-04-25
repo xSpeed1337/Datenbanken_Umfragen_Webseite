@@ -21,11 +21,13 @@ $obj = new StudentSurveyHandler();
 <?php
 
 ////////////////////////////////////////////////////////////////
+
 /*Anzeige des Fragebogentitels*/
 echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
 
 
 ////////////////////////////////////////////////////////////////
+
 /*Speichern des Kommentars in der Datenbank, sobald "Vorherige Frage" oder "Zurück zum Hauptmenü" geklickt wurde*/
 
 if(isset($_POST["PrevQuestion"]) == true) {
@@ -36,8 +38,16 @@ if(isset($_POST["PrevQuestion"]) == true) {
     $obj->saveComment($comment, $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
 }
-?>
 
+
+if(isset($_POST["FinishSurvey"]) == true){
+    $obj->saveComment($comment, $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+    $obj->finishSurvey();
+}
+
+
+
+?>
 
 <div>
 
@@ -62,7 +72,7 @@ if(isset($_POST["PrevQuestion"]) == true) {
         <tr style="height:70px">
             <td>
                 <button type="submit" name="BackToHP">Zurück zum Hauptmenü</button>
-                <button type="submit" name="SaveFB">Umfrage abschließen</button>
+                <button type="submit" name="FinishSurvey">Umfrage abschließen</button>
             </td>
         </tr>
     </table>
