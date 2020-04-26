@@ -31,20 +31,19 @@ echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
 /*Speichern des Kommentars in der Datenbank, sobald "Vorherige Frage" oder "Zurück zum Hauptmenü" geklickt wurde*/
 
 if(isset($_POST["PrevQuestion"]) == true) {
-    $obj->saveComment($comment, $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
-    $_SESSION["CurrentQuestion"]--;
+    $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+    $_SESSION["LastPage"] = "AnswerSurvey_Comment";
+    header('Location:http://localhost/Datenbanken_Umfrage_App/src/Pages/AnswerSurvey/AnswerSurvey_Questions.php');
 
 }elseif(isset($_POST["BackToHP"]) == true) {
-    $obj->saveComment($comment, $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+    $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
 }
 
-
 if(isset($_POST["FinishSurvey"]) == true){
-    $obj->saveComment($comment, $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
-    $obj->finishSurvey();
+    $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+    $obj->finishSurvey($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
 }
-
 
 
 ?>
@@ -59,7 +58,7 @@ if(isset($_POST["FinishSurvey"]) == true){
 
         <tr>
             <td>
-                <textarea name="Comment" rows="10" cols="60"></textarea>
+                <?php $obj->getComment($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);?>
             </td>
         </tr>
 

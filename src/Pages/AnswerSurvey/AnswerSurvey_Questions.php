@@ -22,8 +22,11 @@ $obj = new StudentSurveyHandler();
 
 ////////////////////////////////////////////////////////////////
 
+
+
+
 /*Wird diese Seite zum ersten Mal aufgerufen?*/
-if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false) && (isset($_POST["BackToHP"]) == false) && (isset($_POST["Next"]) == false)){
+if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false) && (isset($_POST["BackToHP"]) == false) && (isset($_POST["Next"]) == false) && !(isset($_SESSION["LastPage"]) && $_SESSION["LastPage"] == "AnswerSurvey_Comment")){
     $_SESSION["CurrentQuestion"] = 1;
 
 
@@ -34,7 +37,10 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
         $_SESSION["SelectedSurvey"] = $_POST["SurveyTitle"];
     }
 
-    $_SESSION["SurveyTitleShort"] = $_POST["SurveyTitleShort"];
+    if(isset($_POST["SurveyTitleShort"])) {
+        $_SESSION["SurveyTitleShort"] = $_POST["SurveyTitleShort"];
+    }
+
 
 
     ////////////////////////////////////////////////////////////////
@@ -62,6 +68,10 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
 }elseif(isset($_POST["Next"]) == true) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
     header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/AnswerSurvey/AnswerSurvey_Comment.php');
+} else {
+    $_SESSION["Questions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
+    $_SESSION["NumberOfQuestions"] = count($_SESSION["Questions"]);
+    $_SESSION["LastPage"] = "AnswerSurvey_Questions";
 }
 
 

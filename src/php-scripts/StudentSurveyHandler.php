@@ -92,15 +92,14 @@ class StudentSurveyHandler {
     /*Elena Deckert*/
     /*Vorbelegung der Radiobuttons, falls bereits eine Antwort in der Datenbank gespeichert ist*/
     public function getRadioButtons($questionID, $matnr){
-
-
         $cmd = mysqli_prepare($this->db,"SELECT * FROM question_answer WHERE id = ? AND matnr = ?");
         mysqli_stmt_bind_param($cmd, "ii", $questionID,$matnr );
         mysqli_stmt_execute($cmd);
         $result = mysqli_stmt_get_result($cmd); //ganze Tabelle
         $results = mysqli_fetch_assoc($result); //erster Eintrag
 
-        if($results == false){
+
+        if($results == false || !isset($results['answer'])){
             echo
             "1<input type='radio' name='Radio' value='1'/><br>
              2<input type='radio' name='Radio' value='2'/><br>
@@ -173,30 +172,25 @@ class StudentSurveyHandler {
         $stmt->fetch();
 
         if($stmt->num_rows == 0){
-            echo "Create";
             $cmd = null;
             $cmd = mysqli_prepare($this->db,"INSERT INTO survey_commented VALUES(?, ?, ?)");
-            mysqli_stmt_bind_param($cmd, "sis",$fb_short_titlet, $matnr, $comment);
+            mysqli_stmt_bind_param($cmd, "sis",$fb_short_title, $matnr, $comment);
             mysqli_stmt_execute($cmd);
         }
 
         else{
-            echo "Update";
             $cmd = null;
             $cmd = mysqli_prepare($this->db,"UPDATE survey_commented SET comment = ? WHERE title_short = ? AND matnr = ?");
-            mysqli_stmt_bind_param($cmd, "sii",$comment, $fb_short_title, $matnr);
+            mysqli_stmt_bind_param($cmd, "ssi",$comment, $fb_short_title, $matnr);
             mysqli_stmt_execute($cmd);
-
         }
-
     }
 
     ////////////////////////////////////////////////////////////////
 
     /*Elena Deckert*/
     /*Vorbelegen des Kommentars, falls bereits eins eingegeben wurde*/
-    public function getComment($fb_short_title, $matnr, $comment) {
-
+    public function getComment($fb_short_title, $matnr) {
     $cmd = mysqli_prepare($this->db, "SELECT comment FROM survey_commented WHERE title_short = ? AND matnr = ?");
     mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
     mysqli_stmt_execute($cmd);
@@ -208,7 +202,7 @@ class StudentSurveyHandler {
         "<textarea name='Comment' rows='10' cols='60'></textarea>";
     }else{
         echo
-        "<textarea name='Comment' rows='10' cols='60'>" . "'$comment'" . "</textarea>";
+        "<textarea name='Comment' rows='10' cols='60'>" . $result["comment"] . "</textarea>";
     }
 
     }
@@ -217,7 +211,12 @@ class StudentSurveyHandler {
 
     /*Elena Deckert*/
     /*Abschließen des Fragebogens*/
-public function finishSurvey() {
+public function finishSurvey($fb_short_title, $matnr) {
+
+    //schauen ob alle fragen beantwortet sind, wenn ja Umfrage abschließen - Insert DS in survey_finished, sonst
+    // "Bitte erst alles beantworten"
+    //bei Anzeige: if Eintrag in survey_finished zeigs nicht an
+
 
 }
 
