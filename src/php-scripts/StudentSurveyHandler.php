@@ -35,7 +35,6 @@ class StudentSurveyHandler {
         mysqli_stmt_execute($cmd);
         $results = mysqli_stmt_get_result($cmd);
 
-        //$questions = array('$key' => "$question");
         $questions = [];
         $i = 0;
 
@@ -213,17 +212,22 @@ class StudentSurveyHandler {
     /*Abschließen des Fragebogens*/
 public function finishSurvey($fb_short_title, $matnr) {
 
-    //schauen ob alle fragen beantwortet sind, wenn ja Umfrage abschließen - Insert DS in survey_finished, sonst
-    // "Bitte erst alles beantworten"
-    //bei Anzeige: if Eintrag in survey_finished zeigs nicht an
+    $cmd = mysqli_prepare($this->db, "SELECT * FROM question_answer INNER JOIN question ON question_answer.id = question.id WHERE title_short = ? AND question_answer.matnr = ?");
+    mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
+    mysqli_stmt_execute($cmd);
+    $results = mysqli_stmt_get_result($cmd);
 
+    if($results <> $_SESSION["NumberOfQuestions"]) {
+        echo "Sie können den Fragebogen erst abschließen, sobald sie alle Fragen beantwortet haben!";
+    }else{
+        $cmd = mysqli_prepare($this->db, "INSERT INTO survey_finished VALUES(?, ?)");
+        mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
+        mysqli_stmt_execute($cmd);
+
+        //Keine Anzeige des Fragebogens auf der Seite "MySurveys_Student"
+    }
 
 }
-
-
-
-
-
 
 
 
