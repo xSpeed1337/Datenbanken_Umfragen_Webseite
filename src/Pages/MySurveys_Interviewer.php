@@ -27,6 +27,10 @@ if (!isset($_SESSION['username'])) {
     <button type="submit" name="CreateCourse">Kurs anlegen</button>
 </form>
 
+<form method="GET" action="EditCourse/EditCourse_Description.php">
+    <button type="submit" name="CreateCourse">Kurs bearbeiten</button>
+</form>
+
 <form method="POST">
 
     <div>
