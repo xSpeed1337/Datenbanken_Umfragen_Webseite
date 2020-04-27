@@ -1,11 +1,11 @@
 <?php
 
-session_start();
+/*Gesamtes Dokument: Elena Deckert*/
 
-if (!isset($_SESSION['matnr'])) {
-    header('Location: ../login.php');
-    exit();
-}
+include_once "../../php-scripts/utilities.php";
+include "../../php-scripts/StudentSurveyHandler.php";
+
+$obj = new StudentSurveyHandler();
 ?>
 
 <!DOCTYPE html>
@@ -17,8 +17,38 @@ if (!isset($_SESSION['matnr'])) {
 </head>
 <body>
 
+
+<?php
+
+////////////////////////////////////////////////////////////////
+
+/*Anzeige des Fragebogentitels*/
+echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
+
+
+////////////////////////////////////////////////////////////////
+
+/*Speichern des Kommentars in der Datenbank, sobald "Vorherige Frage" oder "Zurück zum Hauptmenü" geklickt wurde*/
+
+if(isset($_POST["PrevQuestion"]) == true) {
+    $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+    $_SESSION["LastPage"] = "AnswerSurvey_Comment";
+    header('Location:http://localhost/Datenbanken_Umfrage_App/src/Pages/AnswerSurvey/AnswerSurvey_Questions.php');
+
+}elseif(isset($_POST["BackToHP"]) == true) {
+    $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+    header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
+}
+
+if(isset($_POST["FinishSurvey"]) == true){
+    $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+    $obj->finishSurvey($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+}
+
+
+?>
+
 <div>
-    <h2>Evaluation der Vorlesung "Einführung in die BWL"</h2>
 
     <form method="POST"/>
     <table>
@@ -28,25 +58,25 @@ if (!isset($_SESSION['matnr'])) {
 
         <tr>
             <td>
-                <textarea name="Comment" rows="10" cols="60"></textarea>
+                <?php $obj->getComment($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);?>
             </td>
         </tr>
 
         <tr style="height:50px">
             <td>
                 <button type="submit" name="PrevQuestion">Vorherige Frage</button>
-                <button type="submit" name="NextQuestion">Nächste Frage</button>
             </td>
         </tr>
 
         <tr style="height:70px">
             <td>
-                <button type="submit" name="BackToHP">Zum Hauptmenü</button>
-                <button type="submit" name="SaveFB">Umfrage abschließen</button>
+                <button type="submit" name="BackToHP">Zurück zum Hauptmenü</button>
+                <button type="submit" name="FinishSurvey">Umfrage abschließen</button>
             </td>
         </tr>
     </table>
     </form>
 </div>
+
 </body>
 </html>
