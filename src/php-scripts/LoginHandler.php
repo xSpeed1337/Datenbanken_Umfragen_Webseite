@@ -1,5 +1,5 @@
 <?php
-require "utilities.php";
+require "Utilities.php";
 
 class LoginHandler {
 
@@ -80,7 +80,10 @@ class LoginHandler {
             echo "Login fehlgeschlagen Student";
         }
     }
+}
 
+function alert($message) {
+    echo "<script>alert('$message'); window.location.href='../Pages/LoginPage.php';</script>";
 }
 
 $h = new LoginHandler();

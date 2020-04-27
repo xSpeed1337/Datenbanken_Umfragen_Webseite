@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['username'])) {
-    header('Location: ../login.php');
+    header('Location: ../LoginPage.php');
     exit();
 } elseif (!isset($_SESSION['course_short'])) {
     header('Location: ../MySurveys_Interviewer.php');
@@ -32,7 +32,7 @@ if (!isset($_SESSION['username'])) {
 
         <?php
         echo "<tr>
-            <td><input required min='1000000' max='9999999' type=\"number\" min name=\"MatNr\"/></td>
+            <td><input required min='999999' max='9999999' type=\"number\" min name=\"MatNr\"/></td>
             <td style=\"padding-left:20px\"><input required type=\"text\" name=\"StudentFirstName\"/></td>
             <td style=\"padding-left:20px\"><input required type=\"text\" name=\"StudentLastName\"/></td>
             <td style=\"padding-left:20px\"><input required disabled type=\"text\" name=\"StudentName\" value='" . $_SESSION['course_short'] . "'/></td>

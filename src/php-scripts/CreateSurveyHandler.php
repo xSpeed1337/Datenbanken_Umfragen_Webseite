@@ -1,6 +1,6 @@
 <?php
 
-include_once "utilities.php";
+include_once "Utilities.php";
 
 class CreateSurveyHandler extends utilities
 {

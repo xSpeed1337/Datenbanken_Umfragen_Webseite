@@ -1,5 +1,5 @@
 <?php
-require "utilities.php";
+require "Utilities.php";
 
 class CourseHandler {
 
