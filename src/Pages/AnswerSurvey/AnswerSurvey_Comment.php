@@ -3,9 +3,8 @@
 /*Gesamtes Dokument: Elena Deckert*/
 
 include_once "../../php-scripts/utilities.php";
-include "../../php-scripts/StudentSurveyHandler.php";
 
-$obj = new StudentSurveyHandler();
+$obj = new utilities();
 ?>
 
 <!DOCTYPE html>
@@ -20,13 +19,9 @@ $obj = new StudentSurveyHandler();
 
 <?php
 
-////////////////////////////////////////////////////////////////
-
 /*Anzeige des Fragebogentitels*/
 echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
 
-
-////////////////////////////////////////////////////////////////
 
 /*Speichern des Kommentars in der Datenbank, sobald "Vorherige Frage" oder "Zurück zum Hauptmenü" geklickt wurde*/
 
@@ -44,7 +39,6 @@ if(isset($_POST["FinishSurvey"]) == true){
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     $obj->finishSurvey($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
 }
-
 
 ?>
 
