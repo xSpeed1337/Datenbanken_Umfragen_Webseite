@@ -29,6 +29,7 @@ $obj = new StudentSurveyHandler();
     $surveys = $obj->getSurveysStudent($_SESSION["Matrikelnummer"]);
 
     echo "<table>";
+
     foreach($surveys as $survey) {
         echo
         "<tr>

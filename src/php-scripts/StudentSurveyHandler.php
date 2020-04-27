@@ -10,17 +10,17 @@ class StudentSurveyHandler {
     ////////////////////////////////////////////////////////////////
 
     /*Elena Deckert*/
-    /*Generierung der Infos zu den Fragebögen, die einem Student zugeordnet sind (in MySurveys_Student.php)*/
+    /*Generierung der Infos zu den Fragebögen, die einem Student zugeordnet sind
+      (unter der Bedingung, dass der Fragebogen noch nicht abgeschlossen wurde) (in MySurveys_Student.php)*/
 
     public function getSurveysStudent($matnr) {
 
-        $cmd = mysqli_prepare($this->db,"SELECT * FROM survey WHERE title_short IN 
-            ( SELECT surv.title_short FROM survey_assigned_course AS surv INNER JOIN student AS stud ON surv.course_short = stud.course_short WHERE stud.matnr = ?)");
-        mysqli_stmt_bind_param($cmd, "i", $matnr);
+        $cmd = mysqli_prepare($this->db,"SELECT * FROM survey WHERE title_short IN ( SELECT surv.title_short FROM survey_assigned_course AS surv INNER JOIN student AS stud ON
+            surv.course_short = stud.course_short WHERE stud.matnr = ?) AND title_short NOT IN ( SELECT fin.title_short from survey_finished as fin where fin.matnr = ?) ");
+        mysqli_stmt_bind_param($cmd, "ii", $matnr, $matnr);
         mysqli_stmt_execute($cmd);
         $surveys = mysqli_stmt_get_result($cmd);
         return $surveys;
-
     }
 
 
@@ -81,8 +81,6 @@ class StudentSurveyHandler {
             mysqli_stmt_bind_param($cmd, "sii",$answer, $questionID, $matnr);
             mysqli_stmt_execute($cmd);
         }
-
-        //mysqli_close($db);
 
     }
 
@@ -212,24 +210,24 @@ class StudentSurveyHandler {
     /*Abschließen des Fragebogens*/
 public function finishSurvey($fb_short_title, $matnr) {
 
-    $cmd = mysqli_prepare($this->db, "SELECT * FROM question_answer INNER JOIN question ON question_answer.id = question.id WHERE title_short = ? AND question_answer.matnr = ?");
+    $cmd = mysqli_prepare($this->db, "SELECT COUNT(*) AS anz_results FROM question_answer INNER JOIN question ON question_answer.id = question.id WHERE title_short = ? AND question_answer.matnr = ?");
     mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
     mysqli_stmt_execute($cmd);
     $results = mysqli_stmt_get_result($cmd);
+    $result = mysqli_fetch_assoc($results);
 
-    if($results <> $_SESSION["NumberOfQuestions"]) {
+    if($result['anz_results'] <> $_SESSION["NumberOfQuestions"]) {
         echo "Sie können den Fragebogen erst abschließen, sobald sie alle Fragen beantwortet haben!";
     }else{
         $cmd = mysqli_prepare($this->db, "INSERT INTO survey_finished VALUES(?, ?)");
         mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
         mysqli_stmt_execute($cmd);
 
-        //Keine Anzeige des Fragebogens auf der Seite "MySurveys_Student"
+        header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
+
     }
 
 }
-
-
 
 
 }
