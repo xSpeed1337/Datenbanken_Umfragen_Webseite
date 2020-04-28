@@ -28,11 +28,11 @@ echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
 if(isset($_POST["PrevQuestion"]) == true) {
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     $_SESSION["LastPage"] = "AnswerSurvey_Comment";
-    header('Location:http://localhost/Datenbanken_Umfrage_App/src/Pages/AnswerSurvey/AnswerSurvey_Questions.php');
+    header('AnswerSurvey_Questions.php');
 
 }elseif(isset($_POST["BackToHP"]) == true) {
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
-    header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
+    header('../MySurveys_Student.php');
 }
 
 if(isset($_POST["FinishSurvey"]) == true){
