@@ -18,7 +18,6 @@ if (!isset($_SESSION['username'])) {
 <h2>Kurs bearbeiten</h2>
 <form method="post" action="../../php-scripts/CreateCourseHandler.php">
     <table>
-
         <tr>
             <td>Zu bearbeitender Kurs:</td>
             <td>
@@ -40,23 +39,19 @@ if (!isset($_SESSION['username'])) {
                 </select>
             </td>
         </tr>
-
         <tr>
             <td>Neue Kurskurzbezeichnung:</td>
             <td><input required type="text" maxlength="10" name="UpdateCourseShort"/></td>
         </tr>
-
         <tr>
             <td>Neue Kursname:</td>
             <td><input required type="text" maxlength="64" name="UpdateCourseName"/></td>
         </tr>
-
         <tr style="height:50px">
             <td>
                 <button type="submit" name="UpdateCourseSave">Speichern</button>
             </td>
         </tr>
-
     </table>
 </form>
 <form action="../MySurveys_Interviewer.php" method="GET">

@@ -19,7 +19,7 @@ class CourseHandler {
         if ($check_result->num_rows > 0) {
             //display error
             echo "Kurs " . $course_short . " " . $course_name . " " . " existiert bereits";
-            echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Description.php'>Back to student creation</a>";
+            echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Description.php'>Back to course creation</a>";
         } else {
             //create Course
             $create_sql = "INSERT INTO course VALUES (?,?)";
@@ -28,11 +28,11 @@ class CourseHandler {
                 echo "SQL statement failed";
             } else {
                 mysqli_stmt_bind_param($create_stmt, "ss", $course_short, $course_name);
-                mysqli_stmt_execute($create_stmt);
+                if (mysqli_stmt_execute($create_stmt)) {
+                    echo "Kurs " . $course_name . " " . $course_name . " erstellt.";
+                    echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Description.php'>Back to course creation</a>";
+                }
             }
-
-            $_SESSION['course_short'] = $course_short;
-            header("Location: ../Pages/CreateCourse/CreateCourse_Students.php");
         }
     }
 
@@ -108,15 +108,15 @@ if (isset($_POST["Continue"])) {
     $course_short = $_POST["CourseDesc"];
     $course_name = $_POST["CourseName"];
 
-    $course_handler->createCourse();
+    $course_handler->createCourse($course_short, $course_name);
 } elseif
 (isset($_POST["SaveCourse"])) {
     $matNr = (int)$_POST["MatNr"];
     $studentFirstName = $_POST['StudentFirstName'];
     $studentLastName = $_POST['StudentLastName'];
-    $course_short = $_SESSION['course_short'];
+    $course_short = $_POST['CourseShort'];
 
-    $course_handler->createStudents();
+    $course_handler->createStudents($matNr, $studentFirstName, $studentLastName, $course_short);
 } elseif (isset($_POST['UpdateCourseSave'])) {
     $oldCourseShort = $_POST['OldCourseShort'];
     $updateCourseShort = $_POST['UpdateCourseShort'];
@@ -130,5 +130,5 @@ if (isset($_POST["Continue"])) {
     $UpdateStudentLastName = $_POST['UpdateStudentLastName'];
     $UpdateStudentCourse = $_POST['UpdateStudentCourse'];
 
-    $course_handler->updateStudent();
+    $course_handler->updateStudent($OldMatNr, $UpdateMatNr, $UpdateStudentFirstName, $UpdateStudentLastName, $UpdateStudentCourse);
 }

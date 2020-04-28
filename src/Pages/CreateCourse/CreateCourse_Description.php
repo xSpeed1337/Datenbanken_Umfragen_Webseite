@@ -1,5 +1,5 @@
 <?php
-session_start();
+require "../../php-scripts/Utilities.php";
 
 if (!isset($_SESSION['username'])) {
     header('Location: ../LoginPage.php');
@@ -22,18 +22,15 @@ if (!isset($_SESSION['username'])) {
             <td>Kurskurzbezeichnung:</td>
             <td><input required type="text" maxlength="10" name="CourseDesc"/></td>
         </tr>
-
         <tr>
             <td>Kursname:</td>
             <td><input required type="text" maxlength="64" name="CourseName"/></td>
         </tr>
-
         <tr style="height:50px">
             <td>
                 <button type="submit" name="Continue">Weiter</button>
             </td>
         </tr>
-
     </table>
 </form>
 <form action="../MySurveys_Interviewer.php" method="GET">
