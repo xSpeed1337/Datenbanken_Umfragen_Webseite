@@ -2,9 +2,10 @@
 
 /*Gesamtes Dokument: Elena Deckert*/
 
-include_once "../../php-scripts/utilities.php";
+include_once "../../php-scripts/Utilities.php";
+include "../../php-scripts/StudentSurveyHandler.php";
 
-$obj = new utilities();
+$obj = new StudentSurveyHandler();
 ?>
 
 <!DOCTYPE html>
@@ -19,10 +20,17 @@ $obj = new utilities();
 
 <?php
 
+////////////////////////////////////////////////////////////////
+
+
+
+
 /*Wird diese Seite zum ersten Mal aufgerufen?*/
 if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false) && (isset($_POST["BackToHP"]) == false) && (isset($_POST["Next"]) == false) && !(isset($_SESSION["LastPage"]) && $_SESSION["LastPage"] == "AnswerSurvey_Comment")){
     $_SESSION["CurrentQuestion"] = 1;
 
+
+    ////////////////////////////////////////////////////////////////
 
     /*Fragebogentitel generieren*/
     if(isset ($_POST["SurveyTitle"])) {
@@ -34,10 +42,15 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
     }
 
 
+
+    ////////////////////////////////////////////////////////////////
+
     /*Wie viele Fragen enthält der Fragebogen?*/
     $_SESSION["Questions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
     $_SESSION["NumberOfQuestions"] = count($_SESSION["Questions"]);
 
+
+    ////////////////////////////////////////////////////////////////
 
     /*Speichern der Antworten in der Datenbank, sobald "Nächste Frage", "Vorherige Frage" oder "Zurück zum Hauptmenü" geklickt wurde*/
 } elseif(isset($_POST["PrevQuestion"]) == true) {
@@ -50,16 +63,19 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
 
 }elseif(isset($_POST["BackToHP"]) == true) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
-    header('Location: ../MySurveys_Student.php');
+    header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
 
 }elseif(isset($_POST["Next"]) == true) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
-    header('Location: AnswerSurvey_Comment.php');
+    header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/AnswerSurvey/AnswerSurvey_Comment.php');
 } else {
     $_SESSION["Questions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
     $_SESSION["NumberOfQuestions"] = count($_SESSION["Questions"]);
     $_SESSION["LastPage"] = "AnswerSurvey_Questions";
 }
+
+
+////////////////////////////////////////////////////////////////
 
 /*Anzeige des Fragebogentitels, der Anzahl Fragen, der aktuellen Frage, der Radiobuttons,
 sowie der Vorherige/Nächste Frage und Zurück zum Hauptmenü Buttons*/

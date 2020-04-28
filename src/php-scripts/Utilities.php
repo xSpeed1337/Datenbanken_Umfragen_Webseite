@@ -1,17 +1,21 @@
 <?php
 session_start();
 
+////////////////////////////////////////////////////////////////
+/// Returns database link for mysqli usage
+/// Lukas Fink
 function database_connect() {
+    $databaseHost = "localhost";
+    $databaseUser = "root";
+    $databasePassword = "";
+    $databaseDatabase = "Survey_Site_Database";
     global $databaseLink;
+
     if ($databaseLink) {
         return $databaseLink;
     }
-    $databaseLink = mysqli_connect("localhost", "root", "", "Survey_Site_Database") or die('Could not connect to server.');
+    $databaseLink = mysqli_connect($databaseHost, $databaseUser, $databasePassword, $databaseDatabase) or die('Could not connect to server.');
     return $databaseLink;
-}
-
-function alert($message) {
-    echo "<script>alert('$message'); window.location.href='../Pages/login.php';</script>";
 }
 
 class utilities {
@@ -20,7 +24,6 @@ class utilities {
         $this->db = database_connect();
     }
 
-
     ////////////////////////////////////////////////////////////////
     /*Elena Deckert*/
     /*Generierung der Infos zu den Fragebögen, die einem Student zugeordnet sind
@@ -28,7 +31,7 @@ class utilities {
 
     public function getSurveysStudent($matnr) {
 
-        $cmd = mysqli_prepare($this->db,"SELECT * FROM survey WHERE title_short IN ( SELECT surv.title_short FROM survey_assigned_course AS surv INNER JOIN student AS stud ON
+        $cmd = mysqli_prepare($this->db, "SELECT * FROM survey WHERE title_short IN ( SELECT surv.title_short FROM survey_assigned_course AS surv INNER JOIN student AS stud ON
             surv.course_short = stud.course_short WHERE stud.matnr = ?) AND title_short NOT IN ( SELECT fin.title_short from survey_finished as fin where fin.matnr = ?) ");
         mysqli_stmt_bind_param($cmd, "ii", $matnr, $matnr);
         mysqli_stmt_execute($cmd);
@@ -36,13 +39,12 @@ class utilities {
         return $surveys;
     }
 
-
     ////////////////////////////////////////////////////////////////
     /*Elena Deckert*/
     /*Fragen und FrageID zum ausgewählten Fragebogen ermitteln */
-    public function getQuestions($fb_short_title){
+    public function getQuestions($fb_short_title) {
 
-        $cmd = mysqli_prepare($this->db,"SELECT * FROM question WHERE title_short = ? ");
+        $cmd = mysqli_prepare($this->db, "SELECT * FROM question WHERE title_short = ? ");
         mysqli_stmt_bind_param($cmd, "s", $fb_short_title);
         mysqli_stmt_execute($cmd);
         $results = mysqli_stmt_get_result($cmd);
@@ -55,12 +57,11 @@ class utilities {
             $questions[$i] = array("questionID" => $result['id'], "question_text" => $result['question_text']);
         }
 
-        if ($i > 0){
+        if ($i > 0) {
             return $questions;
-        }else{
+        } else {
             echo "Keine Fragen ermittelt!";
         }
-
     }
 
     ////////////////////////////////////////////////////////////////
@@ -69,7 +70,7 @@ class utilities {
     public function saveAnswer($answer, $questionID, $matnr) {
 
         $stmt = $this->db->prepare("SELECT id FROM question_answer WHERE id = ? AND matnr = ?");
-        $stmt->bind_param("ii",$questionID, $matnr);
+        $stmt->bind_param("ii", $questionID, $matnr);
         $stmt->execute();
         $stmt->store_result();
 
@@ -77,81 +78,69 @@ class utilities {
         $stmt->bind_result($result);
         $stmt->fetch();
 
-        if($stmt->num_rows == 0){
+        if ($stmt->num_rows == 0) {
             //echo "Create";
             $cmd = null;
-            $cmd = mysqli_prepare($this->db,"INSERT INTO question_answer(id, matnr, answer) VALUES( ?, ?, ?)");
-            mysqli_stmt_bind_param($cmd, "iis",$questionID, $matnr, $answer);
+            $cmd = mysqli_prepare($this->db, "INSERT INTO question_answer(id, matnr, answer) VALUES( ?, ?, ?)");
+            mysqli_stmt_bind_param($cmd, "iis", $questionID, $matnr, $answer);
             mysqli_stmt_execute($cmd);
-        }
-
-        else{
+        } else {
             //echo "Update";
             $cmd = null;
-            $cmd = mysqli_prepare($this->db,"UPDATE question_answer SET answer = ? WHERE id = ? AND matnr = ?");
-            mysqli_stmt_bind_param($cmd, "sii",$answer, $questionID, $matnr);
+            $cmd = mysqli_prepare($this->db, "UPDATE question_answer SET answer = ? WHERE id = ? AND matnr = ?");
+            mysqli_stmt_bind_param($cmd, "sii", $answer, $questionID, $matnr);
             mysqli_stmt_execute($cmd);
         }
-
     }
 
     ////////////////////////////////////////////////////////////////
     /*Elena Deckert*/
     /*Vorbelegung der Radiobuttons, falls bereits eine Antwort in der Datenbank gespeichert ist*/
-    public function getRadioButtons($questionID, $matnr){
-        $cmd = mysqli_prepare($this->db,"SELECT * FROM question_answer WHERE id = ? AND matnr = ?");
-        mysqli_stmt_bind_param($cmd, "ii", $questionID,$matnr );
+    public function getRadioButtons($questionID, $matnr) {
+        $cmd = mysqli_prepare($this->db, "SELECT * FROM question_answer WHERE id = ? AND matnr = ?");
+        mysqli_stmt_bind_param($cmd, "ii", $questionID, $matnr);
         mysqli_stmt_execute($cmd);
         $result = mysqli_stmt_get_result($cmd); //ganze Tabelle
         $results = mysqli_fetch_assoc($result); //erster Eintrag
 
-
-        if($results == false || !isset($results['answer'])){
+        if ($results == false || !isset($results['answer'])) {
             echo
             "1<input type='radio' name='Radio' value='1'/><br>
              2<input type='radio' name='Radio' value='2'/><br>
              3<input type='radio' name='Radio' value='3'/><br>
              4<input type='radio' name='Radio' value='4'/><br>
              5<input type='radio' name='Radio' value='5'/>";
-        }elseif($answer = $results['answer']){
+        } elseif ($answer = $results['answer']) {
 
-            if($answer == 1){
+            if ($answer == 1) {
                 echo
                 "1<input type='radio' name='Radio' value='1' checked/><br>
                  2<input type='radio' name='Radio' value='2'/><br>
                  3<input type='radio' name='Radio' value='3'/><br>
                  4<input type='radio' name='Radio' value='4'/><br>
                  5<input type='radio' name='Radio' value='5'/>";
-            }
-
-            elseif($answer == 2){
+            } elseif ($answer == 2) {
                 echo
                 "1<input type='radio' name='Radio' value='1'/><br>
                  2<input type='radio' name='Radio' value='2' checked/><br>
                  3<input type='radio' name='Radio' value='3'/><br>
                  4<input type='radio' name='Radio' value='4'/><br>
                  5<input type='radio' name='Radio' value='5'/>";
-            }
-
-            elseif($answer == 3){
+            } elseif ($answer == 3) {
                 echo
                 "1<input type='radio' name='Radio' value='1'/><br>
                  2<input type='radio' name='Radio' value='2'/><br>
                  3<input type='radio' name='Radio' value='3' checked/><br>
                  4<input type='radio' name='Radio' value='4'/><br>
                  5<input type='radio' name='Radio' value='5'/>";
-            }
-
-            elseif($answer == 4){
+            } elseif ($answer == 4) {
                 echo
                 "1<input type='radio' name='Radio' value='1'/><br>
                  2<input type='radio' name='Radio' value='2'/><br>
                  3<input type='radio' name='Radio' value='3'/><br>
                  4<input type='radio' name='Radio' value='4' checked/><br>
                  5<input type='radio' name='Radio' value='5'/>";
-            }
-
-            elseif($answer == 5){
+            } elseif ($answer == 5) {
                 echo
                 "1<input type='radio' name='Radio' value='1'/><br>
                  2<input type='radio' name='Radio' value='2'/><br>
@@ -162,11 +151,10 @@ class utilities {
         }
     }
 
-
     ////////////////////////////////////////////////////////////////
     /*Elena Deckert*/
     /*Speichern bzw. Updaten des Kommentars*/
-    public function saveComment($comment,$fb_short_title, $matnr) {
+    public function saveComment($comment, $fb_short_title, $matnr) {
 
         $stmt = $this->db->prepare("SELECT * FROM survey_commented WHERE title_short = ? AND matnr = ?");
         $stmt->bind_param("si", $fb_short_title, $matnr);
@@ -177,17 +165,15 @@ class utilities {
         $stmt->bind_result($result);
         $stmt->fetch();
 
-        if($stmt->num_rows == 0){
+        if ($stmt->num_rows == 0) {
             $cmd = null;
-            $cmd = mysqli_prepare($this->db,"INSERT INTO survey_commented VALUES(?, ?, ?)");
-            mysqli_stmt_bind_param($cmd, "sis",$fb_short_title, $matnr, $comment);
+            $cmd = mysqli_prepare($this->db, "INSERT INTO survey_commented VALUES(?, ?, ?)");
+            mysqli_stmt_bind_param($cmd, "sis", $fb_short_title, $matnr, $comment);
             mysqli_stmt_execute($cmd);
-        }
-
-        else{
+        } else {
             $cmd = null;
-            $cmd = mysqli_prepare($this->db,"UPDATE survey_commented SET comment = ? WHERE title_short = ? AND matnr = ?");
-            mysqli_stmt_bind_param($cmd, "ssi",$comment, $fb_short_title, $matnr);
+            $cmd = mysqli_prepare($this->db, "UPDATE survey_commented SET comment = ? WHERE title_short = ? AND matnr = ?");
+            mysqli_stmt_bind_param($cmd, "ssi", $comment, $fb_short_title, $matnr);
             mysqli_stmt_execute($cmd);
         }
     }
@@ -202,14 +188,13 @@ class utilities {
         $results = mysqli_stmt_get_result($cmd);
         $result = mysqli_fetch_assoc($results);
 
-        if($result == false) {
+        if ($result == false) {
             echo
             "<textarea name='Comment' rows='10' cols='60'></textarea>";
-        }else{
+        } else {
             echo
                 "<textarea name='Comment' rows='10' cols='60'>" . $result["comment"] . "</textarea>";
         }
-
     }
 
     ////////////////////////////////////////////////////////////////
@@ -223,9 +208,9 @@ class utilities {
         $results = mysqli_stmt_get_result($cmd);
         $result = mysqli_fetch_assoc($results);
 
-        if($result['anz_results'] <> $_SESSION["NumberOfQuestions"]) {
+        if ($result['anz_results'] <> $_SESSION["NumberOfQuestions"]) {
             echo "Sie können den Fragebogen erst abschließen, sobald sie alle Fragen beantwortet haben!";
-        }else{
+        } else {
             $cmd = mysqli_prepare($this->db, "INSERT INTO survey_finished VALUES(?, ?)");
             mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
             mysqli_stmt_execute($cmd);
@@ -233,12 +218,10 @@ class utilities {
             header('Location: ../MySurveys_Student.php');
 
         }
-
     }
 
-
     ////////////////////////////////////////////////////////////////
-    /*Lukas Fink*/
+    /// Lukas Fink
     public function analysis() {
 
     }

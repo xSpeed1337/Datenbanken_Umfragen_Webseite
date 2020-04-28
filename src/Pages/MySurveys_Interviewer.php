@@ -2,7 +2,7 @@
 session_start();
 
 if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
+    header('Location: LoginPage.php');
     exit();
 }
 ?>
@@ -20,18 +20,28 @@ if (!isset($_SESSION['username'])) {
 <h2>Online-Bewertungsumfragen</h2>
 
 <form method="GET" action="CreateSurvey/CreateSurvey_course.php">
-    <button type="submit" name="CreateFB">Fragebogen anlegen</button>
+    <button type="submit">Fragebogen anlegen</button>
 </form>
 
-<form method="GET" action="CreateCourse/CreateCourse_description.php">
-    <button type="submit" name="CreateCourse">Kurs anlegen</button>
+<form method="GET" action="CreateCourse/CreateCourse_Description.php">
+    <button type="submit">Kurs anlegen</button>
+</form>
+
+<form method="GET" action="CreateCourse/CreateCourse_Students.php">
+    <button type="submit">Student anlegen</button>
+</form>
+
+<form method="GET" action="EditCourse/EditCourse_Description.php">
+    <button type="submit">Kurs bearbeiten</button>
+</form>
+
+<form method="GET" action="EditCourse/EditCourse_Students.php">
+    <button type="submit">Student bearbeiten</button>
 </form>
 
 <form method="POST">
-
     <div>
         <h4>Meine Fragebögen</h4>
-
         <table>
             <tr>
                 <td style="padding-right:20px">FB_Kürzel</td>
@@ -74,7 +84,6 @@ if (!isset($_SESSION['username'])) {
             </tr>
         </table>
     </div>
-
 </form>
 </body>
 </html>

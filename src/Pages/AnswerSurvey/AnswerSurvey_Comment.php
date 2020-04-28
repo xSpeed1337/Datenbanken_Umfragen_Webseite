@@ -2,9 +2,10 @@
 
 /*Gesamtes Dokument: Elena Deckert*/
 
-include_once "../../php-scripts/utilities.php";
+include_once "../../php-scripts/Utilities.php";
+include "../../php-scripts/StudentSurveyHandler.php";
 
-$obj = new utilities();
+$obj = new StudentSurveyHandler();
 ?>
 
 <!DOCTYPE html>
@@ -19,26 +20,31 @@ $obj = new utilities();
 
 <?php
 
+////////////////////////////////////////////////////////////////
+
 /*Anzeige des Fragebogentitels*/
 echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
 
+
+////////////////////////////////////////////////////////////////
 
 /*Speichern des Kommentars in der Datenbank, sobald "Vorherige Frage" oder "Zurück zum Hauptmenü" geklickt wurde*/
 
 if(isset($_POST["PrevQuestion"]) == true) {
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     $_SESSION["LastPage"] = "AnswerSurvey_Comment";
-    header('AnswerSurvey_Questions.php');
+    header('Location:http://localhost/Datenbanken_Umfrage_App/src/Pages/AnswerSurvey/AnswerSurvey_Questions.php');
 
 }elseif(isset($_POST["BackToHP"]) == true) {
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
-    header('../MySurveys_Student.php');
+    header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
 }
 
 if(isset($_POST["FinishSurvey"]) == true){
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     $obj->finishSurvey($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
 }
+
 
 ?>
 
