@@ -3,9 +3,7 @@
 /*Gesamtes Dokument: Elena Deckert*/
 
 include_once "../../php-scripts/Utilities.php";
-include "../../php-scripts/StudentSurveyHandler.php";
-
-$obj = new StudentSurveyHandler();
+$obj = new utilities();
 ?>
 
 <!DOCTYPE html>
@@ -63,11 +61,11 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
 
 }elseif(isset($_POST["BackToHP"]) == true) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
-    header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
+    header('Location: ../MySurveys_Student.php');
 
 }elseif(isset($_POST["Next"]) == true) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
-    header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/AnswerSurvey/AnswerSurvey_Comment.php');
+    header('Location: AnswerSurvey_Comment.php');
 } else {
     $_SESSION["Questions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
     $_SESSION["NumberOfQuestions"] = count($_SESSION["Questions"]);
