@@ -3,11 +3,7 @@ require "Utilities.php";
 
 class CourseHandler {
 
-    public function createCourse() {
-
-        $course_short = $_POST["CourseDesc"];
-        $course_name = $_POST["CourseName"];
-
+    public function createCourse($course_short, $course_name) {
         //check if course already exists
         $check_sql = "SELECT * FROM course WHERE course_short = ? OR course_name = ?";
         $check_stmt = mysqli_stmt_init(database_connect());
@@ -40,11 +36,7 @@ class CourseHandler {
         }
     }
 
-    public function createStudents() {
-        $matNr = (int)$_POST["MatNr"];
-        $studentFirstName = $_POST['StudentFirstName'];
-        $studentLastName = $_POST['StudentLastName'];
-        $course_short = $_SESSION['course_short'];
+    public function createStudents($matNr, $studentFirstName, $studentLastName, $course_short) {
         $studentExists = false;
 
         //create and prepare check statement
@@ -73,18 +65,52 @@ class CourseHandler {
             } else {
                 mysqli_stmt_bind_param($create_stmt, "isss", $matNr, $studentFirstName, $studentLastName, $course_short);
                 if (mysqli_stmt_execute($create_stmt)) {
-                    echo "Student" . " " . $matNr . " " . $studentFirstName . " " . $studentLastName . " " . "created";
+                    echo "Student " . $matNr . " " . $studentFirstName . " " . $studentLastName . " created";
                     echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Students.php'>Back to student creation</a>";
                 }
             }
         }
     }
+
+    public function updateCourse($OldCourseShort, $UpdateCourseShort, $UpdateCourseName) {
+        $sql = "UPDATE course SET course_short= ?, course_name= ? WHERE course_short = ?";
+        $stmt = mysqli_stmt_init(database_connect());
+
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            echo "SQL statement failed";
+        } else {
+            mysqli_stmt_bind_param($stmt, "sss", $UpdateCourseShort, $UpdateCourseName, $OldCourseShort);
+            if (mysqli_stmt_execute($stmt)) {
+                echo "Kurs " . $OldCourseShort . " zu " . $UpdateCourseShort . " " . $UpdateCourseName . " umbennant";
+                echo "<br> <a href='../Pages/EditCourse/EditCourse_Description.php'>Back to edit student</a>";
+            }
+        }
+    }
+
+    public function updateStudent() {
+
+    }
 }
 
 $course_handler = new CourseHandler();
+
 if (isset($_POST["Continue"])) {
+    $course_short = $_POST["CourseDesc"];
+    $course_name = $_POST["CourseName"];
+
     $course_handler->createCourse();
 } elseif
 (isset($_POST["SaveCourse"])) {
+    $matNr = (int)$_POST["MatNr"];
+    $studentFirstName = $_POST['StudentFirstName'];
+    $studentLastName = $_POST['StudentLastName'];
+    $course_short = $_SESSION['course_short'];
+
     $course_handler->createStudents();
+} elseif (isset($_POST['UpdateSave'])) {
+    $oldCourseShort = $_POST['OldCourseShort'];
+    $updateCourseShort = $_POST['UpdateCourseShort'];
+    $updateCourseName = $_POST['UpdateCourseName'];
+
+    $course_handler->updateCourse($oldCourseShort, $updateCourseShort, $updateCourseName);
 }

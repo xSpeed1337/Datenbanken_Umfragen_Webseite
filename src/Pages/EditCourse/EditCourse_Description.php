@@ -43,7 +43,7 @@ if (!isset($_SESSION['username'])) {
 
         <tr>
             <td>Neue Kurskurzbezeichnung:</td>
-            <td><input required type="text" maxlength="10" name="UpdateCourseDesc"/></td>
+            <td><input required type="text" maxlength="10" name="UpdateCourseShort"/></td>
         </tr>
 
         <tr>
