@@ -1,5 +1,3 @@
 <?php
 // Redirecting to Login.php
-// TODO Check for session token
-header("Location: src/Pages/login.php");
-exit();
+header("Location: src/Pages/LoginPage.php");

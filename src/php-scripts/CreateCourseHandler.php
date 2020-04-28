@@ -1,5 +1,5 @@
 <?php
-require "utilities.php";
+require "Utilities.php";
 
 class CourseHandler {
 
@@ -23,7 +23,7 @@ class CourseHandler {
         if ($check_result->num_rows > 0) {
             //display error
             echo "Kurs " . $course_short . " " . $course_name . " " . " existiert bereits";
-            echo "<br> <a href='../Pages/CreateCourse/CreateCourse_description.php'>Back to student creation</a>";
+            echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Description.php'>Back to student creation</a>";
         } else {
             //create Course
             $create_sql = "INSERT INTO course VALUES (?,?)";
@@ -36,7 +36,7 @@ class CourseHandler {
             }
 
             $_SESSION['course_short'] = $course_short;
-            header("Location: ../Pages/CreateCourse/CreateCourse_students.php");
+            header("Location: ../Pages/CreateCourse/CreateCourse_Students.php");
         }
     }
 
@@ -62,7 +62,7 @@ class CourseHandler {
             //display error
             $studentExists = true;
             echo "Student" . " " . $matNr . " " . $studentFirstName . " " . $studentLastName . " " . "already exists";
-            echo "<br> <a href='../Pages/CreateCourse/CreateCourse_students.php'>Back to student creation</a>";
+            echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Students.php'>Back to student creation</a>";
         }
         if ($studentExists === false) {
             //create Student
@@ -74,7 +74,7 @@ class CourseHandler {
                 mysqli_stmt_bind_param($create_stmt, "isss", $matNr, $studentFirstName, $studentLastName, $course_short);
                 if (mysqli_stmt_execute($create_stmt)) {
                     echo "Student" . " " . $matNr . " " . $studentFirstName . " " . $studentLastName . " " . "created";
-                    echo "<br> <a href='../Pages/CreateCourse/CreateCourse_students.php'>Back to student creation</a>";
+                    echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Students.php'>Back to student creation</a>";
                 }
             }
         }

@@ -1,10 +1,8 @@
 <?php
-
-/*Gesamtes Dokument: Elena Deckert*/
-
-include_once "../php-scripts/utilities.php";
-
-$obj = new utilities();
+include_once "../php-scripts/Utilities.php";
+include "../php-scripts/StudentSurveyHandler.php";
+//session_start();
+$obj = new StudentSurveyHandler();
 ?>
 
 <!DOCTYPE html>
@@ -31,7 +29,6 @@ $obj = new utilities();
     $surveys = $obj->getSurveysStudent($_SESSION["Matrikelnummer"]);
 
     echo "<table>";
-
     foreach($surveys as $survey) {
         echo
         "<tr>
