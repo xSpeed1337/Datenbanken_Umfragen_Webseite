@@ -53,7 +53,7 @@ if (!isset($_SESSION['username'])) {
 
         <tr style="height:50px">
             <td>
-                <button type="submit" name="UpdateSave">Speichern</button>
+                <button type="submit" name="UpdateCourseSave">Speichern</button>
             </td>
         </tr>
 
