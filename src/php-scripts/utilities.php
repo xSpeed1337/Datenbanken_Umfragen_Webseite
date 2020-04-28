@@ -20,6 +20,7 @@ class utilities {
         $this->db = database_connect();
     }
 
+
     ////////////////////////////////////////////////////////////////
     /*Elena Deckert*/
     /*Generierung der Infos zu den Fragebögen, die einem Student zugeordnet sind
@@ -229,7 +230,7 @@ class utilities {
             mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
             mysqli_stmt_execute($cmd);
 
-            header('Location:http://localhost/Datenbanken_Umfrage_App/src/pages/MySurveys_Student.php');
+            header('Location: ../MySurveys_Student.php');
 
         }
 
