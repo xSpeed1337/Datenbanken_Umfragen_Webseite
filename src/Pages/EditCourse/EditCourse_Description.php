@@ -24,7 +24,7 @@ if (!isset($_SESSION['username'])) {
             <td>
                 <select name="OldCourseShort">
                     <?php
-                    $sql = "SELECT course_short FROM course";
+                    $sql = "SELECT * FROM course";
                     $stmt = mysqli_stmt_init(database_connect());
                     if (!mysqli_stmt_prepare($stmt, $sql)) {
                         echo "SQL statement failed";

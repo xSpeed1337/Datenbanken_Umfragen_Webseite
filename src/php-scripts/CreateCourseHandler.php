@@ -82,13 +82,23 @@ class CourseHandler {
             mysqli_stmt_bind_param($stmt, "sss", $UpdateCourseShort, $UpdateCourseName, $OldCourseShort);
             if (mysqli_stmt_execute($stmt)) {
                 echo "Kurs " . $OldCourseShort . " zu " . $UpdateCourseShort . " " . $UpdateCourseName . " umbennant";
-                echo "<br> <a href='../Pages/EditCourse/EditCourse_Description.php'>Back to edit student</a>";
+                echo "<br> <a href='../Pages/EditCourse/EditCourse_Description.php'>Back to edit course</a>";
             }
         }
     }
 
-    public function updateStudent() {
-
+    public function updateStudent($OldMatNr, $NewMatNr, $NewFirstName, $NewLastName, $NewCourseShort) {
+        $sql = "UPDATE student SET matnr = ?, firstname = ?, lastname = ?, course_short = ? WHERE matnr = ?";
+        $stmt = mysqli_stmt_init(database_connect());
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            echo "SQL statement failed";
+        } else {
+            mysqli_stmt_bind_param($stmt, "sssss", $NewMatNr, $NewFirstName, $NewLastName, $NewCourseShort, $OldMatNr);
+            if (mysqli_stmt_execute($stmt)) {
+                echo "Student " . $OldMatNr . " zu " . $NewMatNr . " " . $NewFirstName . " " . $NewLastName . " " . $NewCourseShort . " umbennant";
+                echo "<br> <a href='../Pages/EditCourse/EditCourse_Students.php'>Back to edit student</a>";
+            }
+        }
     }
 }
 
@@ -107,10 +117,18 @@ if (isset($_POST["Continue"])) {
     $course_short = $_SESSION['course_short'];
 
     $course_handler->createStudents();
-} elseif (isset($_POST['UpdateSave'])) {
+} elseif (isset($_POST['UpdateCourseSave'])) {
     $oldCourseShort = $_POST['OldCourseShort'];
     $updateCourseShort = $_POST['UpdateCourseShort'];
     $updateCourseName = $_POST['UpdateCourseName'];
 
     $course_handler->updateCourse($oldCourseShort, $updateCourseShort, $updateCourseName);
+} elseif (isset($_POST['UpdateStudentSave'])) {
+    $OldMatNr = $_POST['OldMatNr'];
+    $UpdateMatNr = $_POST['UpdateMatNr'];
+    $UpdateStudentFirstName = $_POST['UpdateStudentFirstName'];
+    $UpdateStudentLastName = $_POST['UpdateStudentLastName'];
+    $UpdateStudentCourse = $_POST['UpdateStudentCourse'];
+
+    $course_handler->updateStudent();
 }
