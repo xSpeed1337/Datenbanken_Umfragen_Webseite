@@ -1,8 +1,8 @@
 <?php
+
+/*Gesamtes Dokument Elena Deckert*/
 include_once "../php-scripts/Utilities.php";
-include "../php-scripts/StudentSurveyHandler.php";
-//session_start();
-$obj = new StudentSurveyHandler();
+$obj = new utilities();
 ?>
 
 <!DOCTYPE html>
