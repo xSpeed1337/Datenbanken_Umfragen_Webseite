@@ -21,7 +21,7 @@ CREATE TABLE surveyor
 DROP TABLE IF EXISTS survey;
 CREATE TABLE survey
 (
-    title_short CHAR(5) PRIMARY KEY UNIQUE,
+    title_short INT PRIMARY KEY AUTO_INCREMENT,
     title       VARCHAR(32) UNIQUE NOT NULL,
     username    VARCHAR(32)        NOT NULL,
     CONSTRAINT cstr_survey_username
@@ -38,7 +38,7 @@ CREATE TABLE question
 (
     id            INT PRIMARY KEY AUTO_INCREMENT,
     question_text VARCHAR(500) NOT NULL,
-    title_short   CHAR(5)      NOT NULL,
+    title_short   INT          NOT NULL,
     CONSTRAINT cstr_question_title_short
         FOREIGN KEY (title_short) REFERENCES survey (title_short)
             ON UPDATE CASCADE
@@ -77,7 +77,7 @@ CREATE TABLE student
 DROP TABLE IF EXISTS survey_assigned_course;
 CREATE TABLE survey_assigned_course
 (
-    title_short  CHAR(5),
+    title_short  INT,
     course_short VARCHAR(10),
     PRIMARY KEY (title_short, course_short),
     CONSTRAINT cstr_assigned_course_title_short
@@ -116,7 +116,7 @@ CREATE TABLE question_answer
 DROP TABLE IF EXISTS survey_finished;
 CREATE TABLE survey_finished
 (
-    title_short CHAR(5),
+    title_short INT,
     matnr       INT(7),
     PRIMARY KEY (title_short, matnr),
     CONSTRAINT cstr_finished_title_short
@@ -135,7 +135,7 @@ CREATE TABLE survey_finished
 DROP TABLE IF EXISTS survey_commented;
 CREATE TABLE survey_commented
 (
-    title_short CHAR(5),
+    title_short INT,
     matnr       INT(7),
     comment     VARCHAR(500),
     PRIMARY KEY (title_short, matnr),
@@ -156,10 +156,10 @@ INSERT INTO surveyor
 VALUES ('Admin', '$2y$10$/F3UGuNq7FV21Je0lGroDefOS0xVhoywQbCj32Mxo7vIQLJLOIsgi');
 
 INSERT INTO survey
-VALUES ('test1', 'Test Survey', 'Admin');
+VALUES ('1', 'Test Survey', 'Admin');
 
 INSERT INTO question(question_text, title_short)
-VALUES ('Wie ist die Test Survey?', 'test1');
+VALUES ('Wie ist die Test Survey?', '1');
 
 INSERT INTO course
 VALUES ('WWI118', 'Wirtschaftsinformatik 2018');
@@ -168,13 +168,13 @@ INSERT INTO student
 VALUES ('1234567', 'Max', 'Mustermann', 'WWI118');
 
 INSERT INTO survey_assigned_course
-VALUES ('test1', 'WWI118');
+VALUES ('1', 'WWI118');
 
 INSERT INTO question_answer
 VALUES ('1', '1234567', '3');
 
 INSERT INTO survey_finished
-VALUES ('test1', '1234567');
+VALUES ('1', '1234567');
 
 INSERT INTO survey_commented
-VALUES ('test1', '1234567', 'Umfrage war ganz ok');
+VALUES ('1', '1234567', 'Umfrage war ganz ok');

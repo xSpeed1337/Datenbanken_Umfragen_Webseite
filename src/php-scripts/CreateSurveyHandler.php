@@ -5,21 +5,26 @@ include_once "utilities.php";
 class CreateSurveyHandler extends utilities
 {
 
-    public function set_Title_and_number_Questions(){
+    public function createTitle(){
 
-        $_title = $_POST["FBTitle"];
-        $_numbQuestions = $_POST["AnzQuestions"];
+        $title = $_POST["FBTitle"];
+        $numbQuestions = $_POST["AnzQuestions"];
+        //$title_short = password_hash($title, PASSWORD_DEFAULT);
+        //$title_short = "ssss";
 
-        $sql = "Insert into survey (title_short, title) values ('test','$_title')";
+        $sql = "Insert into survey (title, username) values (?, ?)";
 
-        $stmt = $this->connect()->query($sql);
+        $stmt = mysqli_stmt_init(database_connect());
 
-
-
-        if($stmt == true){
-            header("Location: ../Pages/CreateSurvey/CreateSurvey_question.php");
-        }else{
-            echo "Datenübermittlung fehlgeschlagen";
+        if (!mysqli_stmt_prepare($stmt, $sql)) {
+            echo "SQL statement failed";
+        } else {
+            mysqli_stmt_bind_param($stmt, "ss",$title, $_SESSION['username']);
+            if (mysqli_stmt_execute($stmt)) {
+                header("Location: ../Pages/CreateSurvey/CreateSurvey_questions.php");
+            } else {
+                echo "Datenübertragung fehlgeschlagen";
+            };
         }
 
     }
@@ -37,8 +42,10 @@ class CreateSurveyHandler extends utilities
 }
 
 $h = new CreateSurveyHandler();
-if (isset($_POST["CreateFB"])){
+if (isset($_GET["CreateFB"])){
     header("Location: ../Pages/CreateSurvey/CreateSurvey_title.php");
 }elseif(isset($_POST["Continue"])){
     $h->createTitle();
+}elseif(isset($_POST["Continue2"])){
+
 }
