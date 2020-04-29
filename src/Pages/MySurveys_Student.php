@@ -1,7 +1,7 @@
 <?php
-include_once "../php-scripts/utilities.php";
+include_once "../php-scripts/Utilities.php";
 include "../php-scripts/StudentSurveyHandler.php";
-session_start();
+//session_start();
 $obj = new StudentSurveyHandler();
 ?>
 
@@ -21,8 +21,9 @@ $obj = new StudentSurveyHandler();
 
     <?php
 
+    ////////////////////////////////////////////////////////////////
     /*Elena Deckert*/
-    /*Generieren der Fragebögen, die für den Studenten freigeschaltet sind
+    /*Generieren der Fragebögen, die für den angemeldeten Studenten freigeschaltet sind
       + Button um die Beantwortung des Fragebogens zu starten*/
 
     $surveys = $obj->getSurveysStudent($_SESSION["Matrikelnummer"]);

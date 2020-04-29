@@ -19,7 +19,7 @@ if (!isset($_SESSION['username'])) {
 
 <h2>Online-Bewertungsumfragen</h2>
 
-<form method="GET" action="../php-scripts/CreateSurveyHandler.php">
+<form method="GET" action="CreateSurvey/CreateSurvey_course.php">
     <button type="submit" name="CreateFB">Fragebogen anlegen</button>
 </form>
 
