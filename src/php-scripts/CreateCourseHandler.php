@@ -3,6 +3,9 @@ require "Utilities.php";
 
 class CourseHandler {
 
+    ////////////////////////////////////////////////////////////////
+    /*Lukas Fink*/
+    /*Überprüft ob Kurs bereits existiert und erstellt diesen, falls nicht existent*/
     public function createCourse($course_short, $course_name) {
         //check if course already exists
         $check_sql = "SELECT * FROM course WHERE course_short = ? OR course_name = ?";
@@ -35,6 +38,9 @@ class CourseHandler {
         }
     }
 
+    ////////////////////////////////////////////////////////////////
+    /*Lukas Fink*/
+    /*Überprüft ob Student/-in bereits existiert und erstellt diesen/diese, falls nicht existent*/
     public function createStudents($matNr, $studentFirstName, $studentLastName, $course_short) {
         $studentExists = false;
 
@@ -71,6 +77,9 @@ class CourseHandler {
         }
     }
 
+    ////////////////////////////////////////////////////////////////
+    /*Lukas Fink*/
+    /*Updated den Kurs*/
     public function updateCourse($oldCourseShort, $updateCourseShort, $updateCourseName) {
         $sql = "UPDATE course SET course_short= ?, course_name= ? WHERE course_short = ?";
         $stmt = mysqli_stmt_init(database_connect());
@@ -86,6 +95,9 @@ class CourseHandler {
         }
     }
 
+    ////////////////////////////////////////////////////////////////
+    /*Lukas Fink*/
+    /*Updated den/die Student/-in*/
     public function updateStudent($oldMatNr, $newMatNr, $newFirstName, $newLastName, $newCourseShort) {
         $sql = "UPDATE student SET matnr = ?, firstname = ?, lastname = ?, course_short = ? WHERE matnr = ?";
         $stmt = mysqli_stmt_init(database_connect());
@@ -108,8 +120,7 @@ if (isset($_POST["Continue"])) {
     $course_name = $_POST["CourseName"];
 
     $course_handler->createCourse($course_short, $course_name);
-} elseif
-(isset($_POST["SaveCourse"])) {
+} elseif (isset($_POST["SaveCourse"])) {
     $matNr = (int)$_POST["MatNr"];
     $studentFirstName = $_POST['StudentFirstName'];
     $studentLastName = $_POST['StudentLastName'];
