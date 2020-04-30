@@ -17,7 +17,6 @@ class CourseHandler {
         $check_result = $check_stmt->get_result();
 
         if ($check_result->num_rows > 0) {
-            //display error
             echo "Kurs " . $course_short . " " . $course_name . " " . " existiert bereits";
             echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Description.php'>Back to course creation</a>";
         } else {
@@ -72,30 +71,30 @@ class CourseHandler {
         }
     }
 
-    public function updateCourse($OldCourseShort, $UpdateCourseShort, $UpdateCourseName) {
+    public function updateCourse($oldCourseShort, $updateCourseShort, $updateCourseName) {
         $sql = "UPDATE course SET course_short= ?, course_name= ? WHERE course_short = ?";
         $stmt = mysqli_stmt_init(database_connect());
 
         if (!mysqli_stmt_prepare($stmt, $sql)) {
             echo "SQL statement failed";
         } else {
-            mysqli_stmt_bind_param($stmt, "sss", $UpdateCourseShort, $UpdateCourseName, $OldCourseShort);
+            mysqli_stmt_bind_param($stmt, "sss", $updateCourseShort, $updateCourseName, $oldCourseShort);
             if (mysqli_stmt_execute($stmt)) {
-                echo "Kurs " . $OldCourseShort . " zu " . $UpdateCourseShort . " " . $UpdateCourseName . " umbennant";
+                echo "Kurs " . $oldCourseShort . " zu " . $updateCourseShort . " " . $updateCourseName . " umbennant";
                 echo "<br> <a href='../Pages/EditCourse/EditCourse_Description.php'>Back to edit course</a>";
             }
         }
     }
 
-    public function updateStudent($OldMatNr, $NewMatNr, $NewFirstName, $NewLastName, $NewCourseShort) {
+    public function updateStudent($oldMatNr, $newMatNr, $newFirstName, $newLastName, $newCourseShort) {
         $sql = "UPDATE student SET matnr = ?, firstname = ?, lastname = ?, course_short = ? WHERE matnr = ?";
         $stmt = mysqli_stmt_init(database_connect());
         if (!mysqli_stmt_prepare($stmt, $sql)) {
             echo "SQL statement failed";
         } else {
-            mysqli_stmt_bind_param($stmt, "sssss", $NewMatNr, $NewFirstName, $NewLastName, $NewCourseShort, $OldMatNr);
+            mysqli_stmt_bind_param($stmt, "sssss", $newMatNr, $newFirstName, $newLastName, $newCourseShort, $oldMatNr);
             if (mysqli_stmt_execute($stmt)) {
-                echo "Student " . $OldMatNr . " zu " . $NewMatNr . " " . $NewFirstName . " " . $NewLastName . " " . $NewCourseShort . " umbennant";
+                echo "Student " . $oldMatNr . " zu " . $newMatNr . " " . $newFirstName . " " . $newLastName . " " . $newCourseShort . " umbennant";
                 echo "<br> <a href='../Pages/EditCourse/EditCourse_Students.php'>Back to edit student</a>";
             }
         }
@@ -124,11 +123,11 @@ if (isset($_POST["Continue"])) {
 
     $course_handler->updateCourse($oldCourseShort, $updateCourseShort, $updateCourseName);
 } elseif (isset($_POST['UpdateStudentSave'])) {
-    $OldMatNr = $_POST['OldMatNr'];
-    $UpdateMatNr = $_POST['UpdateMatNr'];
-    $UpdateStudentFirstName = $_POST['UpdateStudentFirstName'];
-    $UpdateStudentLastName = $_POST['UpdateStudentLastName'];
-    $UpdateStudentCourse = $_POST['UpdateStudentCourse'];
+    $oldMatNr = $_POST['OldMatNr'];
+    $updateMatNr = $_POST['UpdateMatNr'];
+    $updateStudentFirstName = $_POST['UpdateStudentFirstName'];
+    $updateStudentLastName = $_POST['UpdateStudentLastName'];
+    $updateStudentCourse = $_POST['UpdateStudentCourse'];
 
-    $course_handler->updateStudent($OldMatNr, $UpdateMatNr, $UpdateStudentFirstName, $UpdateStudentLastName, $UpdateStudentCourse);
+    $course_handler->updateStudent($oldMatNr, $updateMatNr, $updateStudentFirstName, $updateStudentLastName, $updateStudentCourse);
 }
