@@ -18,7 +18,7 @@ if (!isset($_SESSION['username'])) {
 
 <h2>Kurs anlegen</h2>
 
-<form id="studentForm" method="POST" action="../../php-scripts/CreateCourseHandler.php">
+<form id="studentForm" method="POST" action="../../php-scripts/CourseHandler.php">
     <table>
         <tr>
             <th>Matrikelnummer</th>
