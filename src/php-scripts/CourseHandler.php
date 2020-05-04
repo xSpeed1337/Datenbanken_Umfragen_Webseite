@@ -31,7 +31,10 @@ class CourseHandler {
             } else {
                 mysqli_stmt_bind_param($create_stmt, "ss", $course_short, $course_name);
                 if (mysqli_stmt_execute($create_stmt)) {
-                    echo "Kurs " . $course_name . " " . $course_name . " erstellt.";
+                    echo "Kurs " . $course_name . " " . $course_name . " angelegt.";
+                    echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Description.php'>Back to course creation</a>";
+                } else {
+                    echo "Kurs " . $course_name . " " . $course_name . " konnte nicht angelegt werden.";
                     echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Description.php'>Back to course creation</a>";
                 }
             }
@@ -58,7 +61,7 @@ class CourseHandler {
         if ($check_result->num_rows > 0) {
             //display error
             $studentExists = true;
-            echo "Student" . " " . $matNr . " " . $studentFirstName . " " . $studentLastName . " " . "already exists";
+            echo "Student " . $matNr . " " . $studentFirstName . " " . $studentLastName . " existiert bereits.";
             echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Students.php'>Back to student creation</a>";
         }
         if ($studentExists === false) {
@@ -70,7 +73,10 @@ class CourseHandler {
             } else {
                 mysqli_stmt_bind_param($create_stmt, "isss", $matNr, $studentFirstName, $studentLastName, $course_short);
                 if (mysqli_stmt_execute($create_stmt)) {
-                    echo "Student " . $matNr . " " . $studentFirstName . " " . $studentLastName . " created";
+                    echo "Student " . $matNr . " " . $studentFirstName . " " . $studentLastName . " angelegt.";
+                    echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Students.php'>Back to student creation</a>";
+                } else {
+                    echo "Student " . $matNr . " " . $studentFirstName . " " . $studentLastName . " konnte nicht angelegt werden.";
                     echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Students.php'>Back to student creation</a>";
                 }
             }
@@ -89,7 +95,10 @@ class CourseHandler {
         } else {
             mysqli_stmt_bind_param($stmt, "sss", $updateCourseShort, $updateCourseName, $oldCourseShort);
             if (mysqli_stmt_execute($stmt)) {
-                echo "Kurs " . $oldCourseShort . " zu " . $updateCourseShort . " " . $updateCourseName . " umbennant";
+                echo "Kurs " . $oldCourseShort . " zu " . $updateCourseShort . " " . $updateCourseName . " umbennant.";
+                echo "<br> <a href='../Pages/EditCourse/EditCourse_Description.php'>Back to edit course</a>";
+            } else {
+                echo "Kurs " . $oldCourseShort . " zu konnte nicht " . $updateCourseShort . " " . $updateCourseName . " umbennant werden.";
                 echo "<br> <a href='../Pages/EditCourse/EditCourse_Description.php'>Back to edit course</a>";
             }
         }
@@ -106,7 +115,10 @@ class CourseHandler {
         } else {
             mysqli_stmt_bind_param($stmt, "sssss", $newMatNr, $newFirstName, $newLastName, $newCourseShort, $oldMatNr);
             if (mysqli_stmt_execute($stmt)) {
-                echo "Student " . $oldMatNr . " zu " . $newMatNr . " " . $newFirstName . " " . $newLastName . " " . $newCourseShort . " umbennant";
+                echo "Student " . $oldMatNr . " zu " . $newMatNr . " " . $newFirstName . " " . $newLastName . " " . $newCourseShort . " umbennant.";
+                echo "<br> <a href='../Pages/EditCourse/EditCourse_Students.php'>Back to edit student</a>";
+            } else {
+                echo "Student " . $oldMatNr . " konnte nicht zu " . $newMatNr . " " . $newFirstName . " " . $newLastName . " " . $newCourseShort . " umbennant werden.";
                 echo "<br> <a href='../Pages/EditCourse/EditCourse_Students.php'>Back to edit student</a>";
             }
         }
@@ -116,29 +128,11 @@ class CourseHandler {
 $course_handler = new CourseHandler();
 
 if (isset($_POST["Continue"])) {
-    $course_short = $_POST["CourseDesc"];
-    $course_name = $_POST["CourseName"];
-
-    $course_handler->createCourse($course_short, $course_name);
+    $course_handler->createCourse($_POST["CourseDesc"], $_POST["CourseName"]);
 } elseif (isset($_POST["SaveCourse"])) {
-    $matNr = (int)$_POST["MatNr"];
-    $studentFirstName = $_POST['StudentFirstName'];
-    $studentLastName = $_POST['StudentLastName'];
-    $course_short = $_POST['CourseShort'];
-
-    $course_handler->createStudents($matNr, $studentFirstName, $studentLastName, $course_short);
+    $course_handler->createStudents((int)$_POST["MatNr"], $_POST['StudentFirstName'], $_POST['StudentLastName'], $_POST['CourseShort']);
 } elseif (isset($_POST['UpdateCourseSave'])) {
-    $oldCourseShort = $_POST['OldCourseShort'];
-    $updateCourseShort = $_POST['UpdateCourseShort'];
-    $updateCourseName = $_POST['UpdateCourseName'];
-
-    $course_handler->updateCourse($oldCourseShort, $updateCourseShort, $updateCourseName);
+    $course_handler->updateCourse($_POST['OldCourseShort'], $_POST['UpdateCourseShort'], $_POST['UpdateCourseName']);
 } elseif (isset($_POST['UpdateStudentSave'])) {
-    $oldMatNr = $_POST['OldMatNr'];
-    $updateMatNr = $_POST['UpdateMatNr'];
-    $updateStudentFirstName = $_POST['UpdateStudentFirstName'];
-    $updateStudentLastName = $_POST['UpdateStudentLastName'];
-    $updateStudentCourse = $_POST['UpdateStudentCourse'];
-
-    $course_handler->updateStudent($oldMatNr, $updateMatNr, $updateStudentFirstName, $updateStudentLastName, $updateStudentCourse);
+    $course_handler->updateStudent($_POST['OldMatNr'], $_POST['UpdateMatNr'], $_POST['UpdateStudentFirstName'], $_POST['UpdateStudentLastName'], $_POST['UpdateStudentCourse']);
 }
