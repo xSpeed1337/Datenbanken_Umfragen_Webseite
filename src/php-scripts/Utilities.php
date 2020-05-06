@@ -215,16 +215,54 @@ class utilities {
             mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
             mysqli_stmt_execute($cmd);
 
-           header('Location: ../MySurveys_Student.php');
+            header('Location: ../MySurveys_Student.php');
 
         }
     }
 
-    ////////////////////////////////////////////////////////////////
-    /// Lukas Fink
-    public function analysis() {
+}
 
+////////////////////////////////////////////////////////////////
+/*Lukas Fink*/
+
+class AnalysisHandler {
+
+    private $answerArray = [];
+
+    public function displayAllComments($title_short, $course_short) {
+        $commentArray = [];
+        $studentArray = [];
+
+        //select students from course
+        $studentSQL = "SELECT matnr FROM student WHERE course_short = ?";
+        $studentStmt = mysqli_stmt_init(database_connect());
+
+        if (!mysqli_stmt_prepare($studentStmt, $studentSQL)) {
+            echo "SQL statement failed";
+        } else {
+            mysqli_stmt_bind_param($studentStmt, "s", $course_short);
+            if (mysqli_stmt_execute($studentStmt)) {
+                $studentArray = $studentStmt->get_result();
+            }
+        }
+
+        var_dump($studentArray);
+
+        //get all comments with the students array
+        foreach ($studentArray as $studentMatNr) {
+            $sql = "SELECT comment FROM survey_commented WHERE matnr = ? AND title_short = ?";
+            $stmt = mysqli_stmt_init(database_connect());
+
+            if (!mysqli_stmt_prepare($stmt, $sql)) {
+                echo "SQL statement failed";
+            } else {
+                mysqli_stmt_bind_param($stmt, "ss", $studentMatNr, $title_short);
+                if (mysqli_stmt_execute($stmt)) {
+                    echo $stmt->get_result();
+                    array_push($commentArray, $stmt->get_result());
+                }
+            }
+        }
     }
-
 
 }
