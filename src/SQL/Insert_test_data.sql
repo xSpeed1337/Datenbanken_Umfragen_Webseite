@@ -114,13 +114,13 @@ INSERT INTO survey_commented
 VALUES ('test1', '3333333', 'Umfrage war schlecht');
 
 INSERT INTO survey_commented
-VALUES ('test2', '1111111', 'Umfrage war ganz ok');
+VALUES ('test2', '1111111', 'Umfrage war top');
 INSERT INTO survey_commented
-VALUES ('test2', '2222222', 'Umfrage war sehr gut');
+VALUES ('test2', '2222222', 'Umfrage war medium');
 INSERT INTO survey_commented
-VALUES ('test2', '3333333', 'Umfrage war schlecht');
+VALUES ('test2', '3333333', 'Umfrage war bad');
 
 INSERT INTO survey_commented
 VALUES ('test3', '6666666', 'Umfrage war super');
 INSERT INTO survey_commented
-VALUES ('test4', '6666666', 'Umfrage war super');
+VALUES ('test4', '6666666', 'Umfrage war duper');
