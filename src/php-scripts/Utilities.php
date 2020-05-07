@@ -2,8 +2,8 @@
 session_start();
 
 ////////////////////////////////////////////////////////////////
-/// Returns database link for mysqli usage
-/// Lukas Fink
+/*Returns database link for mysqli usage*/
+/*Lukas Fink*/
 function database_connect() {
     $databaseHost = "localhost";
     $databaseUser = "root";
@@ -17,6 +17,14 @@ function database_connect() {
     $databaseLink = mysqli_connect($databaseHost, $databaseUser, $databasePassword, $databaseDatabase) or die('Could not connect to server.');
     return $databaseLink;
 }
+
+////////////////////////////////////////////////////////////////
+/*Escapes special characters to prevent Cross-Site-Scripting*/
+/*Lukas Fink*/
+function escapeCharacters($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+
 
 class utilities {
 
@@ -229,6 +237,8 @@ class AnalysisHandler {
 
     private $answerArray = [];
 
+    ////////////////////////////////////////////////////////////////
+    /*Lukas Fink*/
     public function displayAllComments($title_short, $course_short) {
         $studentArray = [];
         $commentArray = [];
@@ -262,16 +272,11 @@ class AnalysisHandler {
                 if (mysqli_stmt_execute($commentStmt)) {
                     $commentResult = $commentStmt->get_result();
                     while ($comment = $commentResult->fetch_assoc()) {
-                        $commentArray[] = $comment;
+                        $commentString = $commentString . " " . $comment["comment"];
                     }
                 }
             }
         }
-
-        //add comments to one string
-        foreach ($commentArray as $comment) {
-            $commentString = $commentString . " " . $comment["comment"];
-        }
-
+        echo escapeCharacters($commentString);
     }
 }
