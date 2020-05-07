@@ -230,8 +230,9 @@ class AnalysisHandler {
     private $answerArray = [];
 
     public function displayAllComments($title_short, $course_short) {
-        $commentArray = [];
         $studentArray = [];
+        $commentArray = [];
+        $commentString = "";
 
         //select students from course
         $studentSQL = "SELECT matnr FROM student WHERE course_short = ?";
@@ -242,27 +243,35 @@ class AnalysisHandler {
         } else {
             mysqli_stmt_bind_param($studentStmt, "s", $course_short);
             if (mysqli_stmt_execute($studentStmt)) {
-                $studentArray = $studentStmt->get_result();
-            }
-        }
-
-        var_dump($studentArray);
-
-        //get all comments with the students array
-        foreach ($studentArray as $studentMatNr) {
-            $sql = "SELECT comment FROM survey_commented WHERE matnr = ? AND title_short = ?";
-            $stmt = mysqli_stmt_init(database_connect());
-
-            if (!mysqli_stmt_prepare($stmt, $sql)) {
-                echo "SQL statement failed";
-            } else {
-                mysqli_stmt_bind_param($stmt, "ss", $studentMatNr, $title_short);
-                if (mysqli_stmt_execute($stmt)) {
-                    echo $stmt->get_result();
-                    array_push($commentArray, $stmt->get_result());
+                $studentResult = $studentStmt->get_result();
+                while ($matNr = $studentResult->fetch_assoc()) {
+                    $studentArray[] = $matNr;
                 }
             }
         }
-    }
 
+        //get all comments with the students matnr array
+        foreach ($studentArray as $studentMatNr) {
+            $commentSql = "SELECT comment FROM survey_commented WHERE matnr = ? AND title_short = ?";
+            $commentStmt = mysqli_stmt_init(database_connect());
+
+            if (!mysqli_stmt_prepare($commentStmt, $commentSql)) {
+                echo "SQL statement failed";
+            } else {
+                mysqli_stmt_bind_param($commentStmt, "ss", $studentMatNr["matnr"], $title_short);
+                if (mysqli_stmt_execute($commentStmt)) {
+                    $commentResult = $commentStmt->get_result();
+                    while ($comment = $commentResult->fetch_assoc()) {
+                        $commentArray[] = $comment;
+                    }
+                }
+            }
+        }
+
+        //add comments to one string
+        foreach ($commentArray as $comment) {
+            $commentString = $commentString . " " . $comment["comment"];
+        }
+
+    }
 }
