@@ -2,8 +2,8 @@
 session_start();
 
 ////////////////////////////////////////////////////////////////
-/*Returns database link for mysqli usage*/
-/*Lukas Fink*/
+/// Returns database link for mysqli usage
+/// Lukas Fink
 function database_connect() {
     $databaseHost = "localhost";
     $databaseUser = "root";
@@ -19,8 +19,8 @@ function database_connect() {
 }
 
 ////////////////////////////////////////////////////////////////
-/*Escapes special characters to prevent Cross-Site-Scripting*/
-/*Lukas Fink*/
+/// Escapes special characters to prevent Cross-Site-Scripting
+/// Lukas Fink
 function escapeCharacters($string) {
     return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
 }
@@ -231,20 +231,16 @@ class utilities {
 }
 
 ////////////////////////////////////////////////////////////////
-/*Lukas Fink*/
-
+/// Lukas Fink
 class AnalysisHandler {
 
     private $answerArray = [];
 
     ////////////////////////////////////////////////////////////////
-    /*Lukas Fink*/
-    public function displayAllComments($title_short, $course_short) {
-        $studentArray = [];
-        $commentArray = [];
-        $commentString = "";
-
-        //select students from course
+    /// Selects students from course
+    /// Lukas Fink
+    public function getStudentsFromCourse($course_short) {
+        $studentsArray = [];
         $studentSQL = "SELECT matnr FROM student WHERE course_short = ?";
         $studentStmt = mysqli_stmt_init(database_connect());
 
@@ -257,18 +253,85 @@ class AnalysisHandler {
                 while ($matNr = $studentResult->fetch_assoc()) {
                     $studentArray[] = $matNr;
                 }
+                return $studentsArray;
+            }
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////
+    ///
+    /// Lukas Fink
+    public function getStandardDeviation() {
+
+    }
+
+    ////////////////////////////////////////////////////////////////
+    ///
+    /// Lukas Fink
+    public function getAnswerValues($title_short, $course_short) {
+        $questionsArray = [];
+        $answerArray = [];
+
+        $questionsSql = "SELECT id, question_text FROM question WHERE title_short = ?";
+        $questionsStmt = mysqli_stmt_init(database_connect());
+
+        if (!mysqli_stmt_prepare($questionsStmt, $questionsSql)) {
+            echo "SQL statement failed";
+        } else {
+            mysqli_stmt_bind_param($questionsStmt, "s", $title_short);
+            if (mysqli_stmt_execute($questionsStmt)) {
+                $questionsResult = $questionsStmt->get_result();
+                while ($question = $questionsResult->fetch_assoc()) {
+                    $questionsArray[] = $question;
+                }
             }
         }
 
-        //get all comments with the students matnr array
-        foreach ($studentArray as $studentMatNr) {
+        foreach ($questionsArray as $question) {
+            $answerSql = "SELECT answer
+                        FROM question,
+                             question_answer
+                        WHERE question.id = question_answer.id
+                          AND question.id = ?
+                          AND title_short = ?
+                          AND question_answer.matnr IN
+                              (SELECT student.matnr from student where course_short = ?)";
+            $answerStmt = mysqli_stmt_init(database_connect());
+            if (!mysqli_stmt_prepare($answerStmt, $answerSql)) {
+                echo "SQL statement failed";
+            } else {
+                mysqli_stmt_bind_param($answerStmt, "sss", $question["id"], $title_short, $course_short);
+                if (mysqli_stmt_execute($answerStmt)) {
+                    $answerResult = $answerStmt->get_result();
+                    while ($answer = $answerResult->fetch_assoc()) {
+                        $answerArray[] = $answer;
+                    }
+
+
+                }
+            }
+        }
+
+    }
+
+    ////////////////////////////////////////////////////////////////
+    ///
+    /// Lukas Fink
+    public function displayAllComments($title_short, $course_short) {
+        $commentString = "";
+
+        // Select students from course
+        $studentsArray = getStudentsFromCourse($course_short);
+
+        // Get all comments with the students matnr array
+        foreach ($studentsArray as $student) {
             $commentSql = "SELECT comment FROM survey_commented WHERE matnr = ? AND title_short = ?";
             $commentStmt = mysqli_stmt_init(database_connect());
 
             if (!mysqli_stmt_prepare($commentStmt, $commentSql)) {
                 echo "SQL statement failed";
             } else {
-                mysqli_stmt_bind_param($commentStmt, "ss", $studentMatNr["matnr"], $title_short);
+                mysqli_stmt_bind_param($commentStmt, "ss", $student["matnr"], $title_short);
                 if (mysqli_stmt_execute($commentStmt)) {
                     $commentResult = $commentStmt->get_result();
                     while ($comment = $commentResult->fetch_assoc()) {
@@ -280,3 +343,6 @@ class AnalysisHandler {
         echo escapeCharacters($commentString);
     }
 }
+
+$analysisHandler = new AnalysisHandler();
+$analysisHandler->getAnswerValues("test1", "WWI118");
