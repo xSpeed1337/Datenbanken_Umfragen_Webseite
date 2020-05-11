@@ -2,6 +2,11 @@
 
 /*Gesamtes Dokument: Elena Deckert*/
 
+/*Nachdem der Studierende auf der Seite MySurveys_Student.php die Beantwortung eines Fragebogens gestartet hat,
+wird der Fragebogentitel sowie die einzelnen Fragen die im Fragebogen enthalten sind generiert. Wurde eine Frage
+bereits beantwortet, wird diese mit dem in der DB hinterlegten Wert vorbelegt. Alle Funktionen, die für die Generierung
+der Seite benötigt werden, sind in der Datei Utilities.php hinterlegt. */
+
 include_once "../../php-scripts/Utilities.php";
 $obj = new utilities();
 ?>
