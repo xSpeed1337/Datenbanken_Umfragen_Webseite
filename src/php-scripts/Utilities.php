@@ -259,19 +259,24 @@ class AnalysisHandler {
     }
 
     ////////////////////////////////////////////////////////////////
-    ///
+    /// Function to calculate standard deviation (uses sd_square)
     /// Lukas Fink
-    public function getStandardDeviation() {
+    public function calcStandardDeviation($array) {
+        $size = count($array);
+        $mean = array_sum($array) / $size;
+        $squares = array_map(function ($x) use ($mean) {
+            return pow($x - $mean, 2);
+        }, $array);
 
+        return sqrt(array_sum($squares) / ($size - 1));
     }
 
     ////////////////////////////////////////////////////////////////
     ///
     /// Lukas Fink
-    public function getAnswerValues($title_short, $course_short) {
+    public function getAllAnswerValues($title_short, $course_short) {
         $questionsArray = [];
-        $answerArray = [];
-
+        $questionAnswerArray = [];
         $questionsSql = "SELECT id, question_text FROM question WHERE title_short = ?";
         $questionsStmt = mysqli_stmt_init(database_connect());
 
@@ -286,7 +291,7 @@ class AnalysisHandler {
                 }
             }
         }
-
+        $answerArrayRow = 0;
         foreach ($questionsArray as $question) {
             $answerSql = "SELECT answer
                         FROM question,
@@ -302,16 +307,26 @@ class AnalysisHandler {
             } else {
                 mysqli_stmt_bind_param($answerStmt, "sss", $question["id"], $title_short, $course_short);
                 if (mysqli_stmt_execute($answerStmt)) {
-                    $answerResult = $answerStmt->get_result();
-                    while ($answer = $answerResult->fetch_assoc()) {
-                        $answerArray[] = $answer;
+                    $answerStmt->bind_result($answer);
+                    while ($answerStmt->fetch()) {
+                        $questionAnswerArray[] = $answer;
                     }
-
-
                 }
             }
-        }
+            if (count($questionAnswerArray) > 0) {
+                $answerArray[$answerArrayRow]["questionId"] = $answerArrayRow + 1;
+                $answerArray[$answerArrayRow]["question"] = $question["question_text"];
+                $answerArray[$answerArrayRow]["averageValue"] = (array_sum($questionAnswerArray)) / count($questionAnswerArray);
+                $answerArray[$answerArrayRow]["minValue"] = min($questionAnswerArray);
+                $answerArray[$answerArrayRow]["maxValue"] = max($questionAnswerArray);
+                $answerArray[$answerArrayRow]["standardDeviation"] = $this->calcStandardDeviation($questionAnswerArray);
 
+                $answerArrayRow++;
+            } else {
+                echo "No answered questions found for" . $title_short;
+            }
+        }
+        $this->answerArray = $answerArray;
     }
 
     ////////////////////////////////////////////////////////////////
@@ -345,4 +360,4 @@ class AnalysisHandler {
 }
 
 $analysisHandler = new AnalysisHandler();
-$analysisHandler->getAnswerValues("test1", "WWI118");
+$analysisHandler->getAllAnswerValues("test1", "WWI118");
