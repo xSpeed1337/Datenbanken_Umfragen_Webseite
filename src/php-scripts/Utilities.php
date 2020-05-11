@@ -237,28 +237,6 @@ class AnalysisHandler {
     private $answerArray = [];
 
     ////////////////////////////////////////////////////////////////
-    /// Selects students from course
-    /// Lukas Fink
-    public function getStudentsFromCourse($course_short) {
-        $studentsArray = [];
-        $studentSQL = "SELECT matnr FROM student WHERE course_short = ?";
-        $studentStmt = mysqli_stmt_init(database_connect());
-
-        if (!mysqli_stmt_prepare($studentStmt, $studentSQL)) {
-            echo "SQL statement failed";
-        } else {
-            mysqli_stmt_bind_param($studentStmt, "s", $course_short);
-            if (mysqli_stmt_execute($studentStmt)) {
-                $studentResult = $studentStmt->get_result();
-                while ($matNr = $studentResult->fetch_assoc()) {
-                    $studentArray[] = $matNr;
-                }
-                return $studentsArray;
-            }
-        }
-    }
-
-    ////////////////////////////////////////////////////////////////
     /// Function to calculate standard deviation (uses sd_square)
     /// Lukas Fink
     public function calcStandardDeviation($array) {
@@ -267,14 +245,13 @@ class AnalysisHandler {
         $squares = array_map(function ($x) use ($mean) {
             return pow($x - $mean, 2);
         }, $array);
-
         return sqrt(array_sum($squares) / ($size - 1));
     }
 
     ////////////////////////////////////////////////////////////////
     ///
     /// Lukas Fink
-    public function getAllAnswerValues($title_short, $course_short) {
+    public function getAllAnswer($title_short, $course_short) {
         $questionsArray = [];
         $questionAnswerArray = [];
         $questionsSql = "SELECT id, question_text FROM question WHERE title_short = ?";
@@ -314,7 +291,6 @@ class AnalysisHandler {
                 }
             }
             if (count($questionAnswerArray) > 0) {
-                $answerArray[$answerArrayRow]["questionId"] = $answerArrayRow + 1;
                 $answerArray[$answerArrayRow]["question"] = $question["question_text"];
                 $answerArray[$answerArrayRow]["averageValue"] = (array_sum($questionAnswerArray)) / count($questionAnswerArray);
                 $answerArray[$answerArrayRow]["minValue"] = min($questionAnswerArray);
@@ -330,34 +306,31 @@ class AnalysisHandler {
     }
 
     ////////////////////////////////////////////////////////////////
-    ///
+    /// Function to calculate standard deviation (uses sd_square)
     /// Lukas Fink
-    public function displayAllComments($title_short, $course_short) {
+    public function getAnswerValue($question) {
+        return escapeCharacters(implode(" | ", $this->answerArray[$question]));
+    }
+
+    ////////////////////////////////////////////////////////////////
+    /// Gets all comments from one survey and puts them into a string separated with spaces
+    /// Lukas Fink
+    public function displayAllComments($title_short) {
         $commentString = "";
+        $commentSql = "SELECT comment FROM survey_commented WHERE title_short = ?";
+        $commentStmt = mysqli_stmt_init(database_connect());
 
-        // Select students from course
-        $studentsArray = getStudentsFromCourse($course_short);
-
-        // Get all comments with the students matnr array
-        foreach ($studentsArray as $student) {
-            $commentSql = "SELECT comment FROM survey_commented WHERE matnr = ? AND title_short = ?";
-            $commentStmt = mysqli_stmt_init(database_connect());
-
-            if (!mysqli_stmt_prepare($commentStmt, $commentSql)) {
-                echo "SQL statement failed";
-            } else {
-                mysqli_stmt_bind_param($commentStmt, "ss", $student["matnr"], $title_short);
-                if (mysqli_stmt_execute($commentStmt)) {
-                    $commentResult = $commentStmt->get_result();
-                    while ($comment = $commentResult->fetch_assoc()) {
-                        $commentString = $commentString . " " . $comment["comment"];
-                    }
+        if (!mysqli_stmt_prepare($commentStmt, $commentSql)) {
+            echo "SQL statement failed";
+        } else {
+            mysqli_stmt_bind_param($commentStmt, "s", $title_short);
+            if (mysqli_stmt_execute($commentStmt)) {
+                $commentResult = $commentStmt->get_result();
+                while ($comment = $commentResult->fetch_assoc()) {
+                    $commentString = $commentString . " " . $comment["comment"];
                 }
             }
         }
         echo escapeCharacters($commentString);
     }
 }
-
-$analysisHandler = new AnalysisHandler();
-$analysisHandler->getAllAnswerValues("test1", "WWI118");
