@@ -79,13 +79,13 @@ VALUES ('test4', 'WWI117');
 
 -- Insert questions answered
 INSERT INTO question_answer
-VALUES ('1', '1111111', '5');
+VALUES ('1', '1111111', '4');
 INSERT INTO question_answer
-VALUES ('2', '1111111', '3');
+VALUES ('2', '1111111', '1');
 INSERT INTO question_answer
-VALUES ('1', '2222222', '3');
+VALUES ('1', '2222222', '2');
 INSERT INTO question_answer
-VALUES ('2', '3333333', '3');
+VALUES ('2', '3333333', '5');
 INSERT INTO question_answer
 VALUES ('3', '4444444', '5');
 INSERT INTO question_answer
