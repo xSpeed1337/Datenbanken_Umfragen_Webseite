@@ -1,6 +1,5 @@
 <?php
-
-session_start();
+require "../../php-scripts/Utilities.php";
 
 if (!isset($_SESSION['username'])) {
     header('Location: ../LoginPage.php');
@@ -19,17 +18,27 @@ if (!isset($_SESSION['username'])) {
 
 <h2>Fragebogen zuordnen</h2>
 
-<form method="POST">
+<form method="POST" action="../../php-scripts/CreateSurveyHandler.php">
     <table>
         <tr>
             <td>Kurs:</td>
-            <td style="padding-left: 20px">
-                <select name="Kurse">
-                    <option value="WWI118">WWI118</option>
-                    <option value="WWI218">WWI218</option>
-                    <option value="WWI318">WWI318</option>
-                    <option value="WWI117">WWI117</option>
-                    <option value="WWI217">WWI217</option>
+            <td style="padding-left: 10px">
+
+                <select required name='CourseShort'>
+                    <?php
+                    $sql = "SELECT * FROM course";
+                    $stmt = mysqli_stmt_init(database_connect());
+                    if (!mysqli_stmt_prepare($stmt, $sql)) {
+                        echo "SQL statement failed";
+                    } else {
+                        mysqli_stmt_execute($stmt);
+                        $results = mysqli_stmt_get_result($stmt);
+
+                        foreach ($results as $course) {
+                            echo "<option value=\"" . $course['course_short'] . "\">" . $course['course_short'] . " " . $course['course_name'] . "</option>";
+                        }
+                    }
+                    ?>
                 </select>
             </td>
 
@@ -43,7 +52,7 @@ if (!isset($_SESSION['username'])) {
                 <button type="submit" name="Quit">Abbrechen</button>
             </td>
             <td>
-                <button type="submit" name="SaveCourse">Fertigstellen</button>
+                <button type="submit" name="Finish">Fertigstellen</button>
             </td>
         </tr>
     </table>
