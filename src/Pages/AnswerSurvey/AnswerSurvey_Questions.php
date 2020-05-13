@@ -118,8 +118,21 @@ echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
                 Vorherige Frage
             </button>
 
-            <button type="submit" name="<?=$_SESSION ['CurrentQuestion'] == $_SESSION['NumberOfQuestions'] ? "Next" : "NextQuestion"?>">
-                <?=$_SESSION ['CurrentQuestion'] == $_SESSION['NumberOfQuestions'] ? "Weiter" : "Nächste Frage"?>
+            <button type="submit" name="<?php if($_SESSION ['CurrentQuestion'] == $_SESSION['NumberOfQuestions']){
+                echo "Next";
+            }else{
+                echo "NextQuestion";
+            }
+            ?>">
+             <?php if($_SESSION ['CurrentQuestion'] == $_SESSION['NumberOfQuestions']){
+                 echo "Weiter";
+
+                 }else{
+                 echo "Nächste Frage";
+             }
+
+             ?>
+
             </button>
         </td>
     </tr>
