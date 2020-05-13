@@ -9,6 +9,12 @@ der Seite benötigt werden, sind in der Datei Utilities.php hinterlegt. */
 
 include_once "../../php-scripts/Utilities.php";
 $obj = new utilities();
+
+if(!isset($_SESSION['Matrikelnummer']) ) {
+    header('Location: ../LoginPage.php');
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -70,7 +76,7 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
 
 }elseif(isset($_POST["Next"]) == true) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
-    header('Location: AnswerSurvey_Comment.php');
+    header('Location: ./AnswerSurvey_Comment.php');
 } else {
     $_SESSION["Questions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
     $_SESSION["NumberOfQuestions"] = count($_SESSION["Questions"]);

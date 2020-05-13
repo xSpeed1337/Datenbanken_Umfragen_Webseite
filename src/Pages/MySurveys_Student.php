@@ -10,6 +10,11 @@ Beantwortung des Fragebogens beginnen kann.*/
 
 include_once "../php-scripts/Utilities.php";
 $obj = new utilities();
+
+if(!isset($_SESSION['Matrikelnummer']) ) {
+    header('Location: ./LoginPage.php');
+}
+
 ?>
 
 <!DOCTYPE html>

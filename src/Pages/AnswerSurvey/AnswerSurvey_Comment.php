@@ -11,6 +11,10 @@ die Tabelle survey_finished eingetragen und der Studierende wird zurück zum Hau
 
 include_once "../../php-scripts/Utilities.php";
 $obj = new utilities();
+
+if(!isset($_SESSION['Matrikelnummer']) ) {
+    header('Location: ../LoginPage.php');
+}
 ?>
 
 <!DOCTYPE html>
