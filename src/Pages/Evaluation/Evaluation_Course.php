@@ -1,5 +1,4 @@
 <?php
-
 session_start();
 
 if (!isset($_SESSION['username'])) {
@@ -16,22 +15,18 @@ if (!isset($_SESSION['username'])) {
     <title>Fragebogen auswerten</title>
 </head>
 <body>
-
 <div>
-
     <h2>Auswertung</h2>
-
-    <form method="POST"/>
+    <form method="POST" action="Evaluation_Questions.php"/>
     <table>
         <tr>
             <td style="padding-right:20px">Titel:</td>
             <td style="padding-right:20px">...Titel Fragebogen...</td>
         </tr>
-
         <tr>
             <td>Kurs auswählen:</td>
             <td style="padding-left: 20px">
-                <select name="Kurse">
+                <select name="CourseShort">
                     <option value="WWI118">WWI118</option>
                     <option value="WWI218">WWI218</option>
                     <option value="WWI318">WWI318</option>
@@ -40,14 +35,12 @@ if (!isset($_SESSION['username'])) {
                 </select>
             </td>
         </tr>
-
         <tr style="height:80px">
             <td>
                 <button type="submit" name="Quit">Abbrechen</button>
                 <button type="submit" name="Continue">Weiter</button>
             </td>
         </tr>
-
     </table>
     </form>
 </div>
