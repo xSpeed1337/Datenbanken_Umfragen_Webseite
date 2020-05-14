@@ -257,6 +257,7 @@ class AnalysisHandler {
         $questionsSql = "SELECT id, question_text FROM question WHERE title_short = ?";
         $questionsStmt = mysqli_stmt_init(database_connect());
 
+        // get all questions from survey to create the answerArray
         if (!mysqli_stmt_prepare($questionsStmt, $questionsSql)) {
             echo "SQL statement failed";
         } else {
@@ -268,8 +269,11 @@ class AnalysisHandler {
                 }
             }
         }
+
+        // for each question a entry in the answerArray is created
         $answerArrayRow = 0;
         foreach ($questionsArray as $question) {
+            // get all answers from one question
             $answerSql = "SELECT answer
                         FROM question,
                              question_answer
@@ -290,6 +294,7 @@ class AnalysisHandler {
                     }
                 }
             }
+            // create answer entry in answerArray for one question
             if (count($questionAnswerArray) > 0) {
                 $answerArray[$answerArrayRow]["question"] = $question["question_text"];
                 $answerArray[$answerArrayRow]["averageValue"] = (array_sum($questionAnswerArray)) / count($questionAnswerArray);
@@ -315,15 +320,20 @@ class AnalysisHandler {
     ////////////////////////////////////////////////////////////////
     /// Gets all comments from one survey and puts them into a string separated with spaces
     /// Lukas Fink
-    public function displayAllComments($title_short) {
+    public function displayAllComments($title_short, $course_short) {
         $commentString = "";
-        $commentSql = "SELECT comment FROM survey_commented WHERE title_short = ?";
+        $commentSql = "SELECT comment
+                        FROM survey_commented sc,
+                             student s
+                        WHERE sc.title_short = ?
+                          AND sc.matnr = s.matnr
+                          AND s.course_short = ?";
         $commentStmt = mysqli_stmt_init(database_connect());
 
         if (!mysqli_stmt_prepare($commentStmt, $commentSql)) {
             echo "SQL statement failed";
         } else {
-            mysqli_stmt_bind_param($commentStmt, "s", $title_short);
+            mysqli_stmt_bind_param($commentStmt, "ss", $title_short, $course_short);
             if (mysqli_stmt_execute($commentStmt)) {
                 $commentResult = $commentStmt->get_result();
                 while ($comment = $commentResult->fetch_assoc()) {
