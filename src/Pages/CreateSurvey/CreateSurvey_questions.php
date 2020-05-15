@@ -19,19 +19,11 @@ if (!isset($_SESSION['username'])) {
 
 <h2>Fragebogen anlegen</h2>
 
-<form method="POST">
+<form method="POST" action="../../php-scripts/CreateSurveyHandler.php">
 
     <table>
         <tr>
-            <td>Frage 1:</td>
-            <td style="padding-left: 20px"><input type="text" name="Question"/></td>
-        </tr>
-        <tr>
-            <td>Frage 2:</td>
-            <td style="padding-left: 20px"><input type="text" name="Question"/></td>
-        </tr>
-        <tr>
-            <td>Frage 3:</td>
+            <td>Frage:</td>
             <td style="padding-left: 20px"><input type="text" name="Question"/></td>
         </tr>
 
@@ -40,7 +32,10 @@ if (!isset($_SESSION['username'])) {
                 <button type="submit" name="Back">Zurück</button>
             </td>
             <td>
-                <button type="submit" name="Continue">Weiter</button>
+                <button type="submit" name="NewQuestion">Frage hinzufügen</button>
+            </td>
+            <td>
+                <button type="submit" name="Continue2">Weiter</button>
             </td>
         </tr>
 

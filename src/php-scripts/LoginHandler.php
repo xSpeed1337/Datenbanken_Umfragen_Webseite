@@ -1,13 +1,17 @@
 <?php
 require "Utilities.php";
 
-class LoginHandler {
+////////////////////////////////////////////////////////////////
+/// registration surveyor, login surveyor, login student
+/// Antonia Gabriel
 
+class LoginHandler {
 
     public function register() {
 
         if (empty($_POST["username"]) || empty($_POST["password"])) {
-            alert("Both fields are required");
+            //display error message
+            alert("Please fill in both fields to register successfully.");
         } else {
             $username = $_POST["username"];
             $password = $_POST["password"];
@@ -20,7 +24,7 @@ class LoginHandler {
             } else {
                 mysqli_stmt_bind_param($stmt, "ss", $username, $password);
                 if (mysqli_stmt_execute($stmt)) {
-                    alert("Registration successful");
+                    alert("The registration was successful. Please login to get further.");
                 } else {
                     alert("Registration not successful");
                 };
@@ -86,12 +90,12 @@ function alert($message) {
     echo "<script>alert('$message'); window.location.href='../Pages/LoginPage.php';</script>";
 }
 
-$h = new LoginHandler();
+$login_handler = new LoginHandler();
 
 if (isset($_POST["register"])) {
-    $h->register();
+    $login_handler->register();
 } elseif (isset($_POST["loginInter"])) {
-    $h->loginSurveyor();
+    $login_handler->loginSurveyor();
 } elseif (isset($_POST["loginStudent"])) {
-    $h->loginStudent();
+    $login_handler->loginStudent();
 }
