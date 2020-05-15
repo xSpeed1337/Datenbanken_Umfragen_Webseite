@@ -27,15 +27,15 @@ VALUES ('4', 'Fourth Test Survey', 'Antonia');
 INSERT INTO question(question_text, title_short)
 VALUES ('Wie ist die Test Survey 1?', '1');
 INSERT INTO question(question_text, title_short)
-VALUES ('Wie wars?', 'test1');
+VALUES ('Wie wars?', '1');
 INSERT INTO question(question_text, title_short)
 VALUES ('Wie ist die Test Survey 2?', '2');
 INSERT INTO question(question_text, title_short)
-VALUES ('Wie wars?', 'test2');
+VALUES ('Wie wars?', '2');
 INSERT INTO question(question_text, title_short)
 VALUES ('Wie ist die Test Survey 3?', '3');
 INSERT INTO question(question_text, title_short)
-VALUES ('Wie wars?', 'test3');
+VALUES ('Wie wars?', '3');
 INSERT INTO question(question_text, title_short)
 VALUES ('Wie ist die Test Survey 4?', '4');
 INSERT INTO question(question_text, title_short)
