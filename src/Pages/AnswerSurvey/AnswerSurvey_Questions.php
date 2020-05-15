@@ -2,8 +2,19 @@
 
 /*Gesamtes Dokument: Elena Deckert*/
 
+/*Nachdem der Studierende auf der Seite MySurveys_Student.php die Beantwortung eines Fragebogens gestartet hat,
+wird der Fragebogentitel sowie die einzelnen Fragen die im Fragebogen enthalten sind generiert. Wurde eine Frage
+bereits beantwortet, wird diese mit dem in der DB hinterlegten Wert vorbelegt. Alle Funktionen, die für die Generierung
+der Seite benötigt werden, sind in der Datei Utilities.php hinterlegt. */
+
 include_once "../../php-scripts/Utilities.php";
 $obj = new utilities();
+
+if(!isset($_SESSION['Matrikelnummer']) ) {
+    header('Location: ../LoginPage.php');
+}
+
+
 ?>
 
 <!DOCTYPE html>
@@ -65,7 +76,7 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
 
 }elseif(isset($_POST["Next"]) == true) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
-    header('Location: AnswerSurvey_Comment.php');
+    header('Location: ./AnswerSurvey_Comment.php');
 } else {
     $_SESSION["Questions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
     $_SESSION["NumberOfQuestions"] = count($_SESSION["Questions"]);
@@ -107,8 +118,21 @@ echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
                 Vorherige Frage
             </button>
 
-            <button type="submit" name="<?=$_SESSION ['CurrentQuestion'] == $_SESSION['NumberOfQuestions'] ? "Next" : "NextQuestion"?>">
-                <?=$_SESSION ['CurrentQuestion'] == $_SESSION['NumberOfQuestions'] ? "Weiter" : "Nächste Frage"?>
+            <button type="submit" name="<?php if($_SESSION ['CurrentQuestion'] == $_SESSION['NumberOfQuestions']){
+                echo "Next";
+            }else{
+                echo "NextQuestion";
+            }
+            ?>">
+             <?php if($_SESSION ['CurrentQuestion'] == $_SESSION['NumberOfQuestions']){
+                 echo "Weiter";
+
+                 }else{
+                 echo "Nächste Frage";
+             }
+
+             ?>
+
             </button>
         </td>
     </tr>

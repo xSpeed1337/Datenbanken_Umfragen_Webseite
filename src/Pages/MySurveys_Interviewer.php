@@ -1,14 +1,15 @@
 <?php
-session_start();
+
+include_once "../php-scripts/Utilities.php";
 
 if (!isset($_SESSION['username'])) {
-    header('Location: LoginPage.php');
+    header('Location: login.php');
     exit();
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,71 +20,60 @@ if (!isset($_SESSION['username'])) {
 
 <h2>Online-Bewertungsumfragen</h2>
 
-<form method="GET" action="CreateSurvey/CreateSurvey_course.php">
-    <button type="submit">Fragebogen anlegen</button>
+<form method="GET" action="../php-scripts/CreateSurveyHandler.php">
+    <button type="submit" name="CreateFB">Fragebogen anlegen</button>
 </form>
 
-<form method="GET" action="CreateCourse/CreateCourse_Description.php">
-    <button type="submit">Kurs anlegen</button>
+<form method="GET" action="CreateCourse/CreateCourse_description.php">
+    <button type="submit" name="CreateCourse">Kurs anlegen</button>
 </form>
 
-<form method="GET" action="CreateCourse/CreateCourse_Students.php">
-    <button type="submit">Student anlegen</button>
-</form>
 
-<form method="GET" action="EditCourse/EditCourse_Description.php">
-    <button type="submit">Kurs bearbeiten</button>
-</form>
-
-<form method="GET" action="EditCourse/EditCourse_Students.php">
-    <button type="submit">Student bearbeiten</button>
-</form>
-
-<form method="POST">
     <div>
         <h4>Meine Fragebögen</h4>
-        <table>
-            <tr>
-                <td style="padding-right:20px">FB_Kürzel</td>
-                <td style="padding-right:20px">FB Bezeichnung</td>
-                <td>
-                    <button type="submit" name="CopyFB">Kopieren</button>
-                </td>
-                <td>
-                    <button type="submit" name="EditFB">Bearbeiten</button>
-                </td>
-                <td>
-                    <button type="submit" name="DeleteFB">Löschen</button>
-                </td>
-                <td>
-                    <button type="submit" name="AuthorizeCourse">Kurs zuweisen</button>
-                </td>
-                <td style="padding-left:20px">
-                    <button type="submit" name="Evaluation"><b>Auswerten</b></button>
-                </td>
-            </tr>
 
-            <tr>
-                <td style="padding-right:20px">FB_Kürzel</td>
-                <td style="padding-right:20px">FB Bezeichnung</td>
-                <td>
-                    <button type="submit" name="CopyFB">Kopieren</button>
-                </td>
-                <td>
-                    <button type="submit" name="EditFB">Bearbeiten</button>
-                </td>
-                <td>
-                    <button type="submit" name="DeleteFB">Löschen</button>
-                </td>
-                <td>
-                    <button type="submit" name="AuthorizeCourse">Kurs zuweisen</button>
-                </td>
-                <td style="padding-left:20px">
-                    <button type="submit" name="Evaluation"><b>Auswerten</b></button>
-                </td>
-            </tr>
+        <table>
+            <?php
+                $sql = "SELECT * FROM survey where username = ?";
+                $stmt = mysqli_stmt_init(database_connect());
+                if (!mysqli_stmt_prepare($stmt, $sql)) {
+                    echo "SQL statement failed";
+                } else {
+                    mysqli_stmt_bind_param($stmt, "s", $_SESSION['username']);
+                    mysqli_stmt_execute($stmt);
+                    $results = mysqli_stmt_get_result($stmt);
+
+                    foreach ($results as $survey) {
+                        echo
+                            "<tr>
+                                <form method='POST' action='../php-scripts/EditSurveyHandler.php'>
+                                    <td style='padding-right:20px'>". $survey['title_short']."</td>
+                                    <td style='padding-right:20px'>". $survey['title']."</td>
+                                    <td><button type='submit' name='EditFB' value='". $survey['title_short']."'>Bearbeiten</button>
+                                    <td><button type='submit' name='CopyFB'>Kopieren</button>
+                                    <td><button type='submit' name='DeleteFB' value='". $survey['title_short']."'>Löschen</button> 
+                                </form>   
+                                <form method='POST' action='../php-scripts/CreateSurveyHandler.php'> 
+                                    <td><button type='submit' name='AssignCourse' value='". $survey['title_short']."'>Kurs zuteilen</button> 
+                                </form>  
+                            </tr>";
+                    }
+                }
+            ?>
+
         </table>
     </div>
+
+
+</br></br></br>
+
+<form method="GET" action="../Pages/LoginPage.php">
+    <button type="submit" name="logout">Abmelden</button>
+<!--    --><?php
+//    session_destroy();
+//    ?>
 </form>
+
+
 </body>
 </html>

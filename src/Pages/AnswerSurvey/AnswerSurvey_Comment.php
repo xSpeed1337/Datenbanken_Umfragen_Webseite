@@ -2,8 +2,19 @@
 
 /*Gesamtes Dokument: Elena Deckert*/
 
+/*Sobald in der AnswerSurvey_Questions.php die letzte Frage zum Fragebogen erreicht wurde, wird ein "Weiter"-Button
+eingeblendet. Durch einen Klick auf diesen Button wird der Studierende zur Seite AnswerSurvey_Comment.php weitergeleitet.
+Hier wird wie in der AnswerSurvey_Questions.php der Fragebogentitel generiert. Zudem wird ein Kommentarfeld generiert,
+in dem der Studierende optional ein Kommentar zum Fragebogen hinterlassen kann. Falls auf der DB bereits ein Kommentar
+hinterlegt wurde, wird dieses vorbelegt. Durch einen Klick auf den Button "Umfrage abschließen* wird der Fragebogen in
+die Tabelle survey_finished eingetragen und der Studierende wird zurück zum Hauptmenü weitergeleitet.*/
+
 include_once "../../php-scripts/Utilities.php";
 $obj = new utilities();
+
+if(!isset($_SESSION['Matrikelnummer']) ) {
+    header('Location: ../LoginPage.php');
+}
 ?>
 
 <!DOCTYPE html>

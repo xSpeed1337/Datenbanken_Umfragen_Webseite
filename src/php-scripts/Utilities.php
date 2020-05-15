@@ -1,6 +1,8 @@
 <?php
 session_start();
 
+/*Die Klasse utilities enthält alle zentralen Funktionen der Datenbankanwendung*/
+
 ////////////////////////////////////////////////////////////////
 /// Returns database link for mysqli usage
 /// Lukas Fink
