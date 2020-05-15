@@ -10,7 +10,7 @@ hinterlegt wurde, wird dieses vorbelegt. Durch einen Klick auf den Button "Umfra
 die Tabelle survey_finished eingetragen und der Studierende wird zurück zum Hauptmenü weitergeleitet.*/
 
 include_once "../../php-scripts/Utilities.php";
-$obj = new utilities();
+$obj = new AnswerSurveyHandler();
 
 if(!isset($_SESSION['Matrikelnummer']) ) {
     header('Location: ../LoginPage.php');
