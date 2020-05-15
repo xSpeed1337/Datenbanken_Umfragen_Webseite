@@ -20,6 +20,14 @@ function database_connect() {
     return $databaseLink;
 }
 
+////////////////////////////////////////////////////////////////
+/// Escapes special characters to prevent Cross-Site-Scripting
+/// Lukas Fink
+function escapeCharacters($string) {
+    return htmlspecialchars($string, ENT_QUOTES, 'UTF-8');
+}
+
+
 class utilities {
 
     function __construct() {
@@ -217,16 +225,8 @@ class utilities {
             mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
             mysqli_stmt_execute($cmd);
 
-           header('Location: ../MySurveys_Student.php');
+            header('Location: ../MySurveys_Student.php');
 
         }
     }
-
-    ////////////////////////////////////////////////////////////////
-    /// Lukas Fink
-    public function analysis() {
-
-    }
-
-
 }

@@ -6,7 +6,7 @@ CREATE SCHEMA IF NOT EXISTS Survey_Site_Database DEFAULT CHARACTER SET utf8;
 USE Survey_Site_Database;
 
 -- Umfrager-Tabelle
--- @author
+-- @author Elena Deckert
 
 DROP TABLE IF EXISTS surveyor;
 CREATE TABLE surveyor
@@ -16,7 +16,7 @@ CREATE TABLE surveyor
 );
 
 -- Umfragen-Tabelle
--- @author
+-- @author Elena Deckert
 
 DROP TABLE IF EXISTS survey;
 CREATE TABLE survey
@@ -31,7 +31,7 @@ CREATE TABLE survey
 );
 
 -- Frage-Tabelle
--- @author
+-- @author Elena Deckert
 
 DROP TABLE IF EXISTS question;
 CREATE TABLE question
@@ -46,7 +46,7 @@ CREATE TABLE question
 );
 
 -- Kurs-Tabelle
--- @author
+-- @author Antonia Gabriel
 
 DROP TABLE IF EXISTS course;
 CREATE TABLE course
@@ -56,7 +56,7 @@ CREATE TABLE course
 );
 
 -- Studenten-Tabelle
--- @author
+-- @author Antonia Gabriel
 
 DROP TABLE IF EXISTS student;
 CREATE TABLE student
@@ -72,7 +72,7 @@ CREATE TABLE student
 );
 
 -- "Kurs berechtigt für Umfrage"-Tabelle
--- @author
+-- @author Antonia Gabriel
 
 DROP TABLE IF EXISTS survey_assigned_course;
 CREATE TABLE survey_assigned_course
@@ -91,7 +91,7 @@ CREATE TABLE survey_assigned_course
 );
 
 -- "beantwortete Frage"-Tabelle
--- @author
+-- @author Elena Deckert
 
 DROP TABLE IF EXISTS question_answer;
 CREATE TABLE question_answer
@@ -111,7 +111,7 @@ CREATE TABLE question_answer
 );
 
 -- "Umfragestatus"-Tabelle
--- @author
+-- @author Lukas Fink
 
 DROP TABLE IF EXISTS survey_finished;
 CREATE TABLE survey_finished
@@ -130,7 +130,7 @@ CREATE TABLE survey_finished
 );
 
 -- "kommentiert Umfrage"-Tabelle
--- @author
+-- @author Lukas Fink
 
 DROP TABLE IF EXISTS survey_commented;
 CREATE TABLE survey_commented
@@ -148,33 +148,3 @@ CREATE TABLE survey_commented
             ON UPDATE CASCADE
             ON DELETE CASCADE
 );
-
--- Testdaten einfügen
--- @author Lukas Fink
-
-INSERT INTO surveyor
-VALUES ('Admin', '$2y$10$/F3UGuNq7FV21Je0lGroDefOS0xVhoywQbCj32Mxo7vIQLJLOIsgi');
-
-INSERT INTO survey
-VALUES ('1', 'Test Survey', 'Admin');
-
-INSERT INTO question(question_text, title_short)
-VALUES ('Wie ist die Test Survey?', '1');
-
-INSERT INTO course
-VALUES ('WWI118', 'Wirtschaftsinformatik 2018');
-
-INSERT INTO student
-VALUES ('1234567', 'Max', 'Mustermann', 'WWI118');
-
-INSERT INTO survey_assigned_course
-VALUES ('1', 'WWI118');
-
-INSERT INTO question_answer
-VALUES ('1', '1234567', '3');
-
-INSERT INTO survey_finished
-VALUES ('1', '1234567');
-
-INSERT INTO survey_commented
-VALUES ('1', '1234567', 'Umfrage war ganz ok');
