@@ -33,20 +33,20 @@ class CreateSurveyHandler extends utilities
         $question = $_POST["Question"];
 
         $sql1 = "SELECT title_short FROM survey where title = ? Limit 1";
-        $stmt = mysqli_stmt_init(database_connect());
-        if (!mysqli_stmt_prepare($stmt, $sql1)) {
-            echo "SQL statement failed1";
-        } else {
-            mysqli_stmt_bind_param($stmt, "s", $_SESSION['title']);
-            mysqli_stmt_execute($stmt);
-        }
-        $result = $stmt->get_result();
+            $stmt = mysqli_stmt_init(database_connect());
+            if (!mysqli_stmt_prepare($stmt, $sql1)) {
+                echo "SQL statement failed1";
+            } else {
+                mysqli_stmt_bind_param($stmt, "s", $_SESSION['title']);
+                mysqli_stmt_execute($stmt);
+            }
+            $result = $stmt->get_result();
 
-        if ($result->num_rows > 0) {
-            $row = mysqli_fetch_array($result);
-            echo "title_short: " . $row["title_short"];
-            $title_short = $row["title_short"];
-            $_SESSION['title_short'] = $title_short;
+            if ($result->num_rows > 0) {
+                $row = mysqli_fetch_array($result);
+                echo "title_short: " . $row["title_short"];
+                $title_short = $row["title_short"];
+                $_SESSION['title_short'] = $title_short;
 
         }
 
@@ -103,4 +103,7 @@ if (isset($_GET["CreateFB"])){
     header("Location: ../Pages/CreateSurvey/CreateSurvey_course.php");
 }elseif (isset($_POST["AuthorizeCourse"])){
     $createSurvey_handler->assignCourse();
+}elseif (isset($_POST["AssignCourse"])){
+    $_SESSION['title_short']=$_POST["AssignCourse"];
+    header("Location: ../Pages/CreateSurvey/CreateSurvey_course.php");
 }

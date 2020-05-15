@@ -47,15 +47,13 @@ if (!isset($_SESSION['username'])) {
             </td>
         </tr>
 
-        <tr style="height:50px">
-            <td>
-                <button type="submit" name="Quit">Abbrechen</button>
-            </td>
-            <td>
-                <button type="submit" name="Finish">Fertigstellen</button>
-            </td>
-        </tr>
     </table>
 </form>
+
+<form method="GET" action="../MySurveys_Interviewer.php" >
+    <button type="submit" name="Quit">Abbrechen</button>
+    <button type="submit" name="Quit">Fertigstellen</button>
+</form>
+
 </body>
 </html>

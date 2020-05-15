@@ -32,7 +32,7 @@ if (!isset($_SESSION['username'])) {
                 <button type="submit" name="Back">Zurück</button>
             </td>
             <td>
-                <button type="submit" name="NewQuestion">Neue Frage</button>
+                <button type="submit" name="NewQuestion">Frage hinzufügen</button>
             </td>
             <td>
                 <button type="submit" name="Continue2">Weiter</button>
