@@ -19,7 +19,7 @@ if (!isset($_SESSION['username'])) {
 <?php
 if (!isset($evaluationHandler)) {
     $evaluationHandler = new EvaluationHandler("test1", "WWI118");
-    $evaluationHandler->getAllAnswers("test1", "WWI118");
+    $evaluationHandler->getAllAnswers();
 }
 
 if ((isset($_POST["PrevQuestion"]) == false) &&
@@ -65,7 +65,7 @@ if (isset($_POST["PrevQuestion"]) == true) {
                 Minimalwert: " . $answerValues["minValue"] . "<br>
                 Maximalwert: " . $answerValues["maxValue"] . "<br>
                 Standardabweichung: " . $answerValues["standardDeviation"] . "
-            </td>"
+                      </td>"
                 ?>
             </tr>
             <tr style="height:50px">
