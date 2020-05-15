@@ -8,7 +8,7 @@ bereits beantwortet, wird diese mit dem in der DB hinterlegten Wert vorbelegt. A
 der Seite benötigt werden, sind in der Datei Utilities.php hinterlegt. */
 
 include_once "../../php-scripts/Utilities.php";
-$obj = new utilities();
+$obj = new AnswerSurveyHandler();
 
 if(!isset($_SESSION['Matrikelnummer']) ) {
     header('Location: ../LoginPage.php');

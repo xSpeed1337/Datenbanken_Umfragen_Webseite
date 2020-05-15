@@ -9,7 +9,7 @@ in der Tabelle survey_finished steht. Zusätzlich wird ein Button generiert, mit
 Beantwortung des Fragebogens beginnen kann.*/
 
 include_once "../php-scripts/Utilities.php";
-$obj = new utilities();
+$obj = new AnswerSurveyHandler();
 
 if(!isset($_SESSION['Matrikelnummer']) ) {
     header('Location: ./LoginPage.php');

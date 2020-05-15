@@ -3,10 +3,9 @@
 //include_once "Utilities.php";
 require "Utilities.php";
 
-class CreateSurveyHandler extends utilities
-{
+class CreateSurveyHandler extends AnswerSurveyHandler {
 
-    public function createTitle(){
+    public function createTitle() {
 
         $title = $_POST["FBTitle"];
 
