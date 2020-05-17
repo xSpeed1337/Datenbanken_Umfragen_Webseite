@@ -8,7 +8,7 @@ Studierenden freigeschaltet sind und noch nicht abgeschlossen wurden (Die Frageb
 in der Tabelle survey_finished steht. Zusätzlich wird ein Button generiert, mit dem der Studierende die
 Beantwortung des Fragebogens beginnen kann.*/
 
-include_once "../php-scripts/Utilities.php";
+include_once "../php-scripts/AnswerSurveyHandler.php";
 $obj = new AnswerSurveyHandler();
 
 if(!isset($_SESSION['Matrikelnummer']) ) {

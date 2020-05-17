@@ -9,7 +9,7 @@ in dem der Studierende optional ein Kommentar zum Fragebogen hinterlassen kann. 
 hinterlegt wurde, wird dieses vorbelegt. Durch einen Klick auf den Button "Umfrage abschließen* wird der Fragebogen in
 die Tabelle survey_finished eingetragen und der Studierende wird zurück zum Hauptmenü weitergeleitet.*/
 
-include_once "../../php-scripts/Utilities.php";
+include_once "../../php-scripts/AnswerSurveyHandler.php";
 $obj = new AnswerSurveyHandler();
 
 if(!isset($_SESSION['Matrikelnummer']) ) {

@@ -7,7 +7,7 @@ wird der Fragebogentitel sowie die einzelnen Fragen die im Fragebogen enthalten 
 bereits beantwortet, wird diese mit dem in der DB hinterlegten Wert vorbelegt. Alle Funktionen, die für die Generierung
 der Seite benötigt werden, sind in der Datei Utilities.php hinterlegt. */
 
-include_once "../../php-scripts/Utilities.php";
+include_once "../../php-scripts/AnswerSurveyHandler.php";
 $obj = new AnswerSurveyHandler();
 
 if(!isset($_SESSION['Matrikelnummer']) ) {
@@ -31,10 +31,8 @@ if(!isset($_SESSION['Matrikelnummer']) ) {
 
 ////////////////////////////////////////////////////////////////
 
-
-
-
-/*Wird diese Seite zum ersten Mal aufgerufen?*/
+/*Prüft ob die Seite zum ersten Mal aufgerufen wird. Wenn ja, wird die Session-Variable "CurrentQuestion" auf
+1 gesetzt*/
 if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false) && (isset($_POST["BackToHP"]) == false) && (isset($_POST["Next"]) == false) && !(isset($_SESSION["LastPage"]) && $_SESSION["LastPage"] == "AnswerSurvey_Comment")){
     $_SESSION["CurrentQuestion"] = 1;
 
@@ -63,19 +61,27 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
 
     /*Speichern der Antworten in der Datenbank, sobald "Nächste Frage", "Vorherige Frage" oder "Zurück zum Hauptmenü" geklickt wurde*/
 } elseif(isset($_POST["PrevQuestion"]) == true) {
+    if (isset($_POST["Radio"])) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
+}
     $_SESSION["CurrentQuestion"]--;
 
 }elseif(isset($_POST["NextQuestion"]) == true) {
+    if (isset($_POST["Radio"])) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
+}
     $_SESSION ["CurrentQuestion"] ++;
 
 }elseif(isset($_POST["BackToHP"]) == true) {
-    $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
+    if (isset($_POST["Radio"])) {
+        $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
+    }
     header('Location: ../MySurveys_Student.php');
 
 }elseif(isset($_POST["Next"]) == true) {
+    if (isset($_POST["Radio"])) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
+}
     header('Location: ./AnswerSurvey_Comment.php');
 } else {
     $_SESSION["Questions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
