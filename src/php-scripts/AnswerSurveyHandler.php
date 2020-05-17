@@ -1,5 +1,11 @@
 <?php
 
+/*Gesamtes Dokument Elena Deckert*/
+
+/*Die Klasse AnswerSurveyHandler enthält alle Funktionen die für die Beantwortung der
+Fragebögen durch die Studierenden auf den Seiten "AnswerSurvey_Questions.php",
+"AnswerSurvey_Comment.php" und "MySurveys_Student.php" notwendig sind*/
+
 include "Utilities.php";
 
 class AnswerSurveyHandler {
@@ -9,7 +15,6 @@ class AnswerSurveyHandler {
     }
 
     ////////////////////////////////////////////////////////////////
-    /*Elena Deckert*/
     /*Generierung der Infos zu den Fragebögen, die einem Student zugeordnet sind
       (unter der Bedingung, dass der Fragebogen noch nicht abgeschlossen wurde) (in MySurveys_Student.php)*/
 
@@ -24,8 +29,8 @@ class AnswerSurveyHandler {
     }
 
     ////////////////////////////////////////////////////////////////
-    /*Elena Deckert*/
     /*Fragen und FrageID zum ausgewählten Fragebogen ermitteln */
+
     public function getQuestions($fb_short_title) {
 
         $cmd = mysqli_prepare($this->db, "SELECT * FROM question WHERE title_short = ? ");
@@ -49,8 +54,8 @@ class AnswerSurveyHandler {
     }
 
     ////////////////////////////////////////////////////////////////
-    /*Elena Deckert*/
     /*Antworten der Studenten speichern bzw. updaten, wenn schon eine Antwort gewählt wurde*/
+
     public function saveAnswer($answer, $questionID, $matnr) {
 
         $stmt = $this->db->prepare("SELECT id FROM question_answer WHERE id = ? AND matnr = ?");
@@ -78,8 +83,8 @@ class AnswerSurveyHandler {
     }
 
     ////////////////////////////////////////////////////////////////
-    /*Elena Deckert*/
     /*Vorbelegung der Radiobuttons, falls bereits eine Antwort in der Datenbank gespeichert ist*/
+
     public function getRadioButtons($questionID, $matnr) {
         $cmd = mysqli_prepare($this->db, "SELECT * FROM question_answer WHERE id = ? AND matnr = ?");
         mysqli_stmt_bind_param($cmd, "ii", $questionID, $matnr);
@@ -136,8 +141,8 @@ class AnswerSurveyHandler {
     }
 
     ////////////////////////////////////////////////////////////////
-    /*Elena Deckert*/
     /*Speichern bzw. Updaten des Kommentars*/
+
     public function saveComment($comment, $fb_short_title, $matnr) {
 
         $stmt = $this->db->prepare("SELECT * FROM survey_commented WHERE title_short = ? AND matnr = ?");
@@ -163,8 +168,8 @@ class AnswerSurveyHandler {
     }
 
     ////////////////////////////////////////////////////////////////
-    /*Elena Deckert*/
     /*Vorbelegen des Kommentars, falls bereits eins eingegeben wurde*/
+
     public function getComment($fb_short_title, $matnr) {
         $cmd = mysqli_prepare($this->db, "SELECT comment FROM survey_commented WHERE title_short = ? AND matnr = ?");
         mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
@@ -182,8 +187,8 @@ class AnswerSurveyHandler {
     }
 
     ////////////////////////////////////////////////////////////////
-    /*Elena Deckert*/
     /*Abschließen des Fragebogens*/
+
     public function finishSurvey($fb_short_title, $matnr) {
 
         $cmd = mysqli_prepare($this->db, "SELECT COUNT(*) AS anz_results FROM question_answer INNER JOIN question ON question_answer.id = question.id WHERE title_short = ? AND question_answer.matnr = ?");

@@ -11,6 +11,11 @@ Beantwortung des Fragebogens beginnen kann.*/
 include_once "../php-scripts/AnswerSurveyHandler.php";
 $obj = new AnswerSurveyHandler();
 
+
+////////////////////////////////////////////////////////////////
+/*Wird die Seite aufgerufen ohne das der Benutzer eingeloggt ist, wird er auf
+die Loginseite weitergeleitet*/
+
 if(!isset($_SESSION['Matrikelnummer']) ) {
     header('Location: ./LoginPage.php');
 }
@@ -32,11 +37,6 @@ if(!isset($_SESSION['Matrikelnummer']) ) {
     <h4>Meine Fragebögen</h4>
 
     <?php
-
-    ////////////////////////////////////////////////////////////////
-    /*Elena Deckert*/
-    /*Generieren der Fragebögen, die für den angemeldeten Studenten freigeschaltet sind
-      + Button um die Beantwortung des Fragebogens zu starten*/
 
     $surveys = $obj->getSurveysStudent($_SESSION["Matrikelnummer"]);
 
