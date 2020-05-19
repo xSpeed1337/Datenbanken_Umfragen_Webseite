@@ -1,10 +1,7 @@
 <?php
-include "../../php-scripts/EvaluationHandler.php";
+require "../../php-scripts/EvaluationHandler.php";
 
-if (!isset($_SESSION['username'])) {
-    header('Location: ../LoginPage.php');
-    exit();
-}
+loginCheck();
 ?>
 
 <!DOCTYPE html>
@@ -17,8 +14,11 @@ if (!isset($_SESSION['username'])) {
 <body>
 
 <?php
-if (!isset($evaluationHandler)) {
-    $evaluationHandler = new EvaluationHandler("test1", "WWI118");
+if ((!isset($_POST["title_short"]) && (!isset($_POST["course_short"])))) {
+    $title_short = escapeHtmlEntities($_POST["title_short"]);
+    $course_short = escapeHtmlEntities($_POST["course_short"]);
+
+    $evaluationHandler = new EvaluationHandler($title_short, $course_short);
     $evaluationHandler->getAllAnswers();
 }
 
