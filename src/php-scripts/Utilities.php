@@ -1,4 +1,5 @@
 <?php
+
 session_start();
 
 /**
@@ -32,6 +33,7 @@ function escapeHtmlEntities($string) {
 
 /**
  * Checks if User is logged in and if not redirects him to the login page
+ * @author Lukas Fink
  */
 function loginCheck() {
     if (!isset($_SESSION['username'])) {

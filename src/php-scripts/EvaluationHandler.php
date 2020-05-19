@@ -1,54 +1,85 @@
 <?php
-include "Utilities.php";
+require "Utilities.php";
 
-////////////////////////////////////////////////////////////////
-/// Lukas Fink
+/**
+ * Class EvaluationHandler
+ * @author Lukas Fink
+ */
 class EvaluationHandler {
 
+    /**
+     * Array in which all answered questions with min, max, average, and standard deviation are stored
+     * @var array
+     */
     private $answerArray;
+
+    /**
+     * The short title of the survey which is being evaluated
+     * @var string
+     */
     private $title_short;
+
+    /**
+     * The course short of the course which is being evaluated
+     * @var string
+     */
     private $course_short;
 
-    ////////////////////////////////////////////////////////////////
-    /// Constructor
-    /// Lukas Fink
+    /**
+     * EvaluationHandler constructor.
+     * @param $title_short
+     * @param $course_short
+     * @author Lukas Fink
+     */
     public function __construct($title_short, $course_short) {
         $this->answerArray = [];
         $this->title_short = $title_short;
         $this->course_short = $course_short;
     }
 
-    ////////////////////////////////////////////////////////////////
-    /// getTitleShort
-    /// Lukas Fink
+    /**
+     * Getter for title_short
+     * @return string
+     * @author Lukas Fink
+     */
     public function getTitleShort() {
         return $this->title_short;
     }
 
-    ////////////////////////////////////////////////////////////////
-    /// getCourseShort
-    /// Lukas Fink
+    /**
+     * Getter for course_short
+     * @return string
+     * @author Lukas Fink
+     */
     public function getCourseShort() {
         return $this->course_short;
     }
 
-    ////////////////////////////////////////////////////////////////
-    /// Gets all comments from one survey and puts them into a string separated with spaces
-    /// Lukas Fink
+    /**
+     * Getter for the array length of the answer array
+     * @return int length of the array
+     * @author Lukas Fink
+     */
     public function getAnswerArrayLength() {
         return count($this->answerArray);
     }
 
-    ////////////////////////////////////////////////////////////////
-    /// Returns the MIN, MAX, AVG and the standard deviation of the question
-    /// Lukas Fink
-    public function getAnswerValue($question) {
-        return $this->answerArray[$question];
+    /**
+     * Getter for all the answer values of one question
+     * @param $questionId
+     * @return array with all the answer values of one question
+     * @author Lukas Fink
+     */
+    public function getAnswerValue($questionId) {
+        return $this->answerArray[$questionId];
     }
 
-    ////////////////////////////////////////////////////////////////
-    /// Function to create the AnswerArray
-    /// Lukas Fink
+    /**
+     * Calculates the standard deviation of a given array of numbers
+     * @param $array
+     * @return float
+     * @author Lukas Fink
+     */
     private function calcStandardDeviation($array) {
         $size = count($array);
         $mean = array_sum($array) / $size;
@@ -58,9 +89,10 @@ class EvaluationHandler {
         return sqrt(array_sum($squares) / ($size - 1));
     }
 
-    ////////////////////////////////////////////////////////////////
-    /// Function to calculate standard deviation (uses sd_square)
-    /// Lukas Fink
+    /**
+     * Generates the $answerArray with all answered questions with all answered questions with min, max, average, and standard deviation are stored
+     * @author Lukas Fink
+     */
     public function getAllAnswers() {
         $questionsArray = [];
         $questionAnswerArray = [];
@@ -119,9 +151,11 @@ class EvaluationHandler {
         $this->answerArray = $answerArray;
     }
 
-    ////////////////////////////////////////////////////////////////
-    /// Gets all comments from one survey and puts them into a string separated with spaces
-    /// Lukas Fink
+    /**
+     * Function to get all comments from the survey and returns them with separated spaces
+     * @return commentString of all comments separated with spaces
+     * @author Lukas Fink
+     */
     public function displayAllComments() {
         $commentString = "";
         $commentSql = "SELECT comment
@@ -143,6 +177,7 @@ class EvaluationHandler {
                 }
             }
         }
-        return escapeCharacters($commentString);
+        $commentString = escapeHtmlEntities($commentString);
+        return $commentString;
     }
 }

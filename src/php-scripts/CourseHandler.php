@@ -1,13 +1,18 @@
 <?php
 require "Utilities.php";
 
-////////////////////////////////////////////////////////////////
-/// Lukas Fink
+/**
+ * Class CourseHandler
+ * @author Lukas Fink
+ */
 class CourseHandler {
 
-    ////////////////////////////////////////////////////////////////
-    /*Lukas Fink*/
-    /*Überprüft ob Kurs bereits existiert und erstellt diesen, falls nicht existent*/
+    /**
+     * Checks if course already exists and if not, creates it
+     * @param $course_short
+     * @param $course_name
+     * @author Lukas Fink
+     */
     public function createCourse($course_short, $course_name) {
         //check if course already exists
         $check_sql = "SELECT * FROM course WHERE course_short = ? OR course_name = ?";
@@ -43,9 +48,14 @@ class CourseHandler {
         }
     }
 
-    ////////////////////////////////////////////////////////////////
-    /*Lukas Fink*/
-    /*Überprüft ob Student/-in bereits existiert und erstellt diesen/diese, falls nicht existent*/
+    /**
+     * Checks if students already exists and if not creates it
+     * @param $matNr
+     * @param $studentFirstName
+     * @param $studentLastName
+     * @param $course_short
+     * @author Lukas Fink
+     */
     public function createStudents($matNr, $studentFirstName, $studentLastName, $course_short) {
         $studentExists = false;
 
@@ -85,9 +95,13 @@ class CourseHandler {
         }
     }
 
-    ////////////////////////////////////////////////////////////////
-    /*Lukas Fink*/
-    /*Updated den Kurs*/
+    /**
+     * Updates course details
+     * @param $oldCourseShort
+     * @param $updateCourseShort
+     * @param $updateCourseName
+     * @author Lukas Fink
+     */
     public function updateCourse($oldCourseShort, $updateCourseShort, $updateCourseName) {
         $sql = "UPDATE course SET course_short= ?, course_name= ? WHERE course_short = ?";
         $stmt = mysqli_stmt_init(database_connect());
@@ -106,9 +120,15 @@ class CourseHandler {
         }
     }
 
-    ////////////////////////////////////////////////////////////////
-    /*Lukas Fink*/
-    /*Updated den/die Student/-in*/
+    /**
+     * Updates student details
+     * @param $oldMatNr
+     * @param $newMatNr
+     * @param $newFirstName
+     * @param $newLastName
+     * @param $newCourseShort
+     * @author Lukas Fink
+     */
     public function updateStudent($oldMatNr, $newMatNr, $newFirstName, $newLastName, $newCourseShort) {
         $sql = "UPDATE student SET matnr = ?, firstname = ?, lastname = ?, course_short = ? WHERE matnr = ?";
         $stmt = mysqli_stmt_init(database_connect());
