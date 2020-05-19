@@ -59,6 +59,11 @@ if(!isset($_SESSION['Matrikelnummer']) ) {
     ?>
 
 </div>
+<br><br>
+<form method="GET" action="../Pages/LoginPage.php">
+    <button type="submit" name="logout">Abmelden</button>
+</form>
+
 
 </body>
 </html>
