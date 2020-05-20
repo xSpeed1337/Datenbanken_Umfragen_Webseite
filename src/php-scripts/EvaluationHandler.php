@@ -101,7 +101,7 @@ class EvaluationHandler {
 
         // get all questions from survey to create the answerArray
         if (!mysqli_stmt_prepare($questionsStmt, $questionsSql)) {
-            echo "SQL statement failed";
+            echo "questionsSql statement failed";
         } else {
             mysqli_stmt_bind_param($questionsStmt, "s", $this->title_short);
             if (mysqli_stmt_execute($questionsStmt)) {
@@ -109,38 +109,64 @@ class EvaluationHandler {
                 while ($question = $questionsResult->fetch_assoc()) {
                     $questionsArray[] = $question;
                 }
+                $questionsStmt->close();
             }
         }
         // for each question a entry in the answerArray is created
         $answerArrayRow = 1;
         foreach ($questionsArray as $question) {
-            // get all answers from one question
-            $answerSql = "SELECT answer
-                        FROM question,
-                             question_answer
-                        WHERE question.id = question_answer.id
-                          AND question.id = ?
-                          AND title_short = ?
-                          AND question_answer.matnr IN
-                              (SELECT student.matnr from student where course_short = ?)";
-            $answerStmt = mysqli_stmt_init(database_connect());
-            if (!mysqli_stmt_prepare($answerStmt, $answerSql)) {
-                echo "SQL statement failed";
+
+            // get all answers from one question to calculate standard deviation
+            $allAnswerSql = "SELECT answer
+                                FROM question,
+                                     question_answer,
+                                     student
+                                WHERE question.id = question_answer.id
+                                  AND question_answer.matnr = student.matnr
+                                  AND question.id = ?
+                                  AND question.title_short = ?
+                                  AND student.course_short = ?";
+            $allAnswerStmt = mysqli_stmt_init(database_connect());
+
+            if (!mysqli_stmt_prepare($allAnswerStmt, $allAnswerSql)) {
+                echo "allAnswerSql statement failed";
             } else {
-                mysqli_stmt_bind_param($answerStmt, "sss", $question["id"], $this->title_short, $this->course_short);
-                if (mysqli_stmt_execute($answerStmt)) {
-                    $answerStmt->bind_result($answer);
-                    while ($answerStmt->fetch()) {
+                mysqli_stmt_bind_param($allAnswerStmt, "sss", $question["id"], $this->title_short, $this->course_short);
+                if (mysqli_stmt_execute($allAnswerStmt)) {
+                    $allAnswerStmt->bind_result($answer);
+                    while ($allAnswerStmt->fetch()) {
                         $questionAnswerArray[] = $answer;
                     }
+                    $allAnswerStmt->close();
                 }
             }
+            // get MIN, MAX and AVG values from the questions
+            $answerValuesSql = "SELECT MIN(answer), MAX(answer), AVG(answer)
+                                    FROM question,
+                                         question_answer
+                                    WHERE question.id = question_answer.id
+                                      AND question.id = ?
+                                      AND title_short = ?
+                                      AND question_answer.matnr IN
+                                          (SELECT student.matnr from student where course_short = ?)";
+            $answerValuesStmt = mysqli_stmt_init(database_connect());
+            if (!mysqli_stmt_prepare($answerValuesStmt, $answerValuesSql)) {
+                echo "answerValuesSql statement failed";
+            } else {
+                mysqli_stmt_bind_param($answerValuesStmt, "sss", $question["id"], $this->title_short, $this->course_short);
+                if (mysqli_stmt_execute($answerValuesStmt)) {
+                    $answerValuesStmt->bind_result($answerMin, $answerMax, $answerAVG);
+                    $answerValuesStmt->fetch();
+                    $answerValuesStmt->close();
+                }
+            }
+
             // create answer entry in answerArray for one question
             if (count($questionAnswerArray) > 0) {
                 $answerArray[$answerArrayRow]["question"] = $question["question_text"];
-                $answerArray[$answerArrayRow]["averageValue"] = (array_sum($questionAnswerArray)) / count($questionAnswerArray);
-                $answerArray[$answerArrayRow]["minValue"] = min($questionAnswerArray);
-                $answerArray[$answerArrayRow]["maxValue"] = max($questionAnswerArray);
+                $answerArray[$answerArrayRow]["averageValue"] = $answerAVG;
+                $answerArray[$answerArrayRow]["minValue"] = $answerMin;
+                $answerArray[$answerArrayRow]["maxValue"] = $answerMax;
                 $answerArray[$answerArrayRow]["standardDeviation"] = $this->calcStandardDeviation($questionAnswerArray);
 
                 $answerArrayRow++;
@@ -175,6 +201,7 @@ class EvaluationHandler {
                 while ($comment = $commentResult->fetch_assoc()) {
                     $commentString = $commentString . " " . $comment["comment"];
                 }
+                $commentStmt->close();
             }
         }
         $commentString = escapeHtmlEntities($commentString);
