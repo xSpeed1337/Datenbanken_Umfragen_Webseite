@@ -52,14 +52,17 @@ loginCheck();
                 echo
                     "<tr>
                                 <form method='POST' action='../php-scripts/EditSurveyHandler.php'>
-                                    <td style='padding-right:20px'>". $survey['title_short']."</td>
-                                    <td style='padding-right:20px'>". $survey['title']."</td>
-                                    <td><button type='submit' name='EditFB' value='". $survey['title_short']."'>Bearbeiten</button>
-                                    <td><button type='submit' name='DeleteFB' value='". $survey['title_short']."'>Löschen</button> 
-                                    <td><button type='submit' name='CopyFB' value='". $survey['title_short']."'>Kopieren</button>
+                                    <td style='padding-right:20px'>" . $survey['title_short'] . "</td>
+                                    <td style='padding-right:20px'>" . $survey['title'] . "</td>
+                                    <td><button type='submit' name='EditFB' value='" . $survey['title_short'] . "'>Bearbeiten</button>
+                                    <td><button type='submit' name='DeleteFB' value='" . $survey['title_short'] . "'>Löschen</button> 
+                                    <td><button type='submit' name='CopyFB' value='" . $survey['title_short'] . "'>Kopieren</button>
                                 </form>   
                                 <form method='POST' action='../php-scripts/CreateSurveyHandler.php'> 
                                     <td><button type='submit' name='AssignCourse' value='" . $survey['title_short'] . "'>Kurs zuteilen</button> 
+                                </form>
+                                <form method='POST' action='Evaluation/Evaluation_Course.php'> 
+                                    <td><button type='submit' name='EvaluationTitleShort' value='" . $survey['title_short'] . "'>Auswerten</button> 
                                 </form>  
                             </tr>";
             }
