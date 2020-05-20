@@ -1,19 +1,20 @@
 <?php
 
-/*Gesamtes Dokument: Elena Deckert*/
-
-/*Nachdem der Studierende auf der Seite MySurveys_Student.php die Beantwortung eines Fragebogens gestartet hat,
-wird der Fragebogentitel sowie die einzelnen Fragen die im Fragebogen enthalten sind generiert. Wurde eine Frage
-bereits beantwortet, wird diese mit dem in der DB hinterlegten Wert vorbelegt. Alle Funktionen, die für die
-Generierung der Seite benötigt werden, sind in der Datei Utilities.php hinterlegt. */
+/**
+ * Gesamtes Dokument: Elena Deckert
+ * Nachdem der Studierende auf der Seite MySurveys_Student.php die Beantwortung eines Fragebogens gestartet hat,
+ * wird der Fragebogentitel sowie die einzelnen Fragen die im Fragebogen enthalten sind generiert. Wurde eine Frage
+ * bereits beantwortet, wird diese mit dem in der DB hinterlegten Wert vorbelegt. Alle Funktionen, die für die
+ * Generierung der Seite benötigt werden, sind in der Datei Utilities.php hinterlegt.
+ */
 
 include_once "../../php-scripts/AnswerSurveyHandler.php";
 $obj = new AnswerSurveyHandler();
 
-////////////////////////////////////////////////////////////////
-/*Wird die Seite aufgerufen ohne das der Benutzer eingeloggt ist, wird er auf
-die Loginseite weitergeleitet*/
-
+/**
+ * Wird die Seite aufgerufen ohne das der Benutzer eingeloggt ist, wird er auf
+ * die Loginseite weitergeleitet
+ */
 if(!isset($_SESSION['Matrikelnummer']) ) {
     header('Location: ../LoginPage.php');
 }
@@ -33,17 +34,18 @@ if(!isset($_SESSION['Matrikelnummer']) ) {
 
 <?php
 
-////////////////////////////////////////////////////////////////
-/*Prüft ob die Seite zum ersten Mal aufgerufen wird. Wenn ja, wird die Session-Variable
- "CurrentQuestion" auf 1 gesetzt*/
 
+/**
+ * Prüft ob die Seite zum ersten Mal aufgerufen wird. Wenn ja, wird die Session-Variable
+ * "CurrentQuestion" auf 1 gesetzt
+ */
 if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false) && (isset($_POST["BackToHP"]) == false) && (isset($_POST["Next"]) == false) && !(isset($_SESSION["LastPage"]) && $_SESSION["LastPage"] == "AnswerSurvey_Comment")){
     $_SESSION["CurrentQuestion"] = 1;
 
 
-    ////////////////////////////////////////////////////////////////
-    /*Fragebogentitel generieren*/
-
+    /**
+     * Fragebogentitel generieren
+     */
     if(isset ($_POST["SurveyTitle"])) {
         $_SESSION["SelectedSurvey"] = $_POST["SurveyTitle"];
     }
@@ -53,18 +55,17 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
     }
 
 
-
-    ////////////////////////////////////////////////////////////////
-    /*Wie viele Fragen enthält der Fragebogen?*/
-
+    /**
+     * Wie viele Fragen enthält der Fragebogen?
+     */
     $_SESSION["Questions"] = $obj->getQuestions($_SESSION["SurveyTitleShort"]);
     $_SESSION["NumberOfQuestions"] = count($_SESSION["Questions"]);
 
 
-    ////////////////////////////////////////////////////////////////
-    /*Speichern der Antworten in der Datenbank, sobald "Nächste Frage", "Vorherige Frage"
-    oder "Zurück zum Hauptmenü" geklickt wurde*/
-
+    /**
+     * Speichern der Antworten in der Datenbank, sobald "Nächste Frage", "Vorherige Frage"
+     * oder "Zurück zum Hauptmenü" geklickt wurde
+     */
 } elseif(isset($_POST["PrevQuestion"]) == true) {
     if (isset($_POST["Radio"])) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
@@ -95,10 +96,10 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
 }
 
 
-////////////////////////////////////////////////////////////////
-/*Anzeige des Fragebogentitels, der Anzahl Fragen, der aktuellen Frage, der Radiobuttons,
-sowie der Vorherige/Nächste Frage und Zurück zum Hauptmenü Buttons*/
-
+/**
+ * Anzeige des Fragebogentitels, der Anzahl Fragen, der aktuellen Frage, der Radiobuttons,
+ * sowie der Vorherige/Nächste Frage und Zurück zum Hauptmenü Buttons
+ */
 echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
 
 ?>

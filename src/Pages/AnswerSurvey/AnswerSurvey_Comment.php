@@ -1,21 +1,22 @@
 <?php
 
-/*Gesamtes Dokument: Elena Deckert*/
-
-/*Sobald in der AnswerSurvey_Questions.php die letzte Frage zum Fragebogen erreicht wurde, wird ein "Weiter"-Button
-eingeblendet. Durch einen Klick auf diesen Button wird der Studierende zur Seite AnswerSurvey_Comment.php weitergeleitet.
-Hier wird wie in der AnswerSurvey_Questions.php der Fragebogentitel generiert. Zudem wird ein Kommentarfeld generiert,
-in dem der Studierende optional ein Kommentar zum Fragebogen hinterlassen kann. Falls auf der DB bereits ein Kommentar
-hinterlegt wurde, wird dieses vorbelegt. Durch einen Klick auf den Button "Umfrage abschließen* wird der Fragebogen in
-die Tabelle survey_finished eingetragen und der Studierende wird zurück zum Hauptmenü weitergeleitet.*/
+/**
+ * Gesamtes Dokument: Elena Deckert
+ * Sobald in der AnswerSurvey_Questions.php die letzte Frage zum Fragebogen erreicht wurde, wird ein "Weiter"-Button
+ * eingeblendet. Durch einen Klick auf diesen Button wird der Studierende zur Seite AnswerSurvey_Comment.php weitergeleitet.
+ * Hier wird wie in der AnswerSurvey_Questions.php der Fragebogentitel generiert. Zudem wird ein Kommentarfeld generiert,
+ * in dem der Studierende optional ein Kommentar zum Fragebogen hinterlassen kann. Falls auf der DB bereits ein Kommentar
+ * hinterlegt wurde, wird dieses vorbelegt. Durch einen Klick auf den Button "Umfrage abschließen* wird der Fragebogen in
+ * die Tabelle survey_finished eingetragen und der Studierende wird zurück zum Hauptmenü weitergeleitet.
+ */
 
 include_once "../../php-scripts/AnswerSurveyHandler.php";
 $obj = new AnswerSurveyHandler();
 
-////////////////////////////////////////////////////////////////
-/*Wird die Seite aufgerufen ohne das der Benutzer eingeloggt ist, wird er auf
-die Loginseite weitergeleitet*/
-
+/**
+ * Wird die Seite aufgerufen ohne das der Benutzer eingeloggt ist, wird er auf
+ * die Loginseite weitergeleitet
+ */
 if(!isset($_SESSION['Matrikelnummer']) ) {
     header('Location: ../LoginPage.php');
 }
@@ -33,16 +34,17 @@ if(!isset($_SESSION['Matrikelnummer']) ) {
 
 <?php
 
-////////////////////////////////////////////////////////////////
-/*Anzeige des Fragebogentitels*/
 
+/**
+ * Anzeige des Fragebogentitels
+ */
 echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
 
 
-////////////////////////////////////////////////////////////////
-/*Speichern des Kommentars in der Datenbank, sobald "Vorherige Frage"
-oder "Zurück zum Hauptmenü" geklickt wurde*/
-
+/**
+ * Speichern des Kommentars in der Datenbank, sobald "Vorherige Frage"
+ * oder "Zurück zum Hauptmenü" geklickt wurde
+ */
 if(isset($_POST["PrevQuestion"]) == true) {
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     $_SESSION["LastPage"] = "AnswerSurvey_Comment";

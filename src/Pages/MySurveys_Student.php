@@ -1,21 +1,23 @@
 <?php
 
-/*Gesamtes Dokument Elena Deckert*/
+/**
+ * Gesamtes Dokument Elena Deckert
+ * Die Seite MySurveys_Student.php wird einem Studierenden angezeigt, nachdem er sich mit seiner
+ * Matrikelnummer am System angemeldet hat. Angezeigt werden hier alle Fragebögen, die für den jeweiligen
+ * Studierenden freigeschaltet sind und noch nicht abgeschlossen wurden (Die Fragebögen, für die kein Eintrag
+ * in der Tabelle survey_finished steht. Zusätzlich wird ein Button generiert, mit dem der Studierende die
+ * Beantwortung des Fragebogens beginnen kann.
+ */
 
-/*Die Seite MySurveys_Student.php wird einem Studierenden angezeigt, nachdem er sich mit seiner
-Matrikelnummer am System angemeldet hat. Angezeigt werden hier alle Fragebögen, die für den jeweiligen
-Studierenden freigeschaltet sind und noch nicht abgeschlossen wurden (Die Fragebögen, für die kein Eintrag
-in der Tabelle survey_finished steht. Zusätzlich wird ein Button generiert, mit dem der Studierende die
-Beantwortung des Fragebogens beginnen kann.*/
 
 include_once "../php-scripts/AnswerSurveyHandler.php";
 $obj = new AnswerSurveyHandler();
 
 
-////////////////////////////////////////////////////////////////
-/*Wird die Seite aufgerufen ohne das der Benutzer eingeloggt ist, wird er auf
-die Loginseite weitergeleitet*/
-
+/**
+ * Wird die Seite aufgerufen ohne das der Benutzer eingeloggt ist, wird er auf
+   die Loginseite weitergeleitet
+ */
 if(!isset($_SESSION['Matrikelnummer']) ) {
     header('Location: ./LoginPage.php');
 }
