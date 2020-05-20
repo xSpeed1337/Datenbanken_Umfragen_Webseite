@@ -3,10 +3,13 @@ require "../../php-scripts/EvaluationHandler.php";
 
 loginCheck();
 
-if (!isset($_POST["title_short"])) {
+if (!isset($_POST["EvaluationTitleShort"])) {
     header("Location: ../MySurveys_Interviewer.php");
     exit();
 }
+/**
+ * @author Lukas Fink
+ */
 ?>
 
 <!DOCTYPE html>
@@ -23,28 +26,49 @@ if (!isset($_POST["title_short"])) {
     <table>
         <tr>
             <td style="padding-right:20px">Titel:</td>
-            <td style="padding-right:20px">
-                <?php
-                echo escapeCharacters($_POST["title_short"]);
-                ?>
-            </td>
+
+            <?php
+            $tile_short = escapeCharacters($_POST["EvaluationTitleShort"]);
+            $titleSql = "SELECT title FROM survey where title_short = ?";
+            $titleStmt = mysqli_stmt_init(database_connect());
+            if (!mysqli_stmt_prepare($titleStmt, $titleSql)) {
+                echo "SQL statement failed";
+            } else {
+                mysqli_stmt_bind_param($titleStmt, "s", $tile_short);
+                if (mysqli_stmt_execute($titleStmt)) {
+                    $titleStmt->bind_result($title);
+                    $titleStmt->fetch();
+                    $titleStmt->close();
+                    echo "<td style=\"padding-right:20px\"> 
+                            <input readonly type='hidden' name='title_short' value='" . $tile_short . "'>
+                            <input readonly name='title' value='" . $title . "'>
+                          </td>";
+                }
+            }
+            ?>
         </tr>
         <tr>
             <td>Kurs auswählen:</td>
             <td>
                 <select name="course_short">
                     <?php
-                    $sql = "SELECT * FROM course";
-                    $stmt = mysqli_stmt_init(database_connect());
-                    if (!mysqli_stmt_prepare($stmt, $sql)) {
+                    $tile_short = escapeCharacters($_POST["EvaluationTitleShort"]);
+                    $courseSql = "SELECT course.course_short, course.course_name
+                            FROM course,
+                                 survey_assigned_course
+                            WHERE course.course_short = survey_assigned_course.course_short
+                              AND survey_assigned_course.title_short = ?";
+                    $courseStmt = mysqli_stmt_init(database_connect());
+                    if (!mysqli_stmt_prepare($courseStmt, $courseSql)) {
                         echo "SQL statement failed";
                     } else {
-                        mysqli_stmt_execute($stmt);
-                        $results = mysqli_stmt_get_result($stmt);
+                        mysqli_stmt_bind_param($courseStmt, "s", $tile_short);
+                        mysqli_stmt_execute($courseStmt);
+                        $results = mysqli_stmt_get_result($courseStmt);
                         foreach ($results as $course) {
                             echo "<option value=\"" . $course['course_short'] . "\">" . $course['course_short'] . " " . $course['course_name'] . "</option>";
                         }
-                        $stmt->close();
+                        $courseStmt->close();
                     }
                     ?>
                 </select>
@@ -52,11 +76,13 @@ if (!isset($_POST["title_short"])) {
         </tr>
         <tr style="height:80px">
             <td>
-                <button type="submit" name="Quit">Abbrechen</button>
                 <button type="submit" name="Continue">Weiter</button>
             </td>
         </tr>
     </table>
+    </form>
+    <form method="get" action="../MySurveys_Interviewer.php">
+        <button type="submit" name="Quit">Abbrechen</button>
     </form>
 </div>
 </body>

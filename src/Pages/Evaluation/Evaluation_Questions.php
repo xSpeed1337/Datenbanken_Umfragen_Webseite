@@ -2,6 +2,9 @@
 require "../../php-scripts/EvaluationHandler.php";
 
 loginCheck();
+/**
+ * @author Lukas Fink
+ */
 ?>
 
 <!DOCTYPE html>
@@ -14,9 +17,11 @@ loginCheck();
 <body>
 
 <?php
-if ((!isset($_POST["title_short"]) && (!isset($_POST["course_short"])))) {
-    $evaluationHandler = new EvaluationHandler("1", "WWI118");
+if ((isset($_POST["title_short"]) && (isset($_POST["course_short"])))) {
+    $_SESSION["title_short"] = $_POST["title_short"];
+    $_SESSION["course_short"] = $_POST["course_short"];
 }
+$evaluationHandler = new EvaluationHandler($_SESSION["title_short"], $_SESSION["course_short"]);
 
 if ((isset($_POST["PrevQuestion"]) == false) &&
     (isset($_POST["NextQuestion"]) == false)) {
