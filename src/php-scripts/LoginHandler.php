@@ -84,6 +84,15 @@ class LoginHandler {
             echo "Login fehlgeschlagen Student";
         }
     }
+
+    public function logout(){
+
+        session_destroy();
+        $_SESSION = array();
+        header("Location: ../Pages/LoginPage.php");
+
+    }
+
 }
 
 function alert($message) {
@@ -98,4 +107,6 @@ if (isset($_POST["register"])) {
     $login_handler->loginSurveyor();
 } elseif (isset($_POST["loginStudent"])) {
     $login_handler->loginStudent();
+} elseif (isset($_POST["logout"])) {
+    $login_handler->logout();
 }
