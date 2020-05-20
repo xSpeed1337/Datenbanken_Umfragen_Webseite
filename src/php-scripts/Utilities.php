@@ -27,7 +27,7 @@ function database_connect() {
  * @return string with escaped characters
  * @author Lukas Fink
  */
-function escapeHtmlEntities($string) {
+function escapeCharacters($string) {
     return htmlentities($string, ENT_QUOTES, 'UTF-8');
 }
 
