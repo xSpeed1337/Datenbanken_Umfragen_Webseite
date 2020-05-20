@@ -1,8 +1,10 @@
 <?php
-session_start();
+require "../../php-scripts/EvaluationHandler.php";
 
-if (!isset($_SESSION['username'])) {
-    header('Location: ../LoginPage.php');
+loginCheck();
+
+if (!isset($_POST["title_short"])) {
+    header("Location: ../MySurveys_Interviewer.php");
     exit();
 }
 ?>
@@ -21,17 +23,30 @@ if (!isset($_SESSION['username'])) {
     <table>
         <tr>
             <td style="padding-right:20px">Titel:</td>
-            <td style="padding-right:20px">...Titel Fragebogen...</td>
+            <td style="padding-right:20px">
+                <?php
+                echo escapeCharacters($_POST["title_short"]);
+                ?>
+            </td>
         </tr>
         <tr>
             <td>Kurs auswählen:</td>
-            <td style="padding-left: 20px">
-                <select name="CourseShort">
-                    <option value="WWI118">WWI118</option>
-                    <option value="WWI218">WWI218</option>
-                    <option value="WWI318">WWI318</option>
-                    <option value="WWI117">WWI117</option>
-                    <option value="WWI217">WWI217</option>
+            <td>
+                <select name="course_short">
+                    <?php
+                    $sql = "SELECT * FROM course";
+                    $stmt = mysqli_stmt_init(database_connect());
+                    if (!mysqli_stmt_prepare($stmt, $sql)) {
+                        echo "SQL statement failed";
+                    } else {
+                        mysqli_stmt_execute($stmt);
+                        $results = mysqli_stmt_get_result($stmt);
+                        foreach ($results as $course) {
+                            echo "<option value=\"" . $course['course_short'] . "\">" . $course['course_short'] . " " . $course['course_name'] . "</option>";
+                        }
+                        $stmt->close();
+                    }
+                    ?>
                 </select>
             </td>
         </tr>

@@ -1,10 +1,7 @@
 <?php
-include "../../php-scripts/EvaluationHandler.php";
+require "../../php-scripts/EvaluationHandler.php";
 
-if (!isset($_SESSION['username'])) {
-    header('Location: ../LoginPage.php');
-    exit();
-}
+loginCheck();
 ?>
 
 <!DOCTYPE html>
@@ -17,9 +14,8 @@ if (!isset($_SESSION['username'])) {
 <body>
 
 <?php
-if (!isset($evaluationHandler)) {
-    $evaluationHandler = new EvaluationHandler("test1", "WWI118");
-    $evaluationHandler->getAllAnswers();
+if ((!isset($_POST["title_short"]) && (!isset($_POST["course_short"])))) {
+    $evaluationHandler = new EvaluationHandler("1", "WWI118");
 }
 
 if ((isset($_POST["PrevQuestion"]) == false) &&
@@ -67,6 +63,14 @@ if (isset($_POST["PrevQuestion"]) == true) {
                 Standardabweichung: " . $answerValues["standardDeviation"] . "
                       </td>"
                 ?>
+            </tr>
+            <tr>
+                <td>
+                    Kommentare der Umfrage: <br>
+                    <?php
+                    echo $evaluationHandler->displayAllComments();
+                    ?>
+                </td>
             </tr>
             <tr style="height:50px">
                 <td>

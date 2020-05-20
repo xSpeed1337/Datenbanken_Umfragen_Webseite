@@ -1,10 +1,7 @@
 <?php
 require "../../php-scripts/Utilities.php";
 
-if (!isset($_SESSION['username'])) {
-    header('Location: ../LoginPage.php');
-    exit();
-}
+loginCheck();
 ?>
 
 <!DOCTYPE html>

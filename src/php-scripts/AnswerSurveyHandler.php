@@ -1,6 +1,5 @@
 <?php
-
-include "Utilities.php";
+require "Utilities.php";
 
 /**
  * Class AnswerSurveyHandler

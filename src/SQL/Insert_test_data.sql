@@ -1,5 +1,5 @@
 -- Testdaten einfügen
--- @author Lukas Fink
+-- @author Lukas Fink, Elena Deckert, Antonia Gabriel
 
 USE survey_site_database;
 
