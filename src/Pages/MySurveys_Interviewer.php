@@ -1,6 +1,6 @@
 <?php
 
-include_once "../php-scripts/Utilities.php";
+require "../php-scripts/Utilities.php";
 
 if (!isset($_SESSION['username'])) {
     header('Location: login.php');
@@ -50,8 +50,8 @@ if (!isset($_SESSION['username'])) {
                                     <td style='padding-right:20px'>". $survey['title_short']."</td>
                                     <td style='padding-right:20px'>". $survey['title']."</td>
                                     <td><button type='submit' name='EditFB' value='". $survey['title_short']."'>Bearbeiten</button>
-                                    <td><button type='submit' name='CopyFB'>Kopieren</button>
                                     <td><button type='submit' name='DeleteFB' value='". $survey['title_short']."'>Löschen</button> 
+                                    <td><button type='submit' name='CopyFB' value='". $survey['title_short']."'>Kopieren</button>
                                 </form>   
                                 <form method='POST' action='../php-scripts/CreateSurveyHandler.php'> 
                                     <td><button type='submit' name='AssignCourse' value='". $survey['title_short']."'>Kurs zuteilen</button> 
@@ -67,11 +67,8 @@ if (!isset($_SESSION['username'])) {
 
 </br></br></br>
 
-<form method="GET" action="../Pages/LoginPage.php">
+<form method="POST" action="../php-scripts/LoginHandler.php">
     <button type="submit" name="logout">Abmelden</button>
-<!--    --><?php
-//    session_destroy();
-//    ?>
 </form>
 
 
