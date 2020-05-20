@@ -2,6 +2,9 @@
 require "../../php-scripts/Utilities.php";
 
 loginCheck();
+/**
+ * @author Lukas Fink
+ */
 ?>
 
 <!DOCTYPE html>
