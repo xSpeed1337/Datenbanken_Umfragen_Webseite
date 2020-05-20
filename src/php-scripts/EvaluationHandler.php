@@ -32,9 +32,9 @@ class EvaluationHandler {
      * @author Lukas Fink
      */
     public function __construct($title_short, $course_short) {
-        $this->answerArray = [];
-        $this->title_short = $title_short;
-        $this->course_short = $course_short;
+        $this->title_short = escapeCharacters($title_short);
+        $this->course_short = escapeCharacters($course_short);
+        $this->answerArray = $this->getAllAnswers();
     }
 
     /**
@@ -91,6 +91,7 @@ class EvaluationHandler {
 
     /**
      * Generates the $answerArray with all answered questions with all answered questions with min, max, average, and standard deviation are stored
+     * @return array with all answered questions with min, max, average, and standard deviation
      * @author Lukas Fink
      */
     public function getAllAnswers() {
@@ -174,7 +175,7 @@ class EvaluationHandler {
                 echo "No answered questions found for" . $this->title_short;
             }
         }
-        $this->answerArray = $answerArray;
+        return $answerArray;
     }
 
     /**
@@ -199,12 +200,15 @@ class EvaluationHandler {
             if (mysqli_stmt_execute($commentStmt)) {
                 $commentResult = $commentStmt->get_result();
                 while ($comment = $commentResult->fetch_assoc()) {
-                    $commentString = $commentString . " " . $comment["comment"];
+                    if (!$commentString == "") {
+                        $commentString = $commentString . " <br> " . $comment["comment"];
+                    } else {
+                        $commentString = $comment["comment"];
+                    }
                 }
                 $commentStmt->close();
             }
         }
-        $commentString = escapeHtmlEntities($commentString);
         return $commentString;
     }
 }

@@ -25,7 +25,7 @@ if (!isset($_POST["title_short"])) {
             <td style="padding-right:20px">Titel:</td>
             <td style="padding-right:20px">
                 <?php
-                echo escapeHtmlEntities($_POST["title_short"]);
+                echo escapeCharacters($_POST["title_short"]);
                 ?>
             </td>
         </tr>
@@ -41,10 +41,10 @@ if (!isset($_POST["title_short"])) {
                     } else {
                         mysqli_stmt_execute($stmt);
                         $results = mysqli_stmt_get_result($stmt);
-
                         foreach ($results as $course) {
                             echo "<option value=\"" . $course['course_short'] . "\">" . $course['course_short'] . " " . $course['course_name'] . "</option>";
                         }
+                        $stmt->close();
                     }
                     ?>
                 </select>

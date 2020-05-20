@@ -17,11 +17,23 @@ loginCheck();
 <form method="GET" action="../php-scripts/CreateSurveyHandler.php">
     <button type="submit" name="CreateFB">Fragebogen anlegen</button>
 </form>
-
+<br>
 <form method="GET" action="CreateCourse/CreateCourse_description.php">
     <button type="submit" name="CreateCourse">Kurs anlegen</button>
 </form>
-
+<br>
+<form method="GET" action="EditCourse/EditCourse_Description.php">
+    <button type="submit" name="CreateCourse">Kurs bearbeiten</button>
+</form>
+<br>
+<form method="GET" action="CreateCourse/CreateCourse_Students.php">
+    <button type="submit" name="CreateCourse">Student anlegen</button>
+</form>
+<br>
+<form method="GET" action="EditCourse/EditCourse_Students.php">
+    <button type="submit" name="CreateCourse">Student bearbeiten</button>
+</form>
+<br>
 <div>
     <h4>Meine Fragebögen</h4>
 

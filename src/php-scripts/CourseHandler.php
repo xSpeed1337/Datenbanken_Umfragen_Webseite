@@ -25,6 +25,7 @@ class CourseHandler {
         }
 
         $check_result = $check_stmt->get_result();
+        $check_stmt->close();
 
         if ($check_result->num_rows > 0) {
             echo "Kurs " . $course_short . " " . $course_name . " " . " existiert bereits";
@@ -45,6 +46,7 @@ class CourseHandler {
                     echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Description.php'>Back to course creation</a>";
                 }
             }
+            $create_stmt->close();
         }
     }
 
@@ -70,6 +72,7 @@ class CourseHandler {
         }
 
         $check_result = $check_stmt->get_result();
+        $check_stmt->close();
         if ($check_result->num_rows > 0) {
             //display error
             $studentExists = true;
@@ -91,6 +94,7 @@ class CourseHandler {
                     echo "Student " . $matNr . " " . $studentFirstName . " " . $studentLastName . " konnte nicht angelegt werden.";
                     echo "<br> <a href='../Pages/CreateCourse/CreateCourse_Students.php'>Back to student creation</a>";
                 }
+                $create_stmt->close();
             }
         }
     }
@@ -117,6 +121,7 @@ class CourseHandler {
                 echo "Kurs " . $oldCourseShort . " zu konnte nicht " . $updateCourseShort . " " . $updateCourseName . " umbennant werden.";
                 echo "<br> <a href='../Pages/EditCourse/EditCourse_Description.php'>Back to edit course</a>";
             }
+            $stmt->close();
         }
     }
 
@@ -143,6 +148,7 @@ class CourseHandler {
                 echo "Student " . $oldMatNr . " konnte nicht zu " . $newMatNr . " " . $newFirstName . " " . $newLastName . " " . $newCourseShort . " umbennant werden.";
                 echo "<br> <a href='../Pages/EditCourse/EditCourse_Students.php'>Back to edit student</a>";
             }
+            $stmt->close();
         }
     }
 }
