@@ -15,11 +15,7 @@ loginCheck();
 
 <?php
 if ((!isset($_POST["title_short"]) && (!isset($_POST["course_short"])))) {
-    $title_short = escapeHtmlEntities($_POST["title_short"]);
-    $course_short = escapeHtmlEntities($_POST["course_short"]);
-
-    $evaluationHandler = new EvaluationHandler($title_short, $course_short);
-    $evaluationHandler->getAllAnswers();
+    $evaluationHandler = new EvaluationHandler("1", "WWI118");
 }
 
 if ((isset($_POST["PrevQuestion"]) == false) &&
@@ -67,6 +63,14 @@ if (isset($_POST["PrevQuestion"]) == true) {
                 Standardabweichung: " . $answerValues["standardDeviation"] . "
                       </td>"
                 ?>
+            </tr>
+            <tr>
+                <td>
+                    Kommentare der Umfrage: <br>
+                    <?php
+                    echo $evaluationHandler->displayAllComments();
+                    ?>
+                </td>
             </tr>
             <tr style="height:50px">
                 <td>
