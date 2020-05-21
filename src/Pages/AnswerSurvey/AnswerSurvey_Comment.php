@@ -55,12 +55,6 @@ if(isset($_POST["PrevQuestion"]) == true) {
     header('Location: ../MySurveys_Student.php');
 }
 
-if(isset($_POST["FinishSurvey"]) == true){
-    $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
-    $obj->finishSurvey($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
-}
-
-
 ?>
 
 <div>
@@ -80,6 +74,17 @@ if(isset($_POST["FinishSurvey"]) == true){
         <tr style="height:50px">
             <td>
                 <button type="submit" name="PrevQuestion">Vorherige Frage</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <?php
+                if(isset($_POST["FinishSurvey"]) == true){
+                    $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+                    $obj->finishSurvey($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+                }
+                ?>
             </td>
         </tr>
 

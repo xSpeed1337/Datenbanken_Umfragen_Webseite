@@ -119,8 +119,8 @@ class AnswerSurveyHandler {
         $cmd = mysqli_prepare($this->db, "SELECT * FROM question_answer WHERE id = ? AND matnr = ?");
         mysqli_stmt_bind_param($cmd, "ii", $questionID, $matnr);
         mysqli_stmt_execute($cmd);
-        $result = mysqli_stmt_get_result($cmd); //ganze Tabelle
-        $results = mysqli_fetch_assoc($result); //erster Eintrag
+        $result = mysqli_stmt_get_result($cmd);
+        $results = mysqli_fetch_assoc($result);
 
         if ($results == false || !isset($results['answer'])) {
             echo
@@ -188,8 +188,6 @@ class AnswerSurveyHandler {
         $stmt->execute();
         $stmt->store_result();
 
-        $result = "";
-        $stmt->bind_result($result);
         $stmt->fetch();
 
         if ($stmt->num_rows == 0) {
