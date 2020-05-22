@@ -1,7 +1,10 @@
 <?php
-require "../../php-scripts/Utilities.php";
+require "../../php-scripts/CourseHandler.php";
 
-loginCheck();
+loginUsernameCheck();
+/**
+ * @author Lukas Fink
+ */
 ?>
 
 <!DOCTYPE html>
@@ -9,16 +12,25 @@ loginCheck();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurs bearbeiten</title>
+    <title>Umfrage Webseite</title>
 </head>
 <body>
 <h2>Kurs bearbeiten</h2>
-<form method="post" action="../../php-scripts/CourseHandler.php">
+<?php
+if (!isset($course_handler)) {
+    $course_handler = new CourseHandler();
+}
+
+if (isset($_POST["UpdateCourseButton"])) {
+    $course_handler->updateCourse($_POST['OldCourseShort'], $_POST['UpdateCourseShort'], $_POST['UpdateCourseName']);
+}
+?>
+<form method="post">
     <table>
         <tr>
             <td>Zu bearbeitender Kurs:</td>
             <td>
-                <select name="OldCourseShort">
+                <select required name="OldCourseShort">
                     <?php
                     $sql = "SELECT * FROM course";
                     $stmt = mysqli_stmt_init(database_connect());
@@ -46,7 +58,7 @@ loginCheck();
         </tr>
         <tr style="height:50px">
             <td>
-                <button type="submit" name="UpdateCourseSave">Speichern</button>
+                <button type="submit" name="UpdateCourseButton">Speichern</button>
             </td>
         </tr>
     </table>

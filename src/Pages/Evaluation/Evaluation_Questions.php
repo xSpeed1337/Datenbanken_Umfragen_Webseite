@@ -1,7 +1,10 @@
 <?php
 require "../../php-scripts/EvaluationHandler.php";
 
-loginCheck();
+loginUsernameCheck();
+/**
+ * @author Lukas Fink
+ */
 ?>
 
 <!DOCTYPE html>
@@ -9,14 +12,16 @@ loginCheck();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fragebogen auswerten</title>
+    <title>Umfrage Webseite</title>
 </head>
 <body>
 
 <?php
-if ((!isset($_POST["title_short"]) && (!isset($_POST["course_short"])))) {
-    $evaluationHandler = new EvaluationHandler("1", "WWI118");
+if ((isset($_POST["title_short"]) && (isset($_POST["course_short"])))) {
+    $_SESSION["title_short"] = $_POST["title_short"];
+    $_SESSION["course_short"] = $_POST["course_short"];
 }
+$evaluationHandler = new EvaluationHandler($_SESSION["title_short"], $_SESSION["course_short"]);
 
 if ((isset($_POST["PrevQuestion"]) == false) &&
     (isset($_POST["NextQuestion"]) == false)) {

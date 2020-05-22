@@ -1,10 +1,10 @@
 <?php
-require "../../php-scripts/Utilities.php";
+require "../../php-scripts/CourseHandler.php";
 
-if (!isset($_SESSION['username'])) {
-    header('Location: ../LoginPage.php');
-    exit();
-}
+loginUsernameCheck();
+/**
+ * @author Lukas Fink
+ */
 ?>
 
 <!DOCTYPE html>
@@ -12,13 +12,20 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student bearbeiten</title>
+    <title>Umfrage Webseite</title>
 </head>
 <body>
-
 <h2>Student bearbeiten</h2>
+<?php
+if (!isset($course_handler)) {
+    $course_handler = new CourseHandler();
+}
 
-<form id="studentForm" method="POST" action="../../php-scripts/CourseHandler.php">
+if (isset($_POST["UpdateStudentButton"])) {
+    $course_handler->updateStudent($_POST['OldMatNr'], $_POST['UpdateMatNr'], $_POST['UpdateStudentFirstName'], $_POST['UpdateStudentLastName'], $_POST['UpdateStudentCourse']);
+}
+?>
+<form method="post">
     <table>
         <tr>
             <th>Alte Matrikelnummer</th>
@@ -46,9 +53,16 @@ if (!isset($_SESSION['username'])) {
                     ?>
                 </select>
             </td>
-            <td><input required min='999999' max='9999999' type=\"number\" min name=\"UpdateMatNr\"/></td>
-            <td style=\"padding-left:20px\"><input required type=\"text\" name=\"UpdateStudentFirstName\"/></td>
-            <td style=\"padding-left:20px\"><input required type=\"text\" name=\"UpdateStudentLastName\"/></td>
+            <td style=\"padding-left:20px\">
+                <input required min="1000000" max="9999999" type="number"
+                       name="UpdateMatNr"/>
+            </td>
+            <td style=\"padding-left:20px\">
+                <input required type="text" name="UpdateStudentFirstName"/>
+            </td>
+            <td style=\"padding-left:20px\">
+                <input required type="text" name="UpdateStudentLastName"/>
+            </td>
             <td>
                 <select required name='UpdateStudentCourse'>
                     <?php
@@ -70,7 +84,7 @@ if (!isset($_SESSION['username'])) {
         </tr>
         <tr style="height:50px">
             <td>
-                <button type="submit" name="UpdateStudentSave">Student speichern</button>
+                <button type="submit" name="UpdateStudentButton">Student speichern</button>
             </td>
         </tr>
     </table>

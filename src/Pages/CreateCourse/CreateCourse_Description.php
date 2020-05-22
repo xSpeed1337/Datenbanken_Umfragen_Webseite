@@ -1,10 +1,10 @@
 <?php
-require "../../php-scripts/Utilities.php";
+require "../../php-scripts/CourseHandler.php";
 
-if (!isset($_SESSION['username'])) {
-    header('Location: ../LoginPage.php');
-    exit();
-}
+loginUsernameCheck();
+/**
+ * @author Lukas Fink
+ */
 ?>
 
 <!DOCTYPE html>
@@ -12,11 +12,20 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurs anlegen</title>
+    <title>Umfrage Webseite</title>
 </head>
 <body>
 <h2>Kurs anlegen</h2>
-<form method="post" action="../../php-scripts/CourseHandler.php">
+<?php
+if (!isset($course_handler)) {
+    $course_handler = new CourseHandler();
+}
+
+if (isset($_POST["CreateCourse"])) {
+    $course_handler->createCourse($_POST["CourseDesc"], $_POST["CourseName"]);
+}
+?>
+<form method="POST">
     <table>
         <tr>
             <td>Kurskurzbezeichnung:</td>
@@ -28,7 +37,7 @@ if (!isset($_SESSION['username'])) {
         </tr>
         <tr style="height:50px">
             <td>
-                <button type="submit" name="Continue">Weiter</button>
+                <button type="submit" name="CreateCourse">Weiter</button>
             </td>
         </tr>
     </table>
