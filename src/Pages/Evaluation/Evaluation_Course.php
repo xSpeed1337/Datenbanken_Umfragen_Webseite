@@ -17,7 +17,7 @@ if (!isset($_POST["EvaluationTitleShort"])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fragebogen auswerten</title>
+    <title>Umfrage Webseite</title>
 </head>
 <body>
 <div>
@@ -50,7 +50,7 @@ if (!isset($_POST["EvaluationTitleShort"])) {
         <tr>
             <td>Kurs auswählen:</td>
             <td>
-                <select name="course_short">
+                <select required name="course_short">
                     <?php
                     $tile_short = escapeCharacters($_POST["EvaluationTitleShort"]);
                     $courseSql = "SELECT course.course_short, course.course_name
