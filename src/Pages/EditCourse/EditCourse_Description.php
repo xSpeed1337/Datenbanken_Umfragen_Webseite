@@ -1,7 +1,7 @@
 <?php
 require "../../php-scripts/CourseHandler.php";
 
-loginCheck();
+loginUsernameCheck();
 /**
  * @author Lukas Fink
  */

@@ -1,7 +1,7 @@
 <?php
 require "../../php-scripts/EvaluationHandler.php";
 
-loginCheck();
+loginUsernameCheck();
 
 if (!isset($_POST["EvaluationTitleShort"])) {
     header("Location: ../MySurveys_Interviewer.php");

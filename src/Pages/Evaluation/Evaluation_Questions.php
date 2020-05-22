@@ -1,7 +1,7 @@
 <?php
 require "../../php-scripts/EvaluationHandler.php";
 
-loginCheck();
+loginUsernameCheck();
 /**
  * @author Lukas Fink
  */
