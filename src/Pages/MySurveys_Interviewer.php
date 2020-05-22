@@ -1,7 +1,7 @@
 <?php
 require "../php-scripts/Utilities.php";
 
-loginCheck();
+loginUsernameCheck();
 ?>
 
 <!DOCTYPE html>

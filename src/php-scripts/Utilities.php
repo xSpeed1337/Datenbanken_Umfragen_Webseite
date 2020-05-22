@@ -34,8 +34,19 @@ function escapeCharacters($string) {
  * Checks if User is logged in and if not redirects him to the login page
  * @author Lukas Fink
  */
-function loginCheck() {
+function loginUsernameCheck() {
     if (!isset($_SESSION['username'])) {
+        header('Location: login.php');
+        exit();
+    }
+}
+
+/**
+ * Checks if User is logged in and if not redirects him to the login page
+ * @author Lukas Fink
+ */
+function loginStudentCheck() {
+    if (!isset($_SESSION['Matrikelnummer'])) {
         header('Location: login.php');
         exit();
     }
