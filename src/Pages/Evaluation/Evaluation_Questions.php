@@ -12,7 +12,7 @@ loginCheck();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fragebogen auswerten</title>
+    <title>Umfrage Webseite</title>
 </head>
 <body>
 

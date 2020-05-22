@@ -1,5 +1,5 @@
 <?php
-require "../../php-scripts/Utilities.php";
+require "../../php-scripts/CourseHandler.php";
 
 loginCheck();
 /**
@@ -12,13 +12,20 @@ loginCheck();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurs anlegen</title>
+    <title>Umfrage Webseite</title>
 </head>
 <body>
+<h2>Student anlegen</h2>
+<?php
+if (!isset($course_handler)) {
+    $course_handler = new CourseHandler();
+}
 
-<h2>Kurs anlegen</h2>
-
-<form id="studentForm" method="POST" action="../../php-scripts/CourseHandler.php">
+if (isset($_POST["CreateStudentButton"])) {
+    $course_handler->createStudent($_POST["MatNr"], $_POST['StudentFirstName'], $_POST['StudentLastName'], $_POST['CourseShort']);
+}
+?>
+<form method="POST">
     <table>
         <tr>
             <th>Matrikelnummer</th>
@@ -27,11 +34,17 @@ loginCheck();
             <th>Kurs</th>
         </tr>
         <tr>
-            <td><input required min='999999' max='9999999' type=\"number\" min name=\"MatNr\"/></td>
-            <td style=\"padding-left:20px\"><input required type=\"text\" name=\"StudentFirstName\"/></td>
-            <td style=\"padding-left:20px\"><input required type=\"text\" name=\"StudentLastName\"/></td>
+            <td style=\"padding-left:20px\">
+                <input required min="1000000" max="9999999" type="number" name="MatNr"/>
+            </td>
+            <td style=\"padding-left:20px\">
+                <input required type="text" name="StudentFirstName"/>
+            </td>
+            <td style=\"padding-left:20px\">
+                <input required type="text" name="StudentLastName"/>
+            </td>
             <td>
-                <select required name='CourseShort'>
+                <select required name="CourseShort">
                     <?php
                     $sql = "SELECT * FROM course";
                     $stmt = mysqli_stmt_init(database_connect());
@@ -51,7 +64,7 @@ loginCheck();
         </tr>
         <tr style="height:50px">
             <td>
-                <button type="submit" name="SaveCourse">Student speichern</button>
+                <button type="submit" name="CreateStudentButton">Student speichern</button>
             </td>
         </tr>
     </table>

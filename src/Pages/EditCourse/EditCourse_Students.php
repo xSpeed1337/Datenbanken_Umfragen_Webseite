@@ -1,5 +1,5 @@
 <?php
-require "../../php-scripts/Utilities.php";
+require "../../php-scripts/CourseHandler.php";
 
 loginCheck();
 /**
@@ -12,13 +12,20 @@ loginCheck();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student bearbeiten</title>
+    <title>Umfrage Webseite</title>
 </head>
 <body>
-
 <h2>Student bearbeiten</h2>
+<?php
+if (!isset($course_handler)) {
+    $course_handler = new CourseHandler();
+}
 
-<form id="studentForm" method="POST" action="../../php-scripts/CourseHandler.php">
+if (isset($_POST["UpdateStudentButton"])) {
+    $course_handler->updateStudent($_POST['OldMatNr'], $_POST['UpdateMatNr'], $_POST['UpdateStudentFirstName'], $_POST['UpdateStudentLastName'], $_POST['UpdateStudentCourse']);
+}
+?>
+<form method="post">
     <table>
         <tr>
             <th>Alte Matrikelnummer</th>
@@ -70,7 +77,7 @@ loginCheck();
         </tr>
         <tr style="height:50px">
             <td>
-                <button type="submit" name="UpdateStudentSave">Student speichern</button>
+                <button type="submit" name="UpdateStudentButton">Student speichern</button>
             </td>
         </tr>
     </table>
