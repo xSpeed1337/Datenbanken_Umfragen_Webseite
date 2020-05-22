@@ -53,9 +53,16 @@ if (isset($_POST["UpdateStudentButton"])) {
                     ?>
                 </select>
             </td>
-            <td><input required min='999999' max='9999999' type=\"number\" min name=\"UpdateMatNr\"/></td>
-            <td style=\"padding-left:20px\"><input required type=\"text\" name=\"UpdateStudentFirstName\"/></td>
-            <td style=\"padding-left:20px\"><input required type=\"text\" name=\"UpdateStudentLastName\"/></td>
+            <td style=\"padding-left:20px\">
+                <input required min="1000000" max="9999999" type="number"
+                       name="UpdateMatNr"/>
+            </td>
+            <td style=\"padding-left:20px\">
+                <input required type="text" name="UpdateStudentFirstName"/>
+            </td>
+            <td style=\"padding-left:20px\">
+                <input required type="text" name="UpdateStudentLastName"/>
+            </td>
             <td>
                 <select required name='UpdateStudentCourse'>
                     <?php
