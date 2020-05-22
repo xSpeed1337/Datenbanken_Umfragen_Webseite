@@ -1,5 +1,5 @@
 <?php
-require "../../php-scripts/Utilities.php";
+require "../../php-scripts/CourseHandler.php";
 
 loginCheck();
 /**
@@ -16,7 +16,16 @@ loginCheck();
 </head>
 <body>
 <h2>Kurs anlegen</h2>
-<form method="post" action="../../php-scripts/CourseHandler.php">
+<?php
+if (!isset($course_handler)) {
+    $course_handler = new CourseHandler();
+}
+
+if (isset($_POST["CreateCourse"])) {
+    $course_handler->createCourse($_POST["CourseDesc"], $_POST["CourseName"]);
+}
+?>
+<form method="POST">
     <table>
         <tr>
             <td>Kurskurzbezeichnung:</td>
@@ -28,7 +37,7 @@ loginCheck();
         </tr>
         <tr style="height:50px">
             <td>
-                <button type="submit" name="Continue">Weiter</button>
+                <button type="submit" name="CreateCourse">Weiter</button>
             </td>
         </tr>
     </table>
