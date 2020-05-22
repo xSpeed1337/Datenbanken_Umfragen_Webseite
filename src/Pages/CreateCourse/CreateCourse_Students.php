@@ -12,11 +12,11 @@ loginCheck();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurs anlegen</title>
+    <title>Umfrage Webseite</title>
 </head>
 <body>
 
-<h2>Kurs anlegen</h2>
+<h2>Student anlegen</h2>
 
 <form id="studentForm" method="POST" action="../../php-scripts/CourseHandler.php">
     <table>

@@ -12,7 +12,7 @@ loginCheck();
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kurs bearbeiten</title>
+    <title>Umfrage Webseite</title>
 </head>
 <body>
 <h2>Kurs bearbeiten</h2>
@@ -21,7 +21,7 @@ loginCheck();
         <tr>
             <td>Zu bearbeitender Kurs:</td>
             <td>
-                <select name="OldCourseShort">
+                <select required name="OldCourseShort">
                     <?php
                     $sql = "SELECT * FROM course";
                     $stmt = mysqli_stmt_init(database_connect());
