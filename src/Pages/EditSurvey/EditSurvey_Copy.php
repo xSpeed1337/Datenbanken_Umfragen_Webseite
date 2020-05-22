@@ -12,26 +12,26 @@ if (!isset($_SESSION['username'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fragebogen anlegen</title>
+    <title>Fragebogen kopieren</title>
 </head>
 <body>
 
-<h2>Fragebogen anlegen</h2>
+<h2>Fragebogen kopieren</h2>
 
 
-<form method="POST" action="../../php-scripts/CreateSurveyHandler.php">
-<table>
-    <tr>
-        <td>Titel:</td>
-        <td><input required type="text" name="FBTitle"/></td>
+<form method="POST" action="../../php-scripts/EditSurveyHandler.php">
+    <table>
+        <tr>
+            <td>Neuer Titel:</td>
+            <td><input required type="text" name="FBTitleCopy"/></td>
 
-    </tr>
+        </tr>
 
-    <tr style="height:50px">
-            <td><button type="submit" name="CreateTitle">Weiter</button></td>
-    </tr>
+        <tr style="height:50px">
+            <td><button type="submit" name="Copy">Kopieren</button></td>
+        </tr>
 
-</table>
+    </table>
 </form>
 
 <form method="GET" action="../MySurveys_Interviewer.php" >
@@ -41,3 +41,4 @@ if (!isset($_SESSION['username'])) {
 
 </body>
 </html>
+

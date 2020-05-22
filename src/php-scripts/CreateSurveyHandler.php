@@ -1,10 +1,17 @@
 <?php
 
-//include_once "Utilities.php";
 require "Utilities.php";
 
-class CreateSurveyHandler extends AnswerSurveyHandler {
+/**
+ * Class CreateSurveyHandler
+ * @author Antonia Gabriel
+ */
+class CreateSurveyHandler {
 
+    /**
+     * inserts the entered title into the database table survey
+     * @author Antonia Gabriel
+     */
     public function createTitle() {
 
         $title = $_POST["FBTitle"];
@@ -27,6 +34,10 @@ class CreateSurveyHandler extends AnswerSurveyHandler {
 
     }
 
+    /**
+     * inserts the entered question into the database table question with the selected foreign key from the created survey
+     * @author Antonia Gabriel
+     */
     public function createQuestion(){
 
         $question = $_POST["Question"];
@@ -34,7 +45,7 @@ class CreateSurveyHandler extends AnswerSurveyHandler {
         $sql1 = "SELECT title_short FROM survey where title = ? Limit 1";
             $stmt = mysqli_stmt_init(database_connect());
             if (!mysqli_stmt_prepare($stmt, $sql1)) {
-                echo "SQL statement failed1";
+                echo "SQL statement failed";
             } else {
                 mysqli_stmt_bind_param($stmt, "s", $_SESSION['title']);
                 mysqli_stmt_execute($stmt);
@@ -65,6 +76,9 @@ class CreateSurveyHandler extends AnswerSurveyHandler {
 
     }
 
+    /**
+     * assigns the selected course to the created survey to answer
+     */
     public function assignCourse(){
 
         $course_short = $_POST["CourseShort"];
@@ -94,11 +108,11 @@ $createSurvey_handler = new CreateSurveyHandler();
 
 if (isset($_GET["CreateFB"])){
     header("Location: ../Pages/CreateSurvey/CreateSurvey_title.php");
-}elseif(isset($_POST["Continue"])){
+}elseif(isset($_POST["CreateTitle"])){
     $createSurvey_handler->createTitle();
 }elseif(isset($_POST["NewQuestion"])){
     $createSurvey_handler->createQuestion();
-}elseif (isset($_POST["Continue2"])){
+}elseif (isset($_POST["Continue"])){
     header("Location: ../Pages/CreateSurvey/CreateSurvey_course.php");
 }elseif (isset($_POST["AuthorizeCourse"])){
     $createSurvey_handler->assignCourse();

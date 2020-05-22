@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+require "../../php-scripts/Utilities.php";
 
 if (!isset($_SESSION['username'])) {
     header('Location: ../LoginPage.php');
@@ -35,7 +35,7 @@ if (!isset($_SESSION['username'])) {
                 <button type="submit" name="NewQuestion">Frage hinzufügen</button>
             </td>
             <td>
-                <button type="submit" name="Continue2">Weiter</button>
+                <button type="submit" name="Continue">Weiter</button>
             </td>
         </tr>
 

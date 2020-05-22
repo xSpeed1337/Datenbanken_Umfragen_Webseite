@@ -1,12 +1,17 @@
 <?php
 require "Utilities.php";
 
-////////////////////////////////////////////////////////////////
-/// registration surveyor, login surveyor, login student
-/// Antonia Gabriel
 
+/**
+ * Class LoginHandler
+ * @author Antonia Gabriel
+ */
 class LoginHandler {
 
+    /**
+     * registers the new surveyor
+     * @author Antonia Gabriel
+     */
     public function register() {
 
         if (empty($_POST["username"]) || empty($_POST["password"])) {
@@ -32,6 +37,10 @@ class LoginHandler {
         }
     }
 
+    /**
+     * logs in the surveyor and opens the homepage of the surveyor
+     * @author Antonia Gabriel
+     */
     public function loginSurveyor() {
 
         $username = $_POST["username"];
@@ -62,6 +71,10 @@ class LoginHandler {
         }
     }
 
+    /**
+     * logs in the student with a valid Matrikelnummer and opens the homepage of the student
+     * @author Antonia Gabriel
+     */
     public function loginStudent() {
 
         $matnr = $_POST["Matrikelnummer"];
@@ -85,6 +98,10 @@ class LoginHandler {
         }
     }
 
+    /**
+     * logs out the surveyor or the student
+     * @author Antonia Gabriel
+     */
     public function logout(){
 
         session_destroy();
@@ -95,6 +112,11 @@ class LoginHandler {
 
 }
 
+/**
+ * alert message for the login page
+ * @param $message
+ * @author Antonia Gabriel
+ */
 function alert($message) {
     echo "<script>alert('$message'); window.location.href='../Pages/LoginPage.php';</script>";
 }
