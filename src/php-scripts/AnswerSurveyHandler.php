@@ -247,7 +247,7 @@ class AnswerSurveyHandler {
         $result = mysqli_fetch_assoc($results);
 
         if ($result['anz_results'] <> $_SESSION["NumberOfQuestions"]) {
-            echo "Sie können den Fragebogen erst abschließen, sobald sie alle Fragen beantwortet haben!";
+            echo "Sie können den Fragebogen erst abschließen, sobald Sie alle Fragen beantwortet haben!";
         } else {
             $cmd = mysqli_prepare($this->db, "INSERT INTO survey_finished VALUES(?, ?)");
             mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);
