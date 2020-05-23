@@ -10,16 +10,18 @@
  * die Tabelle survey_finished eingetragen und der Studierende wird zurück zum Hauptmenü weitergeleitet.
  */
 
-include_once "../../php-scripts/AnswerSurveyHandler.php";
-$obj = new AnswerSurveyHandler();
 
 /**
  * Wird die Seite aufgerufen ohne das der Benutzer eingeloggt ist, wird er auf
  * die Loginseite weitergeleitet
  */
-if(!isset($_SESSION['Matrikelnummer']) ) {
-    header('Location: ../LoginPage.php');
-}
+require_once "../../php-scripts/Utilities.php";
+loginStudentCheck();
+
+
+include_once "../../php-scripts/AnswerSurveyHandler.php";
+$obj = new AnswerSurveyHandler();
+
 ?>
 
 <!DOCTYPE html>

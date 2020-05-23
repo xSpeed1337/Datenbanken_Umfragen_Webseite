@@ -1,5 +1,5 @@
 <?php
-require "Utilities.php";
+require_once "Utilities.php";
 
 /**
  * Class AnswerSurveyHandler
