@@ -2,10 +2,8 @@
 
 require "../../php-scripts/Utilities.php";
 
-if (!isset($_SESSION['username'])) {
-    header('Location: LoginPage.php');
-    exit();
-}
+loginUsernameCheck();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -69,7 +67,7 @@ if (!isset($_SESSION['username'])) {
         <table>
             <tr>
                     <td style="padding-right:20px">Neue Frage:</td>
-                    <td style=\"padding-left:20px\"><input required type="text" name="NewQuestion"/></td>
+                    <td style=\"padding-left:20px\"><input type="text" name="NewQuestion"/></td>
                     <td style="padding-left: 20px"><button type="submit" name="InsertQuestion">Neue Frage hinzufügen</button></td>
             </tr>
         </table>

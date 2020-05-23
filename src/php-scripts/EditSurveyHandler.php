@@ -3,19 +3,21 @@ require "Utilities.php";
 
 /**
  * Class EditSurveyHandler
+ * Die Klasse behandelt die Bearbeitung der bereits erstellten Fragebögen mit den Funktionen:
+ * Einzelne Fragen löschen oder hinzufügen, komletten Fragebogen löschen und Fragebogen kopieren
  * @author Antonia Gabriel
  */
 class EditSurveyHandler
 {
 
     /**
+     * Löschen einzelner Fragen im vom Befrager ausgewählten Fragebogen
      * @author Antonia Gabriel
      */
     public function deleteQuestion(){
 
         $question_id = $_POST["DeleteQuestion"];
-        echo $question_id;
-        echo $_SESSION["editFB_title_short"];
+        $question_id = escapeCharacters($question_id);
 
         $sql = "DELETE FROM question where id = ?";
         $stmt = mysqli_stmt_init(database_connect());
@@ -26,18 +28,20 @@ class EditSurveyHandler
             if (mysqli_stmt_execute($stmt)) {
                 header("Location: ../Pages/EditSurvey/EditSurvey.php");
             } else {
-                echo "Datenübertragung fehlgeschlagen";
+                echo "Frage konnte nicht gelöscht werden.";
             };
         }
 
     }
 
     /**
+     * Einfügen neuer Fragen in den vom Befrager ausgewählten Fragebogen
      * @author Antonia Gabriel
      */
     public function insertQuestion(){
 
         $newQuestion = $_POST["NewQuestion"];
+        $newQuestion = escapeCharacters($newQuestion);
 
         $sql = "Insert into question (question_text, title_short) values (?, ?)";
 
@@ -50,7 +54,7 @@ class EditSurveyHandler
             if (mysqli_stmt_execute($stmt)) {
                 header("Location: ../Pages/EditSurvey/EditSurvey.php");
             } else {
-                echo "Datenübertragung fehlgeschlagen";
+                echo "Frage -" . $newQuestion . "- konnte nicht dem Fragebogen hinzugefügt werden.";
             };
         }
 
@@ -58,14 +62,15 @@ class EditSurveyHandler
 
 
     /**
-     * copys the questions from the selected survey after entered the new survey title
+     * Der vom Befrager ausgewählte Fragebogen soll kopiert werden. Zunächst wird ein neuer Fragebogen erstellt.
+     * Danach werden die Fragen in den neuen Fragebogen kopiert.
      * @author Antonia Gabriel
      */
     public function copySurvey(){
 
-        echo $_SESSION["editFB_title_short"];
-
+        //Erstellung neuer Fragebogen
         $title_copy = $_POST["FBTitleCopy"];
+        $title_copy = escapeCharacters($title_copy);
 
         $sql1 = "Insert into survey (title, username) values (?, ?)";
 
@@ -75,13 +80,12 @@ class EditSurveyHandler
             echo "SQL statement failed";
         } else {
             mysqli_stmt_bind_param($stmt, "ss",$title_copy, $_SESSION['username']);
-            if (mysqli_stmt_execute($stmt)) {
-                echo "Datenübertragung ist nicht fehlgeschlagen";
-            } else {
-                echo "Datenübertragung fehlgeschlagen";
-            };
+            if (!mysqli_stmt_execute($stmt)) {
+                echo "Fragebogen konnte nicht erstellt werden.";
+            }
         }
 
+        //Selektiert den Primärschlüssel des neu erstellten Fragebogens für das Einfügen der Fragen
         $sql2 = "SELECT * FROM survey where title = ? and username = ? Limit 1";
 
         if (!mysqli_stmt_prepare($stmt, $sql2)) {
@@ -94,11 +98,11 @@ class EditSurveyHandler
 
         if ($result->num_rows > 0) {
             $row = mysqli_fetch_array($result);
-            echo "title_short: " . $row["title_short"];
             $title_short = $row["title_short"];
         }
 
 
+        //Selektiert die Fragen aus den zu kopierenden Fragebogen
         $sql3 = "SELECT * FROM question where title_short = ?";
 
         if (!mysqli_stmt_prepare($stmt, $sql3)) {
@@ -110,6 +114,7 @@ class EditSurveyHandler
             $results = mysqli_stmt_get_result($stmt);
             foreach ($results as $question) {
 
+                //Einfügen der Fragen in den neu erstellten Fragebogen
                 $sql4 = "Insert into question (question_text, title_short) values (?, ?)";
 
                 if (!mysqli_stmt_prepare($stmt, $sql4)) {
@@ -120,7 +125,7 @@ class EditSurveyHandler
                         echo "Datenübertragung ist nicht fehlgeschlagen";
                         header("Location: ../Pages/MySurveys_Interviewer.php");
                     } else {
-                        echo "Datenübertragung fehlgeschlagen";
+                        echo "Fragen konnten nicht kopiert werden.";
                     };
                 }
             }
@@ -133,7 +138,7 @@ class EditSurveyHandler
     }
 
     /**
-     * deletes the selected survey completely
+     * löscht den ausgewählten Fragebogen komplett
      * @author Antonia Gabriel
      */
     public function deleteSurvey(){
@@ -149,7 +154,7 @@ class EditSurveyHandler
             if (mysqli_stmt_execute($stmt)) {
                 header("Location: ../Pages/MySurveys_Interviewer.php");
             } else {
-                echo "Datenübertragung fehlgeschlagen";
+                echo "Fragebogen konnte nicht gelöscht werden.";
             };
         }
 
@@ -162,16 +167,19 @@ $editSurvey_handler = new EditSurveyHandler();
 
 if (isset($_POST["EditFB"])){
     $editFB_title_short = $_POST["EditFB"];
+    $editFB_title_short = escapeCharacters($editFB_title_short);
     $_SESSION['editFB_title_short'] = $editFB_title_short;
     header("Location: ../Pages/EditSurvey/EditSurvey.php");
 }elseif(isset($_POST["CopyFB"])){
     $copyFB_title_short = $_POST["CopyFB"];
+    $copyFB_title_short = escapeCharacters($copyFB_title_short);
     $_SESSION['editFB_title_short'] = $copyFB_title_short;
     header("Location: ../Pages/EditSurvey/EditSurvey_Copy.php");
 }elseif(isset($_POST["Copy"])){
     $editSurvey_handler->copySurvey();
 }elseif(isset($_POST["DeleteFB"])){
     $deleteFB_title_short = $_POST["DeleteFB"];
+    $deleteFB_title_short = escapeCharacters($deleteFB_title_short);
     $_SESSION["editFB_title_short"] = $deleteFB_title_short;
     $editSurvey_handler->deleteSurvey();
 }elseif(isset($_POST["DeleteQuestion"])){

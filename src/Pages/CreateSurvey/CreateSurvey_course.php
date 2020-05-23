@@ -1,10 +1,10 @@
 <?php
 require "../../php-scripts/Utilities.php";
 
-if (!isset($_SESSION['username'])) {
-    header('Location: ../LoginPage.php');
-    exit();
-}
+loginUsernameCheck();
+/**
+ * @author Antonia Gabriel
+ */
 ?>
 
 <!DOCTYPE html>
@@ -49,7 +49,7 @@ if (!isset($_SESSION['username'])) {
 
     </table>
 </form>
-
+<br>
 <form method="GET" action="../MySurveys_Interviewer.php" >
     <button type="submit" name="Quit">Abbrechen</button>
     <button type="submit" name="Quit">Fertigstellen</button>
