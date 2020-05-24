@@ -46,7 +46,6 @@ $obj = new AnswerSurveyHandler();
         echo
         "<tr>
             <form method='POST' action='../Pages/AnswerSurvey/AnswerSurvey_Questions.php'>
-                <td style='padding-right:20px'>". $survey['title_short']."</td>
                 <td style='padding-right:20px'>". $survey['title']."</td>
                 <td style='padding-right:20px'>". $survey['username']."</td>
                 <td><button type='submit' name='". $survey['title_short']."'>Starten</button></td>

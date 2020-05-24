@@ -47,12 +47,12 @@ echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
  * Speichern des Kommentars in der Datenbank, sobald "Vorherige Frage"
  * oder "Zurück zum Hauptmenü" geklickt wurde
  */
-if(isset($_POST["PrevQuestion"]) == true) {
+if(isset($_POST["PrevQuestion"])) {
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     $_SESSION["LastPage"] = "AnswerSurvey_Comment";
     header('Location: AnswerSurvey_Questions.php');
 
-}elseif(isset($_POST["BackToHP"]) == true) {
+}elseif(isset($_POST["BackToHP"])) {
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     header('Location: ../MySurveys_Student.php');
 }
@@ -82,7 +82,7 @@ if(isset($_POST["PrevQuestion"]) == true) {
         <tr>
             <td>
                 <?php
-                if(isset($_POST["FinishSurvey"]) == true){
+                if(isset($_POST["FinishSurvey"])){
                     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
                     $obj->finishSurvey($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
                 }

@@ -34,12 +34,12 @@ $obj = new AnswerSurveyHandler();
 
 <?php
 
-
 /**
  * Prüft ob die Seite zum ersten Mal aufgerufen wird. Wenn ja, wird die Session-Variable
  * "CurrentQuestion" auf 1 gesetzt
  */
-if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) == false) && (isset($_POST["BackToHP"]) == false) && (isset($_POST["Next"]) == false) && !(isset($_SESSION["LastPage"]) && $_SESSION["LastPage"] == "AnswerSurvey_Comment")){
+if (!isset($_POST["PrevQuestion"]) && !isset($_POST["NextQuestion"]) && !isset($_POST["BackToHP"]) && !isset($_POST["Next"]) && !(isset($_SESSION["LastPage"]) && $_SESSION["LastPage"] == "AnswerSurvey_Comment")){
+
     $_SESSION["CurrentQuestion"] = 1;
 
 
@@ -66,25 +66,25 @@ if ((isset($_POST["PrevQuestion"]) == false) && (isset($_POST["NextQuestion"]) =
      * Speichern der Antworten in der Datenbank, sobald "Nächste Frage", "Vorherige Frage"
      * oder "Zurück zum Hauptmenü" geklickt wurde
      */
-} elseif(isset($_POST["PrevQuestion"]) == true) {
+} elseif(isset($_POST["PrevQuestion"])) {
     if (isset($_POST["Radio"])) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
 }
     $_SESSION["CurrentQuestion"]--;
 
-}elseif(isset($_POST["NextQuestion"]) == true) {
+}elseif(isset($_POST["NextQuestion"])) {
     if (isset($_POST["Radio"])) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
 }
     $_SESSION ["CurrentQuestion"] ++;
 
-}elseif(isset($_POST["BackToHP"]) == true) {
+}elseif(isset($_POST["BackToHP"])) {
     if (isset($_POST["Radio"])) {
         $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
     }
     header('Location: ../MySurveys_Student.php');
 
-}elseif(isset($_POST["Next"]) == true) {
+}elseif(isset($_POST["Next"])) {
     if (isset($_POST["Radio"])) {
     $obj->saveAnswer($_POST["Radio"], $_SESSION["Questions"][$_SESSION["CurrentQuestion"]]["questionID"], $_SESSION["Matrikelnummer"]);
 }
