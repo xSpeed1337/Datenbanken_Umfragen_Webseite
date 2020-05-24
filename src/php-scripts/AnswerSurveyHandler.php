@@ -1,5 +1,5 @@
 <?php
-require "Utilities.php";
+require_once "Utilities.php";
 
 /**
  * Class AnswerSurveyHandler
@@ -119,8 +119,8 @@ class AnswerSurveyHandler {
         $cmd = mysqli_prepare($this->db, "SELECT * FROM question_answer WHERE id = ? AND matnr = ?");
         mysqli_stmt_bind_param($cmd, "ii", $questionID, $matnr);
         mysqli_stmt_execute($cmd);
-        $result = mysqli_stmt_get_result($cmd); //ganze Tabelle
-        $results = mysqli_fetch_assoc($result); //erster Eintrag
+        $result = mysqli_stmt_get_result($cmd);
+        $results = mysqli_fetch_assoc($result);
 
         if ($results == false || !isset($results['answer'])) {
             echo
@@ -188,8 +188,6 @@ class AnswerSurveyHandler {
         $stmt->execute();
         $stmt->store_result();
 
-        $result = "";
-        $stmt->bind_result($result);
         $stmt->fetch();
 
         if ($stmt->num_rows == 0) {
@@ -249,7 +247,7 @@ class AnswerSurveyHandler {
         $result = mysqli_fetch_assoc($results);
 
         if ($result['anz_results'] <> $_SESSION["NumberOfQuestions"]) {
-            echo "Sie können den Fragebogen erst abschließen, sobald sie alle Fragen beantwortet haben!";
+            echo "Sie können den Fragebogen erst abschließen, sobald Sie alle Fragen beantwortet haben!";
         } else {
             $cmd = mysqli_prepare($this->db, "INSERT INTO survey_finished VALUES(?, ?)");
             mysqli_stmt_bind_param($cmd, "si", $fb_short_title, $matnr);

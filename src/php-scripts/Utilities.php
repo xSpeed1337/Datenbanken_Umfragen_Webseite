@@ -47,7 +47,7 @@ function loginUsernameCheck() {
  */
 function loginStudentCheck() {
     if (!isset($_SESSION['Matrikelnummer'])) {
-        header('Location: login.php');
+        header('Location: /Datenbanken_Umfrage_App/src/Pages/LoginPage.php');
         exit();
     }
 }

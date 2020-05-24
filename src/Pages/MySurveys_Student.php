@@ -10,17 +10,16 @@
  */
 
 
-include_once "../php-scripts/AnswerSurveyHandler.php";
-$obj = new AnswerSurveyHandler();
-
-
 /**
  * Wird die Seite aufgerufen ohne das der Benutzer eingeloggt ist, wird er auf
-   die Loginseite weitergeleitet
+ * die Loginseite weitergeleitet
  */
-if(!isset($_SESSION['Matrikelnummer']) ) {
-    header('Location: ./LoginPage.php');
-}
+require_once "./../php-scripts/Utilities.php";
+loginStudentCheck();
+
+
+include_once "../php-scripts/AnswerSurveyHandler.php";
+$obj = new AnswerSurveyHandler();
 
 ?>
 
@@ -47,7 +46,6 @@ if(!isset($_SESSION['Matrikelnummer']) ) {
         echo
         "<tr>
             <form method='POST' action='../Pages/AnswerSurvey/AnswerSurvey_Questions.php'>
-                <td style='padding-right:20px'>". $survey['title_short']."</td>
                 <td style='padding-right:20px'>". $survey['title']."</td>
                 <td style='padding-right:20px'>". $survey['username']."</td>
                 <td><button type='submit' name='". $survey['title_short']."'>Starten</button></td>

@@ -10,16 +10,18 @@
  * die Tabelle survey_finished eingetragen und der Studierende wird zurück zum Hauptmenü weitergeleitet.
  */
 
-include_once "../../php-scripts/AnswerSurveyHandler.php";
-$obj = new AnswerSurveyHandler();
 
 /**
  * Wird die Seite aufgerufen ohne das der Benutzer eingeloggt ist, wird er auf
  * die Loginseite weitergeleitet
  */
-if(!isset($_SESSION['Matrikelnummer']) ) {
-    header('Location: ../LoginPage.php');
-}
+require_once "../../php-scripts/Utilities.php";
+loginStudentCheck();
+
+
+include_once "../../php-scripts/AnswerSurveyHandler.php";
+$obj = new AnswerSurveyHandler();
+
 ?>
 
 <!DOCTYPE html>
@@ -45,21 +47,15 @@ echo "<h2>".$_SESSION["SelectedSurvey"]."</h2>";
  * Speichern des Kommentars in der Datenbank, sobald "Vorherige Frage"
  * oder "Zurück zum Hauptmenü" geklickt wurde
  */
-if(isset($_POST["PrevQuestion"]) == true) {
+if(isset($_POST["PrevQuestion"])) {
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     $_SESSION["LastPage"] = "AnswerSurvey_Comment";
     header('Location: AnswerSurvey_Questions.php');
 
-}elseif(isset($_POST["BackToHP"]) == true) {
+}elseif(isset($_POST["BackToHP"])) {
     $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
     header('Location: ../MySurveys_Student.php');
 }
-
-if(isset($_POST["FinishSurvey"]) == true){
-    $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
-    $obj->finishSurvey($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
-}
-
 
 ?>
 
@@ -80,6 +76,17 @@ if(isset($_POST["FinishSurvey"]) == true){
         <tr style="height:50px">
             <td>
                 <button type="submit" name="PrevQuestion">Vorherige Frage</button>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                <?php
+                if(isset($_POST["FinishSurvey"])){
+                    $obj->saveComment($_POST["Comment"], $_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+                    $obj->finishSurvey($_SESSION["SurveyTitleShort"], $_SESSION["Matrikelnummer"]);
+                }
+                ?>
             </td>
         </tr>
 
