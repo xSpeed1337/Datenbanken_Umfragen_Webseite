@@ -35,10 +35,15 @@ loginUsernameCheck();
 </form>
 <br>
 <div>
+
     <h4>Meine Fragebögen</h4>
 
     <table>
+
         <?php
+        /**
+         * @author Antonia Gabriel
+         */
         $sql = "SELECT * FROM survey where username = ?";
         $stmt = mysqli_stmt_init(database_connect());
         if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -52,14 +57,14 @@ loginUsernameCheck();
                 echo
                     "<tr>
                                 <form method='POST' action='../php-scripts/EditSurveyHandler.php'>
-                                    <td style='padding-right:20px'>" . $survey['title_short'] . "</td>
+                                    <td style='padding-right:20px' hidden>" . $survey['title_short'] . "</td>
                                     <td style='padding-right:20px'>" . $survey['title'] . "</td>
                                     <td><button type='submit' name='EditFB' value='" . $survey['title_short'] . "'>Bearbeiten</button>
                                     <td><button type='submit' name='DeleteFB' value='" . $survey['title_short'] . "'>Löschen</button> 
                                     <td><button type='submit' name='CopyFB' value='" . $survey['title_short'] . "'>Kopieren</button>
                                 </form>   
                                 <form method='POST' action='../php-scripts/CreateSurveyHandler.php'> 
-                                    <td><button type='submit' name='AssignCourse' value='" . $survey['title_short'] . "'>Kurs zuteilen</button> 
+                                    <td><button type='submit' name='AssignCourse' value='" . $survey['title_short'] . "'>Kurs zuordnen</button> 
                                 </form>
                                 <form method='POST' action='Evaluation/Evaluation_Course.php'> 
                                     <td><button type='submit' name='EvaluationTitleShort' value='" . $survey['title_short'] . "'>Auswerten</button> 

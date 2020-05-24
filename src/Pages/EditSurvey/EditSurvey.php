@@ -1,11 +1,9 @@
 <?php
-include_once "../php-scripts/Utilities.php";
-//session_start();
 
-if (!isset($_SESSION['username'])) {
-    header('Location: LoginPage.php');
-    exit();
-}
+require "../../php-scripts/Utilities.php";
+
+loginUsernameCheck();
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,7 +16,7 @@ if (!isset($_SESSION['username'])) {
 
 <div>
     <h2>Fragebogen bearbeiten</h2>
-    <form method="POST" action='../php-scripts/EditSurveyHandler.php'>
+    <form method="POST" action='../../php-scripts/EditSurveyHandler.php'>
 
         <table>
             <?php
@@ -51,9 +49,9 @@ if (!isset($_SESSION['username'])) {
                 foreach ($results as $question) {
                     echo
                         "<tr>
-                                <form method='POST' action='../php-scripts/EditSurveyHandler.php'>
+                                <form method='POST' action='../../php-scripts/EditSurveyHandler.php'>
                                     <td style='padding-right:20px'>Frage:</td>
-                                    <td style='padding-right:20px'>". $question['question_text']."</td>
+                                    <td style='padding-right:20px'>" . $question['question_text']."</td>
                                     <td><button type='submit' name='DeleteQuestion' value='". $question['id']."'>Löschen</button>
                                 </form>
                          </tr>";
@@ -69,7 +67,7 @@ if (!isset($_SESSION['username'])) {
         <table>
             <tr>
                     <td style="padding-right:20px">Neue Frage:</td>
-                    <td style=\"padding-left:20px\"><input required type="text" name="NewQuestion"/></td>
+                    <td style=\"padding-left:20px\"><input type="text" name="NewQuestion"/></td>
                     <td style="padding-left: 20px"><button type="submit" name="InsertQuestion">Neue Frage hinzufügen</button></td>
             </tr>
         </table>
@@ -78,7 +76,7 @@ if (!isset($_SESSION['username'])) {
 
     <br><br>
 
-    <form method="GET" action="MySurveys_Interviewer.php" >
+    <form method="GET" action="../MySurveys_Interviewer.php" >
         <button type="submit" name="Quit">Abbrechen/Fertig</button>
     </form>
 

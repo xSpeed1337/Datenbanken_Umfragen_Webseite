@@ -1,22 +1,34 @@
 <?php
 require "Utilities.php";
 
-////////////////////////////////////////////////////////////////
-/// registration surveyor, login surveyor, login student
-/// Antonia Gabriel
 
+/**
+ * Class LoginHandler
+ * Diese Klasse behandelt die Registrierung und das Einloggen des Befragers, das Einloggen des Studenten
+ * und das Ausloggend es Befragers und Studenten
+ * @author Antonia Gabriel
+ */
 class LoginHandler {
 
+    /**
+     * Registriert neuen Befrager
+     * @author Antonia Gabriel
+     */
     public function register() {
 
         if (empty($_POST["username"]) || empty($_POST["password"])) {
             //display error message
-            alert("Please fill in both fields to register successfully.");
+            alert("Bitte füllen Sie beide Felder aus, um sich zu registrieren.");
         } else {
             $username = $_POST["username"];
             $password = $_POST["password"];
 
+            $username = escapeCharacters($username);
+            $password = escapeCharacters($password);
+
+            //Passwort verschlüsseln
             $password = password_hash($password, PASSWORD_DEFAULT);
+
             $sql = "INSERT INTO surveyor(username, password) VALUES(?, ?)";
             $stmt = mysqli_stmt_init(database_connect());
             if (!mysqli_stmt_prepare($stmt, $sql)) {
@@ -24,18 +36,27 @@ class LoginHandler {
             } else {
                 mysqli_stmt_bind_param($stmt, "ss", $username, $password);
                 if (mysqli_stmt_execute($stmt)) {
-                    alert("The registration was successful. Please login to get further.");
+                    //display error message
+                    alert("Die Registrierung war erfolgreich. Bitte loggen Sie sich ein, um zur Startseite zu gelangen.");
                 } else {
-                    alert("Registration not successful");
+                    //display error message
+                    alert("Die Registrierung war leider nicht erfolgreich. Bitte versuchen Sie es erneut.");
                 };
             }
         }
     }
 
+    /**
+     * loggt Befrager ein und führt ihn auf seine Befrager-Startseite
+     * @author Antonia Gabriel
+     */
     public function loginSurveyor() {
 
         $username = $_POST["username"];
         $password = $_POST["password"];
+
+        $username = escapeCharacters($username);
+        $password = escapeCharacters($password);
 
         $sql = "SELECT * FROM surveyor where username = '$username' Limit 1";
         $stmt = mysqli_stmt_init(database_connect());
@@ -62,9 +83,15 @@ class LoginHandler {
         }
     }
 
+    /**
+     * loggt den Student ein und führt ihn auf seine Studenten-Startseite
+     * @author Antonia Gabriel
+     */
     public function loginStudent() {
 
         $matnr = $_POST["Matrikelnummer"];
+
+        $matnr = escapeCharacters($matnr);
 
         $sql = "SELECT * FROM student where matnr = '$matnr' Limit 1";
         $stmt = mysqli_stmt_init(database_connect());
@@ -81,10 +108,14 @@ class LoginHandler {
             $_SESSION['Matrikelnummer'] = $matnr;
             header("Location: ../Pages/MySurveys_Student.php");
         } else {
-            echo "Login fehlgeschlagen Student";
+            alert("Keine gültige Matrikelnummer!");
         }
     }
 
+    /**
+     * Ausloggen des Befragers und Studenten
+     * @author Antonia Gabriel
+     */
     public function logout(){
 
         session_destroy();
@@ -95,6 +126,11 @@ class LoginHandler {
 
 }
 
+/**
+ * Fehlermeldung für das Registrieren und Einloggen
+ * @param $message
+ * @author Antonia Gabriel
+ */
 function alert($message) {
     echo "<script>alert('$message'); window.location.href='../Pages/LoginPage.php';</script>";
 }

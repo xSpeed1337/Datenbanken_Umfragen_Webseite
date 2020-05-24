@@ -1,11 +1,11 @@
 <?php
 
-session_start();
+require "../../php-scripts/Utilities.php";
 
-if (!isset($_SESSION['username'])) {
-    header('Location: ../LoginPage.php');
-    exit();
-}
+loginUsernameCheck();
+/**
+ * @author Antonia Gabriel
+ */
 ?>
 
 <!DOCTYPE html>
@@ -25,21 +25,26 @@ if (!isset($_SESSION['username'])) {
         <tr>
             <td>Frage:</td>
             <td style="padding-left: 20px"><input type="text" name="Question"/></td>
+            <td style="padding-left: 20px">
+                <button type="submit" name="NewQuestion">Frage hinzufügen</button>
+            </td>
+
         </tr>
 
         <tr style="height:50px">
+
+
             <td>
-                <button type="submit" name="Back">Zurück</button>
-            </td>
-            <td>
-                <button type="submit" name="NewQuestion">Frage hinzufügen</button>
-            </td>
-            <td>
-                <button type="submit" name="Continue2">Weiter</button>
+                <button type="submit" name="Continue">Weiter</button>
             </td>
         </tr>
 
     </table>
 </form>
+
+<form method="GET" action="../MySurveys_Interviewer.php" >
+    <td><button type="submit" name="Quit">Abbrechen</button></td>
+</form>
+
 </body>
 </html>
