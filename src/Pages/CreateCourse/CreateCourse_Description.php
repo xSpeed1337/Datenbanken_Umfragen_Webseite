@@ -3,6 +3,7 @@ require "../../php-scripts/CourseHandler.php";
 
 loginUsernameCheck();
 /**
+ * Site to create a Course
  * @author Lukas Fink
  */
 ?>

@@ -102,7 +102,7 @@ class EvaluationHandler {
 
         // get all questions from survey to create the answerArray
         if (!mysqli_stmt_prepare($questionsStmt, $questionsSql)) {
-            echo "questionsSql statement failed";
+            echo "questionsSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
         } else {
             mysqli_stmt_bind_param($questionsStmt, "s", $this->title_short);
             if (mysqli_stmt_execute($questionsStmt)) {
@@ -130,7 +130,7 @@ class EvaluationHandler {
             $allAnswerStmt = mysqli_stmt_init(database_connect());
 
             if (!mysqli_stmt_prepare($allAnswerStmt, $allAnswerSql)) {
-                echo "allAnswerSql statement failed";
+                echo "allAnswerSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
             } else {
                 mysqli_stmt_bind_param($allAnswerStmt, "sss", $question["id"], $this->title_short, $this->course_short);
                 if (mysqli_stmt_execute($allAnswerStmt)) {
@@ -152,7 +152,7 @@ class EvaluationHandler {
                                           (SELECT student.matnr from student where course_short = ?)";
             $answerValuesStmt = mysqli_stmt_init(database_connect());
             if (!mysqli_stmt_prepare($answerValuesStmt, $answerValuesSql)) {
-                echo "answerValuesSql statement failed";
+                echo "answerValuesSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
             } else {
                 mysqli_stmt_bind_param($answerValuesStmt, "sss", $question["id"], $this->title_short, $this->course_short);
                 if (mysqli_stmt_execute($answerValuesStmt)) {
@@ -172,7 +172,7 @@ class EvaluationHandler {
 
                 $answerArrayRow++;
             } else {
-                echo "No answered questions found for" . $this->title_short;
+                echo "Keine Antworten gefunden für diese Umfrage";
             }
         }
         return $answerArray;
@@ -194,7 +194,7 @@ class EvaluationHandler {
         $commentStmt = mysqli_stmt_init(database_connect());
 
         if (!mysqli_stmt_prepare($commentStmt, $commentSql)) {
-            echo "SQL statement failed";
+            echo "commentSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
         } else {
             mysqli_stmt_bind_param($commentStmt, "ss", $this->title_short, $this->course_short);
             if (mysqli_stmt_execute($commentStmt)) {

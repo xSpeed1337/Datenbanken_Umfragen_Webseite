@@ -36,13 +36,13 @@ function escapeCharacters($string) {
  */
 function loginUsernameCheck() {
     if (!isset($_SESSION['username'])) {
-        header('Location: login.php');
+        header('Location: /Datenbanken_Umfrage_App/src/Pages/LoginPage.php');
         exit();
     }
 }
 
 /**
- * Checks if User is logged in and if not redirects him to the login page
+ * Checks if Student is logged in and if not redirects him to the login page
  * @author Lukas Fink
  */
 function loginStudentCheck() {
