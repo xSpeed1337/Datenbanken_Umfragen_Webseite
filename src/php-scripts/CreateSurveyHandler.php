@@ -11,12 +11,17 @@ class CreateSurveyHandler {
 
     /**
      * Erstellt neuen Fragebogen mit eingegebenen Titel
+     * @param $title
+     * @param $amountQuestions
      * @author Antonia Gabriel
      */
     public function createTitle() {
 
         $title = $_POST["FBTitle"];
+        $amountQuestions = $_POST["AnzahlFragen"];
         $title = escapeCharacters($title);
+        $amountQuestions = escapeCharacters($amountQuestions);
+        $_SESSION['amountQuestions'] = $amountQuestions;
 
         $sql = "Insert into survey (title, username) values (?, ?)";
 
@@ -30,11 +35,13 @@ class CreateSurveyHandler {
                 header("Location: ../Pages/CreateSurvey/CreateSurvey_questions.php");
                 $_SESSION['title'] = $title;
             } else {
-                alertTitle("Der Titel - " . $title . " " . "- existiert bereits.");
+                alertTitle("Der Fragebogen - " . $title . " " . "- existiert bereits.");
             };
         }
 
     }
+
+
 
     /**
      * Erstellt neue Frage für den Fragebogen
@@ -42,43 +49,54 @@ class CreateSurveyHandler {
      */
     public function createQuestion(){
 
-        $question = $_POST["Question"];
-        $question = escapeCharacters($question);
-
         //Selektiert den Primärschlüssels des erstellten Fragebogens für das Einfügen der Fragen
         $sql1 = "SELECT title_short FROM survey where title = ? Limit 1";
-            $stmt = mysqli_stmt_init(database_connect());
-            if (!mysqli_stmt_prepare($stmt, $sql1)) {
-                echo "SQL statement failed";
-            } else {
-                mysqli_stmt_bind_param($stmt, "s", $_SESSION['title']);
-                mysqli_stmt_execute($stmt);
-            }
-            $result = $stmt->get_result();
+        $stmt = mysqli_stmt_init(database_connect());
+        if (!mysqli_stmt_prepare($stmt, $sql1)) {
+            echo "SQL statement failed";
+        } else {
+            mysqli_stmt_bind_param($stmt, "s", $_SESSION['title']);
+            mysqli_stmt_execute($stmt);
+        }
+        $result = $stmt->get_result();
 
-            if ($result->num_rows > 0) {
-                $row = mysqli_fetch_array($result);
-                echo "title_short: " . $row["title_short"];
-                $title_short = $row["title_short"];
-                $_SESSION['title_short'] = $title_short;
+        if ($result->num_rows > 0) {
+            $row = mysqli_fetch_array($result);
+            echo "title_short: " . $row["title_short"];
+            $title_short = $row["title_short"];
+            $_SESSION['title_short'] = $title_short;
 
         }
 
-        //Fügt Frage für den Fragebogen ein
-        $sql = "Insert into question (question_text, title_short) values (?, ?)";
 
-        if (!mysqli_stmt_prepare($stmt, $sql)) {
-            echo "SQL statement failed";
-        } else {
-            mysqli_stmt_bind_param($stmt, "si",$question, $title_short);
-            if (mysqli_stmt_execute($stmt)) {
-                header("Location: ../Pages/CreateSurvey/CreateSurvey_questions.php");
+
+        foreach($_POST as $key => $question){
+
+            $question = escapeCharacters($question);
+
+            if($key == "Continue"){
+                continue;
+            }
+
+            //Fügt Frage für den Fragebogen ein
+            $sql2 = "Insert into question (question_text, title_short) values (?, ?)";
+
+            if (!mysqli_stmt_prepare($stmt, $sql2)) {
+                echo "SQL statement failed";
             } else {
-                echo "Die Frage " . $question . "konnte dem Fragebogen nicht hinzugefügt werden.";
-            };
+                mysqli_stmt_bind_param($stmt, "si",$question, $title_short);
+                if (mysqli_stmt_execute($stmt)) {
+                    header("Location: ../Pages/CreateSurvey/CreateSurvey_course.php");
+                } else {
+                    echo "Die Frage ". $key . ": " . $question . "konnte dem Fragebogen nicht hinzugefügt werden.";
+                };
+            }
+
         }
 
     }
+
+
 
     /**
      * Fragebogen einem Kurs zum Bearbeiten zuordnen
@@ -150,10 +168,9 @@ if (isset($_GET["CreateFB"])){
     header("Location: ../Pages/CreateSurvey/CreateSurvey_title.php");
 }elseif(isset($_POST["CreateTitle"])){
     $createSurvey_handler->createTitle();
-}elseif(isset($_POST["NewQuestion"])){
-    $createSurvey_handler->createQuestion();
+
 }elseif (isset($_POST["Continue"])){
-    header("Location: ../Pages/CreateSurvey/CreateSurvey_course.php");
+    $createSurvey_handler->createQuestion();
 }elseif (isset($_POST["AuthorizeCourse"])){
     $createSurvey_handler->assignCourse();
 }elseif (isset($_POST["AssignCourse"])){

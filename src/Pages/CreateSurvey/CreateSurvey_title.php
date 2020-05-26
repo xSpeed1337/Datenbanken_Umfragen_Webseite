@@ -19,6 +19,7 @@ loginUsernameCheck();
 
 <h2>Fragebogen anlegen</h2>
 
+
 <form method="POST" action="../../php-scripts/CreateSurveyHandler.php">
 <table>
     <tr>
@@ -29,8 +30,9 @@ loginUsernameCheck();
 
     <tr>
         <td>Anzahl der Fragen:</td>
-        <td style="padding-left: 20px"><input required type="text" name="NumberQuestion"/></td>
+        <td style="padding-left: 20px"><input required type="text" name="AnzahlFragen"/></td>
     </tr>
+
 
     <tr style="height:50px">
         <td><button type="submit" name="CreateTitle">Weiter</button></td>

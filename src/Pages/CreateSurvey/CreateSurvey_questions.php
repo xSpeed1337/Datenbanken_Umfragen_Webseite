@@ -19,24 +19,31 @@ loginUsernameCheck();
 
 <h2>Fragebogen anlegen</h2>
 
+
 <form method="POST" action="../../php-scripts/CreateSurveyHandler.php">
-
     <table>
-        <tr>
-            <td>Frage:</td>
-            <td style="padding-left: 20px"><input type="text" name="Question"/></td>
-            <td style="padding-left: 20px">
-                <button type="submit" name="NewQuestion">Frage hinzufügen</button>
-            </td>
+    <?php
+    for($i = 1; $i <= $_SESSION['amountQuestions']; $i++){
 
-        </tr>
+        echo
+            "             
+                   <tr>
+                       <td>Frage $i:</td>
+                       <td style=\"padding-left: 20px\"><input required type=\"text\" name= $i></td>
+                   </tr>           
+              ";
 
-        <tr style="height:50px">
 
+    }
 
-            <td>
-                <button type="submit" name="Continue">Weiter</button>
-            </td>
+    ?>
+    </table>
+
+    <br>
+    <table>
+        <td>
+            <button type="submit" name="Continue">Weiter</button>
+        </td>
         </tr>
 
     </table>

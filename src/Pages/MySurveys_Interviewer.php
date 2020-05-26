@@ -2,6 +2,7 @@
 require "../php-scripts/Utilities.php";
 
 loginUsernameCheck();
+
 ?>
 
 <!DOCTYPE html>
