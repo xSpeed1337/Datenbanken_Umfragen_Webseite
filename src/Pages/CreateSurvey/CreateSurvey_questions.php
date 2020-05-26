@@ -1,6 +1,6 @@
 <?php
 
-require "../../php-scripts/Utilities.php";
+require "../../php-scripts/CreateSurveyHandler.php";
 
 loginUsernameCheck();
 /**
@@ -19,8 +19,19 @@ loginUsernameCheck();
 
 <h2>Fragebogen anlegen</h2>
 
+<?php
+if (!isset($createSurvey_handler)) {
+    $createSurvey_handler = new CreateSurveyHandler();
+}
 
-<form method="POST" action="../../php-scripts/CreateSurveyHandler.php">
+if (isset($_POST["CreateQuestion"])) {
+    $createSurvey_handler->createQuestion();
+}elseif (isset($_POST["ContinueCourse"])) {
+    header("Location: CreateSurvey_course.php");
+}
+?>
+
+<form method="POST">
     <table>
     <?php
     for($i = 1; $i <= $_SESSION['amountQuestions']; $i++){
@@ -29,7 +40,7 @@ loginUsernameCheck();
             "             
                    <tr>
                        <td>Frage $i:</td>
-                       <td style=\"padding-left: 20px\"><input required type=\"text\" name= $i></td>
+                       <td style=\"padding-left: 20px\"><input type=\"text\" name= $i></td>
                    </tr>           
               ";
 
@@ -41,8 +52,12 @@ loginUsernameCheck();
 
     <br>
     <table>
+
         <td>
-            <button type="submit" name="Continue">Weiter</button>
+            <button type="submit" name="CreateQuestion">Fragen hinzufügen</button>
+        </td>
+        <td>
+            <button type="submit" name="ContinueCourse">Weiter</button>
         </td>
         </tr>
 

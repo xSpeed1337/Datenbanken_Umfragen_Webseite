@@ -1,6 +1,6 @@
 <?php
 
-require "../../php-scripts/Utilities.php";
+require "../../php-scripts/EditSurveyHandler.php";
 
 loginUsernameCheck();
 
@@ -16,7 +16,23 @@ loginUsernameCheck();
 
 <div>
     <h2>Fragebogen bearbeiten</h2>
-    <form method="POST" action='../../php-scripts/EditSurveyHandler.php'>
+
+    <?php
+
+
+    if (!isset($editSurvey_handler)) {
+        $editSurvey_handler = new EditSurveyHandler();
+    }
+
+    if(isset($_POST["DeleteQuestion"])){
+        $editSurvey_handler->deleteQuestion($_POST["DeleteQuestion"]);
+    }elseif(isset($_POST["InsertQuestion"])){
+        $editSurvey_handler->insertQuestion($_POST["NewQuestion"]);
+    }
+    ?>
+
+
+    <form method="POST">
 
         <table>
             <?php
@@ -49,7 +65,7 @@ loginUsernameCheck();
                 foreach ($results as $question) {
                     echo
                         "<tr>
-                                <form method='POST' action='../../php-scripts/EditSurveyHandler.php'>
+                                <form method='POST'>
                                     <td style='padding-right:20px'>Frage:</td>
                                     <td style='padding-right:20px'>" . $question['question_text']."</td>
                                     <td><button type='submit' name='DeleteQuestion' value='". $question['id']."'>Löschen</button>

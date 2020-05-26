@@ -14,9 +14,9 @@ class EditSurveyHandler
      * Löschen einzelner Fragen im vom Befrager ausgewählten Fragebogen
      * @author Antonia Gabriel
      */
-    public function deleteQuestion(){
+    public function deleteQuestion($question_id){
 
-        $question_id = $_POST["DeleteQuestion"];
+        //$question_id = $_POST["DeleteQuestion"];
         $question_id = escapeCharacters($question_id);
 
         $sql = "DELETE FROM question where id = ?";
@@ -25,11 +25,9 @@ class EditSurveyHandler
             echo "SQL statement failed";
         } else {
             mysqli_stmt_bind_param($stmt, "i", $question_id);
-            if (mysqli_stmt_execute($stmt)) {
-                header("Location: ../Pages/EditSurvey/EditSurvey.php");
-            } else {
+            if (!mysqli_stmt_execute($stmt)) {
                 echo "Frage konnte nicht gelöscht werden.";
-            };
+            }
         }
 
     }
@@ -38,9 +36,9 @@ class EditSurveyHandler
      * Einfügen neuer Fragen in den vom Befrager ausgewählten Fragebogen
      * @author Antonia Gabriel
      */
-    public function insertQuestion(){
+    public function insertQuestion($newQuestion){
 
-        $newQuestion = $_POST["NewQuestion"];
+        //$newQuestion = $_POST["NewQuestion"];
         $newQuestion = escapeCharacters($newQuestion);
 
         $sql = "Insert into question (question_text, title_short) values (?, ?)";
@@ -51,11 +49,9 @@ class EditSurveyHandler
             echo "SQL statement failed";
         } else {
             mysqli_stmt_bind_param($stmt, "si",$newQuestion, $_SESSION['editFB_title_short']);
-            if (mysqli_stmt_execute($stmt)) {
-                header("Location: ../Pages/EditSurvey/EditSurvey.php");
-            } else {
+            if (!mysqli_stmt_execute($stmt)) {
                 echo "Frage -" . $newQuestion . "- konnte nicht dem Fragebogen hinzugefügt werden.";
-            };
+            }
         }
 
     }
@@ -66,10 +62,10 @@ class EditSurveyHandler
      * Danach werden die Fragen in den neuen Fragebogen kopiert.
      * @author Antonia Gabriel
      */
-    public function copySurvey(){
+    public function copySurvey($title_copy){
 
         //Erstellung neuer Fragebogen
-        $title_copy = $_POST["FBTitleCopy"];
+        //$title_copy = $_POST["FBTitleCopy"];
         $title_copy = escapeCharacters($title_copy);
 
         $sql1 = "Insert into survey (title, username) values (?, ?)";
@@ -122,10 +118,10 @@ class EditSurveyHandler
                 } else {
                     mysqli_stmt_bind_param($stmt, "si", $question['question_text'], $title_short);
                     if (mysqli_stmt_execute($stmt)) {
-                        echo "Datenübertragung ist nicht fehlgeschlagen";
-                        header("Location: ../Pages/MySurveys_Interviewer.php");
+                        echo "Fragebogen wurde erfolgreich kopiert";
+                        //header("Location: ../Pages/MySurveys_Interviewer.php");
                     } else {
-                        echo "Fragen konnten nicht kopiert werden.";
+                        echo "Fragebogen konnte nicht kopiert werden.";
                     };
                 }
             }
@@ -163,27 +159,29 @@ class EditSurveyHandler
 
 }
 
-$editSurvey_handler = new EditSurveyHandler();
+//$editSurvey_handler = new EditSurveyHandler();
+//
+//if (isset($_POST["EditFB"])){
+//    $editFB_title_short = $_POST["EditFB"];
+//    $editFB_title_short = escapeCharacters($editFB_title_short);
+//    $_SESSION['editFB_title_short'] = $editFB_title_short;
+//    header("Location: ../Pages/EditSurvey/EditSurvey.php");
+//}elseif(isset($_POST["CopyFB"])){
+//    $copyFB_title_short = $_POST["CopyFB"];
+//    $copyFB_title_short = escapeCharacters($copyFB_title_short);
+//    $_SESSION['editFB_title_short'] = $copyFB_title_short;
+//    header("Location: ../Pages/EditSurvey/EditSurvey_Copy.php");
+//}elseif(isset($_POST["Copy"])){
+//    $editSurvey_handler->copySurvey();
+//}elseif(isset($_POST["DeleteFB"])){
+//    $deleteFB_title_short = $_POST["DeleteFB"];
+//    $deleteFB_title_short = escapeCharacters($deleteFB_title_short);
+//    $_SESSION["editFB_title_short"] = $deleteFB_title_short;
+//    $editSurvey_handler->deleteSurvey();
+//}
 
-if (isset($_POST["EditFB"])){
-    $editFB_title_short = $_POST["EditFB"];
-    $editFB_title_short = escapeCharacters($editFB_title_short);
-    $_SESSION['editFB_title_short'] = $editFB_title_short;
-    header("Location: ../Pages/EditSurvey/EditSurvey.php");
-}elseif(isset($_POST["CopyFB"])){
-    $copyFB_title_short = $_POST["CopyFB"];
-    $copyFB_title_short = escapeCharacters($copyFB_title_short);
-    $_SESSION['editFB_title_short'] = $copyFB_title_short;
-    header("Location: ../Pages/EditSurvey/EditSurvey_Copy.php");
-}elseif(isset($_POST["Copy"])){
-    $editSurvey_handler->copySurvey();
-}elseif(isset($_POST["DeleteFB"])){
-    $deleteFB_title_short = $_POST["DeleteFB"];
-    $deleteFB_title_short = escapeCharacters($deleteFB_title_short);
-    $_SESSION["editFB_title_short"] = $deleteFB_title_short;
-    $editSurvey_handler->deleteSurvey();
-}elseif(isset($_POST["DeleteQuestion"])){
-    $editSurvey_handler->deleteQuestion();
-}elseif(isset($_POST["InsertQuestion"])){
-    $editSurvey_handler->insertQuestion();
-}
+//elseif(isset($_POST["DeleteQuestion"])){
+//    $editSurvey_handler->deleteQuestion();
+//}elseif(isset($_POST["InsertQuestion"])){
+//    $editSurvey_handler->insertQuestion();
+//}

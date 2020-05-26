@@ -1,5 +1,5 @@
 <?php
-require "../../php-scripts/Utilities.php";
+require "../../php-scripts/CreateSurveyHandler.php";
 
 loginUsernameCheck();
 /**
@@ -18,9 +18,17 @@ loginUsernameCheck();
 
 <h2>Fragebogen zuordnen</h2>
 
+<?php
+if (!isset($createSurvey_handler)) {
+    $createSurvey_handler = new CreateSurveyHandler();
+}
 
+if (isset($_POST["AuthorizeCourse"])) {
+    $createSurvey_handler->assignCourse($_POST["CourseShort"]);
+}
+?>
 
-<form method="POST" action="../../php-scripts/CreateSurveyHandler.php">
+<form method="POST">
     <table>
         <tr>
             <td>Kurs:</td>
