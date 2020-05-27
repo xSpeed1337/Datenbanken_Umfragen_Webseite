@@ -3,6 +3,7 @@ require "../../php-scripts/CourseHandler.php";
 
 loginUsernameCheck();
 /**
+ * Site to create a student
  * @author Lukas Fink
  */
 ?>
@@ -46,10 +47,11 @@ if (isset($_POST["CreateStudentButton"])) {
             <td>
                 <select required name="CourseShort">
                     <?php
+                    // create selection to choose the course for student creation
                     $sql = "SELECT * FROM course";
                     $stmt = mysqli_stmt_init(database_connect());
                     if (!mysqli_stmt_prepare($stmt, $sql)) {
-                        echo "SQL statement failed";
+                        echo "SQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
                     } else {
                         mysqli_stmt_execute($stmt);
                         $results = mysqli_stmt_get_result($stmt);

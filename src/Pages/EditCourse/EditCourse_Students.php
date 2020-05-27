@@ -3,6 +3,7 @@ require "../../php-scripts/CourseHandler.php";
 
 loginUsernameCheck();
 /**
+ * Site to edit Student details
  * @author Lukas Fink
  */
 ?>
@@ -36,22 +37,25 @@ if (isset($_POST["UpdateStudentButton"])) {
         </tr>
         <tr>
             <td>
-                <select required name='OldMatNr'>
-                    <?php
-                    $sql = "SELECT * FROM student";
-                    $stmt = mysqli_stmt_init(database_connect());
-                    if (!mysqli_stmt_prepare($stmt, $sql)) {
-                        echo "SQL statement failed";
-                    } else {
-                        mysqli_stmt_execute($stmt);
-                        $results = mysqli_stmt_get_result($stmt);
+                <label>
+                    <select required name='OldMatNr'>
+                        <?php
+                        // create selection for the students
+                        $sql = "SELECT * FROM student";
+                        $stmt = mysqli_stmt_init(database_connect());
+                        if (!mysqli_stmt_prepare($stmt, $sql)) {
+                            echo "SQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
+                        } else {
+                            mysqli_stmt_execute($stmt);
+                            $results = mysqli_stmt_get_result($stmt);
 
-                        foreach ($results as $student) {
-                            echo "<option value=\"" . $student['matnr'] . "\">" . $student['matnr'] . " " . $student['firstname'] . " " . $student['lastname'] . " " . $student['course_short'] . "</option>";
+                            foreach ($results as $student) {
+                                echo "<option value=\"" . $student['matnr'] . "\">" . $student['matnr'] . " " . $student['firstname'] . " " . $student['lastname'] . " " . $student['course_short'] . "</option>";
+                            }
                         }
-                    }
-                    ?>
-                </select>
+                        ?>
+                    </select>
+                </label>
             </td>
             <td style=\"padding-left:20px\">
                 <input required min="1000000" max="9999999" type="number"
@@ -66,6 +70,7 @@ if (isset($_POST["UpdateStudentButton"])) {
             <td>
                 <select required name='UpdateStudentCourse'>
                     <?php
+                    // create selection for the courses
                     $sql = "SELECT * FROM course";
                     $stmt = mysqli_stmt_init(database_connect());
                     if (!mysqli_stmt_prepare($stmt, $sql)) {

@@ -22,7 +22,7 @@ class CourseHandler {
         $check_stmt = mysqli_stmt_init(database_connect());
 
         if (!mysqli_stmt_prepare($check_stmt, $check_sql)) {
-            echo "SQL statement failed";
+            echo "checkSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
         } else {
             mysqli_stmt_bind_param($check_stmt, "ss", $course_short, $course_name);
             mysqli_stmt_execute($check_stmt);
@@ -39,7 +39,7 @@ class CourseHandler {
             $create_stmt = mysqli_stmt_init(database_connect());
 
             if (!mysqli_stmt_prepare($create_stmt, $create_sql)) {
-                echo "SQL statement failed";
+                echo "createSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
             } else {
                 mysqli_stmt_bind_param($create_stmt, "ss", $course_short, $course_name);
                 if (mysqli_stmt_execute($create_stmt)) {
@@ -73,7 +73,7 @@ class CourseHandler {
         $check_stmt = mysqli_stmt_init(database_connect());
 
         if (!mysqli_stmt_prepare($check_stmt, $check_sql)) {
-            echo "SQL statement failed";
+            echo "checkSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
         } else {
             mysqli_stmt_bind_param($check_stmt, "i", $matNr);
             mysqli_stmt_execute($check_stmt);
@@ -92,7 +92,7 @@ class CourseHandler {
             $create_stmt = mysqli_stmt_init(database_connect());
 
             if (!mysqli_stmt_prepare($create_stmt, $create_sql)) {
-                echo "SQL statement failed";
+                echo "createSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
             } else {
                 mysqli_stmt_bind_param($create_stmt, "isss", $matNr, $studentFirstName, $studentLastName, $course_short);
                 if (mysqli_stmt_execute($create_stmt)) {
@@ -121,7 +121,7 @@ class CourseHandler {
         $stmt = mysqli_stmt_init(database_connect());
 
         if (!mysqli_stmt_prepare($stmt, $sql)) {
-            echo "SQL statement failed";
+            echo "updateSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
         } else {
             mysqli_stmt_bind_param($stmt, "sss", $updateCourseShort, $updateCourseName, $oldCourseShort);
             if (mysqli_stmt_execute($stmt)) {
@@ -153,7 +153,7 @@ class CourseHandler {
         $stmt = mysqli_stmt_init(database_connect());
 
         if (!mysqli_stmt_prepare($stmt, $sql)) {
-            echo "SQL statement failed";
+            echo "updateSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
         } else {
             mysqli_stmt_bind_param($stmt, "sssss", $newMatNr, $newFirstName, $newLastName, $newCourseShort, $oldMatNr);
             if (mysqli_stmt_execute($stmt)) {

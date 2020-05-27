@@ -8,6 +8,7 @@ if (!isset($_POST["EvaluationTitleShort"])) {
     exit();
 }
 /**
+ * Site to select the course which should be evaluated
  * @author Lukas Fink
  */
 ?>
@@ -26,8 +27,8 @@ if (!isset($_POST["EvaluationTitleShort"])) {
     <table>
         <tr>
             <td style="padding-right:20px">Titel:</td>
-
             <?php
+            // get Title to display on the site
             $tile_short = escapeCharacters($_POST["EvaluationTitleShort"]);
             $titleSql = "SELECT title FROM survey where title_short = ?";
             $titleStmt = mysqli_stmt_init(database_connect());
@@ -52,6 +53,7 @@ if (!isset($_POST["EvaluationTitleShort"])) {
             <td>
                 <select required name="course_short">
                     <?php
+                    // get Courses which should be evaluated
                     $tile_short = escapeCharacters($_POST["EvaluationTitleShort"]);
                     $courseSql = "SELECT course.course_short, course.course_name
                             FROM course,

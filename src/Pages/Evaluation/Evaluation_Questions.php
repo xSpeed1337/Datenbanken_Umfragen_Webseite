@@ -3,6 +3,7 @@ require "../../php-scripts/EvaluationHandler.php";
 
 loginUsernameCheck();
 /**
+ * Site to evaluate a survey and cycle through questions
  * @author Lukas Fink
  */
 ?>
@@ -59,6 +60,7 @@ if (isset($_POST["PrevQuestion"]) == true) {
             </tr>
             <tr>
                 <?php
+                // get and display question values
                 $answerValues = $evaluationHandler->getAnswerValue($_SESSION["currPage"]);
                 echo "<td>
                 Frage: " . $answerValues["question"] . "<br>

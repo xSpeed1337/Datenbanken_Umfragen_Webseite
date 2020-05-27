@@ -3,6 +3,7 @@ require "../../php-scripts/CourseHandler.php";
 
 loginUsernameCheck();
 /**
+ * Site to edit course details
  * @author Lukas Fink
  */
 ?>
@@ -32,10 +33,11 @@ if (isset($_POST["UpdateCourseButton"])) {
             <td>
                 <select required name="OldCourseShort">
                     <?php
+                    // create selection to edit course details
                     $sql = "SELECT * FROM course";
                     $stmt = mysqli_stmt_init(database_connect());
                     if (!mysqli_stmt_prepare($stmt, $sql)) {
-                        echo "SQL statement failed";
+                        echo "SQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
                     } else {
                         mysqli_stmt_execute($stmt);
                         $results = mysqli_stmt_get_result($stmt);
