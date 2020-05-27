@@ -5,7 +5,6 @@ require_once "Utilities.php";
  * Class EditSurveyHandler
  * Die Klasse behandelt die Bearbeitung der bereits erstellten Fragebögen mit den Funktionen:
  * Einzelne Fragen löschen oder hinzufügen, komletten Fragebogen löschen und Fragebogen kopieren
- * Die Klasse beinhaltet auch den logout
  * @author Antonia Gabriel
  */
 class EditSurveyHandler

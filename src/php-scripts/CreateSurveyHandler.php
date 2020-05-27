@@ -103,7 +103,6 @@ class CreateSurveyHandler {
      */
     public function assignCourse($course_short){
 
-        //$course_short = $_POST["CourseShort"];
         $course_short = escapeCharacters($course_short);
 
         $stmt = mysqli_stmt_init(database_connect());
