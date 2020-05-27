@@ -1,5 +1,5 @@
 <?php
-require "../php-scripts/EditSurveyHandler.php";
+require_once "../php-scripts/EditSurveyHandler.php";
 
 loginUsernameCheck();
 
@@ -64,7 +64,7 @@ loginUsernameCheck();
         $_SESSION['title_short']=$_POST["AssignCourse"];
         header("Location: CreateSurvey/CreateSurvey_course.php");
     }elseif (isset($_POST["logout"])) {
-        $editSurvey_handler->logout();
+        logout();
     }
     ?>
 

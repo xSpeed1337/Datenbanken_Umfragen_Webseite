@@ -18,8 +18,12 @@ require_once "./../php-scripts/Utilities.php";
 loginStudentCheck();
 
 
-include_once "../php-scripts/AnswerSurveyHandler.php";
+require_once "../php-scripts/AnswerSurveyHandler.php";
 $obj = new AnswerSurveyHandler();
+
+if (isset($_POST['logout'])) {
+    logout();
+}
 
 ?>
 
@@ -42,15 +46,15 @@ $obj = new AnswerSurveyHandler();
     $surveys = $obj->getSurveysStudent($_SESSION["Matrikelnummer"]);
 
     echo "<table>";
-    foreach($surveys as $survey) {
+    foreach ($surveys as $survey) {
         echo
-        "<tr>
+            "<tr>
             <form method='POST' action='../Pages/AnswerSurvey/AnswerSurvey_Questions.php'>
-                <td style='padding-right:20px'>". $survey['title']."</td>
-                <td style='padding-right:20px'>". $survey['username']."</td>
-                <td><button type='submit' name='". $survey['title_short']."'>Starten</button></td>
-                <td><input type='hidden' name='SurveyTitleShort' value='". $survey['title_short']."'</td>
-                <td><input type='hidden' name='SurveyTitle' value='". $survey['title']."'/></td>
+                <td style='padding-right:20px'>" . $survey['title'] . "</td>
+                <td style='padding-right:20px'>" . $survey['username'] . "</td>
+                <td><button type='submit' name='" . $survey['title_short'] . "'>Starten</button></td>
+                <td><input type='hidden' name='SurveyTitleShort' value='" . $survey['title_short'] . "'</td>
+                <td><input type='hidden' name='SurveyTitle' value='" . $survey['title'] . "'/></td>
             </form>
         </tr>";
     }
@@ -60,7 +64,7 @@ $obj = new AnswerSurveyHandler();
 
 </div>
 <br><br>
-<form method="GET" action="../Pages/LoginPage.php">
+<form method="post">
     <button type="submit" name="logout">Abmelden</button>
 </form>
 
