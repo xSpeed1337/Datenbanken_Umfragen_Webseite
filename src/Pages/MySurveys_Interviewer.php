@@ -1,7 +1,8 @@
 <?php
-require "../php-scripts/Utilities.php";
+require "../php-scripts/EditSurveyHandler.php";
 
 loginUsernameCheck();
+
 ?>
 
 <!DOCTYPE html>
@@ -14,7 +15,7 @@ loginUsernameCheck();
 <body>
 
 <h2>Online-Bewertungsumfragen</h2>
-<form method="GET" action="../php-scripts/CreateSurveyHandler.php">
+<form method="GET" action="CreateSurvey/CreateSurvey_title.php">
     <button type="submit" name="CreateFB">Fragebogen anlegen</button>
 </form>
 <br>
@@ -38,6 +39,35 @@ loginUsernameCheck();
 
     <h4>Meine Fragebögen</h4>
 
+<?php
+
+    if (!isset($editSurvey_handler)) {
+        $editSurvey_handler = new EditSurveyHandler();
+    }
+
+    if (isset($_POST["EditFB"])) {
+        $editFB_title_short = $_POST["EditFB"];
+        $editFB_title_short = escapeCharacters($editFB_title_short);
+        $_SESSION['editFB_title_short'] = $editFB_title_short;
+        header("Location: EditSurvey/EditSurvey.php");
+    }elseif(isset($_POST["CopyFB"])) {
+        $copyFB_title_short = $_POST["CopyFB"];
+        $copyFB_title_short = escapeCharacters($copyFB_title_short);
+        $_SESSION['editFB_title_short'] = $copyFB_title_short;
+        header("Location: EditSurvey/EditSurvey_Copy.php");
+    }elseif(isset($_POST["DeleteFB"])){
+        $deleteFB_title_short = $_POST["DeleteFB"];
+        $deleteFB_title_short = escapeCharacters($deleteFB_title_short);
+        $_SESSION["editFB_title_short"] = $deleteFB_title_short;
+        $editSurvey_handler->deleteSurvey();
+    }elseif (isset($_POST["AssignCourse"])){
+        $_SESSION['title_short']=$_POST["AssignCourse"];
+        header("Location: CreateSurvey/CreateSurvey_course.php");
+    }elseif (isset($_POST["logout"])) {
+        $editSurvey_handler->logout();
+    }
+    ?>
+
     <table>
 
         <?php
@@ -56,14 +86,14 @@ loginUsernameCheck();
             foreach ($results as $survey) {
                 echo
                     "<tr>
-                                <form method='POST' action='../php-scripts/EditSurveyHandler.php'>
+                                <form method='POST'>
                                     <td style='padding-right:20px' hidden>" . $survey['title_short'] . "</td>
                                     <td style='padding-right:20px'>" . $survey['title'] . "</td>
                                     <td><button type='submit' name='EditFB' value='" . $survey['title_short'] . "'>Bearbeiten</button>
                                     <td><button type='submit' name='DeleteFB' value='" . $survey['title_short'] . "'>Löschen</button> 
                                     <td><button type='submit' name='CopyFB' value='" . $survey['title_short'] . "'>Kopieren</button>
                                 </form>   
-                                <form method='POST' action='../php-scripts/CreateSurveyHandler.php'> 
+                                <form method='POST'> 
                                     <td><button type='submit' name='AssignCourse' value='" . $survey['title_short'] . "'>Kurs zuordnen</button> 
                                 </form>
                                 <form method='POST' action='Evaluation/Evaluation_Course.php'> 
@@ -81,7 +111,7 @@ loginUsernameCheck();
 </br>
 </br>
 
-<form method="POST" action="../php-scripts/LoginHandler.php">
+<form method="GET" action="../Pages/LoginPage.php">
     <button type="submit" name="logout">Abmelden</button>
 </form>
 

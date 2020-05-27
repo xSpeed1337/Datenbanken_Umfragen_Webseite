@@ -1,5 +1,5 @@
 <?php
-require "../../php-scripts/Utilities.php";
+require "../../php-scripts/EditSurveyHandler.php";
 
 loginUsernameCheck();
 
@@ -16,8 +16,19 @@ loginUsernameCheck();
 
 <h2>Fragebogen kopieren</h2>
 
+<?php
 
-<form method="POST" action="../../php-scripts/EditSurveyHandler.php">
+
+if (!isset($editSurvey_handler)) {
+    $editSurvey_handler = new EditSurveyHandler();
+}
+
+if(isset($_POST["Copy"])){
+    $editSurvey_handler->copySurvey($_POST["FBTitleCopy"]);
+}
+
+?>
+<form method="POST">
     <table>
         <tr>
             <td>Neuer Titel:</td>
