@@ -60,7 +60,6 @@ class CreateSurveyHandler {
 
         if ($result->num_rows > 0) {
             $row = mysqli_fetch_array($result);
-            echo "title_short: " . $row["title_short"];
             $title_short = $row["title_short"];
             $_SESSION['title_short'] = $title_short;
 

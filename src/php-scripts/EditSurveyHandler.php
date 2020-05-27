@@ -118,14 +118,12 @@ class EditSurveyHandler
                     echo "SQL statement failed";
                 } else {
                     mysqli_stmt_bind_param($stmt, "si", $question['question_text'], $title_short);
-                    if (mysqli_stmt_execute($stmt)) {
-                        echo "Fragebogen wurde erfolgreich kopiert";
-                        //header("Location: ../Pages/MySurveys_Interviewer.php");
-                    } else {
+                    if (!mysqli_stmt_execute($stmt)) {
                         echo "Fragebogen konnte nicht kopiert werden.";
-                    };
+                    }
                 }
             }
+            echo "Fragebogen wurde erfolgreich kopiert";
 
 
 
