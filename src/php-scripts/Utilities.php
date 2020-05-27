@@ -63,3 +63,27 @@ function logout() {
     header("Location: ../Pages/LoginPage.php");
 
 }
+
+/**
+ * Gets the Title from a survey with the short title
+ * @param $title_short title_short string
+ * @return string title string
+ * @author Lukas Fink
+ */
+function getTitleFromSurvey($title_short) {
+    $title_short = escapeCharacters($title_short);
+    $titleSQL = "SELECT title FROM survey WHERE title_short = ?";
+    $titleStmt = mysqli_stmt_init(database_connect());
+
+    if (!mysqli_stmt_prepare($titleStmt, $titleSQL)) {
+        echo "titleSQL statement fehlgeschlagen. Versuchen Sie es später erneut.";
+    } else {
+        mysqli_stmt_bind_param($titleStmt, "s", $title_short);
+        if (mysqli_stmt_execute($titleStmt)) {
+            $titleStmt->bind_result($title);
+            $titleStmt->fetch();
+            $titleStmt->close();
+            return $title;
+        }
+    }
+}
