@@ -1,5 +1,5 @@
 <?php
-require "../../php-scripts/CourseHandler.php";
+require_once "../../php-scripts/CourseHandler.php";
 
 loginUsernameCheck();
 /**

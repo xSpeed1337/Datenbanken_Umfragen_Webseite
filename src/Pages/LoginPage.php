@@ -1,8 +1,10 @@
 <?php
+require_once "../php-scripts/LoginHandler.php";
 
-require "../php-scripts/LoginHandler.php";
-
-session_start();
+/**
+ * Site to login into the Survey Site
+ * @author Antonia Gabriel
+ */
 ?>
 
 <!DOCTYPE html>

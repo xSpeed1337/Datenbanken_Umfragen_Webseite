@@ -1,5 +1,5 @@
 <?php
-require "../../php-scripts/EvaluationHandler.php";
+require_once "../../php-scripts/EvaluationHandler.php";
 
 loginUsernameCheck();
 /**

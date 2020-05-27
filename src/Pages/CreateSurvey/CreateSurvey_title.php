@@ -1,5 +1,5 @@
 <?php
-require "../../php-scripts/CreateSurveyHandler.php";
+require_once "../../php-scripts/CreateSurveyHandler.php";
 
 loginUsernameCheck();
 

@@ -17,7 +17,7 @@ require_once "../../php-scripts/Utilities.php";
 loginStudentCheck();
 
 
-include_once "../../php-scripts/AnswerSurveyHandler.php";
+require_once "../../php-scripts/AnswerSurveyHandler.php";
 $obj = new AnswerSurveyHandler();
 
 ?>
