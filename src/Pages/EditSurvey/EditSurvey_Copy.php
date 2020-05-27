@@ -2,7 +2,9 @@
 require_once "../../php-scripts/EditSurveyHandler.php";
 
 loginUsernameCheck();
-
+/**
+ * @author Antonia Gabriel
+ */
 ?>
 
 <!DOCTYPE html>

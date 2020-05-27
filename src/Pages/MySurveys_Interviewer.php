@@ -40,6 +40,9 @@ loginUsernameCheck();
     <h4>Meine Fragebögen</h4>
 
 <?php
+/**
+ * @author Antonia Gabriel
+ */
 
     if (!isset($editSurvey_handler)) {
         $editSurvey_handler = new EditSurveyHandler();
@@ -111,7 +114,7 @@ loginUsernameCheck();
 </br>
 </br>
 
-<form method="GET" action="../Pages/LoginPage.php">
+<form method="POST">
     <button type="submit" name="logout">Abmelden</button>
 </form>
 

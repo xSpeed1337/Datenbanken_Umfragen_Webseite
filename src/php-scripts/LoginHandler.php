@@ -110,17 +110,6 @@ class LoginHandler {
         }
     }
 
-//    /**
-//     * Ausloggen des Befragers und Studenten
-//     * @author Antonia Gabriel
-//     */
-//    public function logout(){
-//
-//        session_destroy();
-//        $_SESSION = array();
-//        //header("Location: ../Pages/LoginPage.php");
-//
-//    }
 
 }
 
