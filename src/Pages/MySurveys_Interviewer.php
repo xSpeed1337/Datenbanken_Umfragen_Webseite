@@ -60,6 +60,11 @@ loginUsernameCheck();
         $deleteFB_title_short = escapeCharacters($deleteFB_title_short);
         $_SESSION["editFB_title_short"] = $deleteFB_title_short;
         $editSurvey_handler->deleteSurvey();
+    }elseif (isset($_POST["AssignCourse"])){
+        $_SESSION['title_short']=$_POST["AssignCourse"];
+        header("Location: CreateSurvey/CreateSurvey_course.php");
+    }elseif (isset($_POST["logout"])) {
+        $editSurvey_handler->logout();
     }
     ?>
 
@@ -88,7 +93,7 @@ loginUsernameCheck();
                                     <td><button type='submit' name='DeleteFB' value='" . $survey['title_short'] . "'>Löschen</button> 
                                     <td><button type='submit' name='CopyFB' value='" . $survey['title_short'] . "'>Kopieren</button>
                                 </form>   
-                                <form method='POST' action='../php-scripts/CreateSurveyHandler.php'> 
+                                <form method='POST'> 
                                     <td><button type='submit' name='AssignCourse' value='" . $survey['title_short'] . "'>Kurs zuordnen</button> 
                                 </form>
                                 <form method='POST' action='Evaluation/Evaluation_Course.php'> 
@@ -106,7 +111,7 @@ loginUsernameCheck();
 </br>
 </br>
 
-<form method="POST" action="../php-scripts/LoginHandler.php">
+<form method="GET" action="../Pages/LoginPage.php">
     <button type="submit" name="logout">Abmelden</button>
 </form>
 

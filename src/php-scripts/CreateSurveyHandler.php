@@ -122,7 +122,7 @@ class CreateSurveyHandler {
         $result = $stmt->get_result();
 
         if ($result->num_rows > 0) {
-            echo "Der Kurs " . $course_short . " wurde dem Fragebogen " . $_SESSION['title'] . " bereits zugeordnet.";
+            echo "Der Kurs " . $course_short . " wurde dem Fragebogen bereits zugeordnet.";
         }else{
 
             // Fragebogen zuordnen
@@ -133,9 +133,9 @@ class CreateSurveyHandler {
             } else {
                 mysqli_stmt_bind_param($stmt, "is",$_SESSION['title_short'], $course_short);
                 if (mysqli_stmt_execute($stmt)) {
-                    echo "Der Kurs " . $course_short . " wurde dem Fragebogen " . $_SESSION['title'] . " zugeordnet.";
+                    echo "Der Kurs " . $course_short . " wurde dem Fragebogen zugeordnet.";
                 } else {
-                    echo "Der Kurs " . $course_short . " konnte dem Fragebogen " . $_SESSION['title'] . " nicht zugeordnet werden.";
+                    echo "Der Kurs " . $course_short . " konnte dem Fragebogen nicht zugeordnet werden.";
                 };
             }
         }
@@ -144,10 +144,3 @@ class CreateSurveyHandler {
 
 }
 
-
-$createSurvey_handler = new CreateSurveyHandler();
-
-if (isset($_POST["AssignCourse"])){
-    $_SESSION['title_short']=$_POST["AssignCourse"];
-    header("Location: ../Pages/CreateSurvey/CreateSurvey_course.php");
-}

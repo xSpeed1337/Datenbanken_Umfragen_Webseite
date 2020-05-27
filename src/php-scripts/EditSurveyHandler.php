@@ -5,6 +5,7 @@ require "Utilities.php";
  * Class EditSurveyHandler
  * Die Klasse behandelt die Bearbeitung der bereits erstellten Fragebögen mit den Funktionen:
  * Einzelne Fragen löschen oder hinzufügen, komletten Fragebogen löschen und Fragebogen kopieren
+ * Die Klasse beinhaltet auch den logout
  * @author Antonia Gabriel
  */
 class EditSurveyHandler
@@ -12,11 +13,11 @@ class EditSurveyHandler
 
     /**
      * Löschen einzelner Fragen im vom Befrager ausgewählten Fragebogen
+     * @param $question_id
      * @author Antonia Gabriel
      */
     public function deleteQuestion($question_id){
 
-        //$question_id = $_POST["DeleteQuestion"];
         $question_id = escapeCharacters($question_id);
 
         $sql = "DELETE FROM question where id = ?";
@@ -34,11 +35,11 @@ class EditSurveyHandler
 
     /**
      * Einfügen neuer Fragen in den vom Befrager ausgewählten Fragebogen
+     * @param $newQuestion
      * @author Antonia Gabriel
      */
     public function insertQuestion($newQuestion){
 
-        //$newQuestion = $_POST["NewQuestion"];
         $newQuestion = escapeCharacters($newQuestion);
 
         $sql = "Insert into question (question_text, title_short) values (?, ?)";
@@ -60,12 +61,12 @@ class EditSurveyHandler
     /**
      * Der vom Befrager ausgewählte Fragebogen soll kopiert werden. Zunächst wird ein neuer Fragebogen erstellt.
      * Danach werden die Fragen in den neuen Fragebogen kopiert.
+     * @param $title_copy
      * @author Antonia Gabriel
      */
     public function copySurvey($title_copy){
 
         //Erstellung neuer Fragebogen
-        //$title_copy = $_POST["FBTitleCopy"];
         $title_copy = escapeCharacters($title_copy);
 
         $sql1 = "Insert into survey (title, username) values (?, ?)";
@@ -156,32 +157,17 @@ class EditSurveyHandler
 
     }
 
+    /**
+     * Ausloggen des Befragers und Studenten
+     * @author Antonia Gabriel
+     */
+    public function logout(){
+
+        session_destroy();
+        $_SESSION = array();
+        //header("Location: ../Pages/LoginPage.php");
+
+    }
+
 
 }
-
-//$editSurvey_handler = new EditSurveyHandler();
-//
-//if (isset($_POST["EditFB"])){
-//    $editFB_title_short = $_POST["EditFB"];
-//    $editFB_title_short = escapeCharacters($editFB_title_short);
-//    $_SESSION['editFB_title_short'] = $editFB_title_short;
-//    header("Location: ../Pages/EditSurvey/EditSurvey.php");
-//}elseif(isset($_POST["CopyFB"])){
-//    $copyFB_title_short = $_POST["CopyFB"];
-//    $copyFB_title_short = escapeCharacters($copyFB_title_short);
-//    $_SESSION['editFB_title_short'] = $copyFB_title_short;
-//    header("Location: ../Pages/EditSurvey/EditSurvey_Copy.php");
-//}elseif(isset($_POST["Copy"])){
-//    $editSurvey_handler->copySurvey();
-//}elseif(isset($_POST["DeleteFB"])){
-//    $deleteFB_title_short = $_POST["DeleteFB"];
-//    $deleteFB_title_short = escapeCharacters($deleteFB_title_short);
-//    $_SESSION["editFB_title_short"] = $deleteFB_title_short;
-//    $editSurvey_handler->deleteSurvey();
-//}
-
-//elseif(isset($_POST["DeleteQuestion"])){
-//    $editSurvey_handler->deleteQuestion();
-//}elseif(isset($_POST["InsertQuestion"])){
-//    $editSurvey_handler->insertQuestion();
-//}

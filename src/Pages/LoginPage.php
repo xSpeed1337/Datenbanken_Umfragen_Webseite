@@ -1,4 +1,7 @@
 <?php
+
+require "../php-scripts/LoginHandler.php";
+
 session_start();
 ?>
 
@@ -12,7 +15,22 @@ session_start();
 <body>
 
 
-<form method="POST" action="../php-scripts/LoginHandler.php">
+<form method="POST">
+
+    <?php
+    if (!isset($login_handler)) {
+        $login_handler = new LoginHandler();
+    }
+
+    if (isset($_POST["register"])) {
+        $login_handler->register($_POST["username"], $_POST["password"]);
+    } elseif (isset($_POST["loginInter"])) {
+        $login_handler->loginSurveyor($_POST["username"], $_POST["password"]);
+    } elseif (isset($_POST["loginStudent"])) {
+        $login_handler->loginStudent($_POST["Matrikelnummer"]);
+    }
+    ?>
+
 <table>
 
     <tr>

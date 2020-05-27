@@ -12,16 +12,16 @@ class LoginHandler {
 
     /**
      * Registriert neuen Befrager
+     * @param $username
+     * @param $password
      * @author Antonia Gabriel
      */
-    public function register() {
+    public function register($username, $password) {
 
         if (empty($_POST["username"]) || empty($_POST["password"])) {
             //display error message
             alert("Bitte füllen Sie beide Felder aus, um sich zu registrieren.");
         } else {
-            $username = $_POST["username"];
-            $password = $_POST["password"];
 
             $username = escapeCharacters($username);
             $password = escapeCharacters($password);
@@ -48,12 +48,11 @@ class LoginHandler {
 
     /**
      * loggt Befrager ein und führt ihn auf seine Befrager-Startseite
+     * @param $username
+     * @param $password
      * @author Antonia Gabriel
      */
-    public function loginSurveyor() {
-
-        $username = $_POST["username"];
-        $password = $_POST["password"];
+    public function loginSurveyor($username, $password) {
 
         $username = escapeCharacters($username);
         $password = escapeCharacters($password);
@@ -85,11 +84,10 @@ class LoginHandler {
 
     /**
      * loggt den Student ein und führt ihn auf seine Studenten-Startseite
+     * @param $matnr
      * @author Antonia Gabriel
      */
-    public function loginStudent() {
-
-        $matnr = $_POST["Matrikelnummer"];
+    public function loginStudent($matnr) {
 
         $matnr = escapeCharacters($matnr);
 
@@ -112,17 +110,17 @@ class LoginHandler {
         }
     }
 
-    /**
-     * Ausloggen des Befragers und Studenten
-     * @author Antonia Gabriel
-     */
-    public function logout(){
-
-        session_destroy();
-        $_SESSION = array();
-        header("Location: ../Pages/LoginPage.php");
-
-    }
+//    /**
+//     * Ausloggen des Befragers und Studenten
+//     * @author Antonia Gabriel
+//     */
+//    public function logout(){
+//
+//        session_destroy();
+//        $_SESSION = array();
+//        //header("Location: ../Pages/LoginPage.php");
+//
+//    }
 
 }
 
@@ -135,14 +133,3 @@ function alert($message) {
     echo "<script>alert('$message'); window.location.href='../Pages/LoginPage.php';</script>";
 }
 
-$login_handler = new LoginHandler();
-
-if (isset($_POST["register"])) {
-    $login_handler->register();
-} elseif (isset($_POST["loginInter"])) {
-    $login_handler->loginSurveyor();
-} elseif (isset($_POST["loginStudent"])) {
-    $login_handler->loginStudent();
-} elseif (isset($_POST["logout"])) {
-    $login_handler->logout();
-}
