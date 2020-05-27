@@ -29,12 +29,11 @@ class CreateSurveyHandler {
         } else {
             mysqli_stmt_bind_param($stmt, "ss",$title, $_SESSION['username']);
             if (mysqli_stmt_execute($stmt)) {
-                //header("Location: ../Pages/CreateSurvey/CreateSurvey_questions.php");
-                echo "Der Fragebogen mit dem Titel: " . $title . " wurde erstellt.";
+                header("Location: ../CreateSurvey/CreateSurvey_questions.php");
                 $_SESSION['title'] = $title;
             } else {
                 echo "Der Fragebogen mit dem Titel: " . $title . " existiert bereits.";
-            };
+            }
         }
 
     }
@@ -60,14 +59,13 @@ class CreateSurveyHandler {
 
         if ($result->num_rows > 0) {
             $row = mysqli_fetch_array($result);
-            echo "title_short: " . $row["title_short"];
             $title_short = $row["title_short"];
             $_SESSION['title_short'] = $title_short;
 
         }
 
 
-        echo "Die Fragen: ";
+
         foreach($_POST as $key => $question){
 
             $question = escapeCharacters($question);
@@ -83,16 +81,13 @@ class CreateSurveyHandler {
                 echo "SQL statement failed";
             } else {
                 mysqli_stmt_bind_param($stmt, "si",$question, $title_short);
-                if (mysqli_stmt_execute($stmt)) {
-                    //header("Location: ../Pages/CreateSurvey/CreateSurvey_course.php");
-                    echo $question . ", ";
-                } else {
+                if (!mysqli_stmt_execute($stmt)) {
                     echo "Fragen konnten nicht hinzugefügt werden.";
-                };
+                }
             }
 
         }
-        echo "wurden hinzugefügt.";
+
 
     }
 
@@ -104,7 +99,6 @@ class CreateSurveyHandler {
      */
     public function assignCourse($course_short){
 
-        //$course_short = $_POST["CourseShort"];
         $course_short = escapeCharacters($course_short);
 
         $stmt = mysqli_stmt_init(database_connect());
@@ -135,7 +129,7 @@ class CreateSurveyHandler {
                     echo "Der Kurs " . $course_short . " wurde dem Fragebogen zugeordnet.";
                 } else {
                     echo "Der Kurs " . $course_short . " konnte dem Fragebogen nicht zugeordnet werden.";
-                };
+                }
             }
         }
 

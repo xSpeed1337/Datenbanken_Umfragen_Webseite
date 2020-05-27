@@ -4,8 +4,7 @@ require_once "Utilities.php";
 
 /**
  * Class LoginHandler
- * Diese Klasse behandelt die Registrierung und das Einloggen des Befragers, das Einloggen des Studenten
- * und das Ausloggend es Befragers und Studenten
+ * Diese Klasse behandelt die Registrierung und das Einloggen des Befragers und das Einloggen des Studenten
  * @author Antonia Gabriel
  */
 class LoginHandler {
@@ -36,12 +35,12 @@ class LoginHandler {
             } else {
                 mysqli_stmt_bind_param($stmt, "ss", $username, $password);
                 if (mysqli_stmt_execute($stmt)) {
-                    //display error message
+                    //display message
                     alert("Die Registrierung war erfolgreich. Bitte loggen Sie sich ein, um zur Startseite zu gelangen.");
                 } else {
                     //display error message
                     alert("Die Registrierung war leider nicht erfolgreich. Bitte versuchen Sie es erneut.");
-                };
+                }
             }
         }
     }
@@ -106,6 +105,7 @@ class LoginHandler {
             $_SESSION['Matrikelnummer'] = $matnr;
             header("Location: ../Pages/MySurveys_Student.php");
         } else {
+            //display error message
             alert("Keine gültige Matrikelnummer!");
         }
     }

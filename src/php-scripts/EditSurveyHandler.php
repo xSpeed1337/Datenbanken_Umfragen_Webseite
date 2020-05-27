@@ -5,7 +5,6 @@ require_once "Utilities.php";
  * Class EditSurveyHandler
  * Die Klasse behandelt die Bearbeitung der bereits erstellten Fragebögen mit den Funktionen:
  * Einzelne Fragen löschen oder hinzufügen, komletten Fragebogen löschen und Fragebogen kopieren
- * Die Klasse beinhaltet auch den logout
  * @author Antonia Gabriel
  */
 class EditSurveyHandler
@@ -118,14 +117,12 @@ class EditSurveyHandler
                     echo "SQL statement failed";
                 } else {
                     mysqli_stmt_bind_param($stmt, "si", $question['question_text'], $title_short);
-                    if (mysqli_stmt_execute($stmt)) {
-                        echo "Fragebogen wurde erfolgreich kopiert";
-                        //header("Location: ../Pages/MySurveys_Interviewer.php");
-                    } else {
+                    if (!mysqli_stmt_execute($stmt)) {
                         echo "Fragebogen konnte nicht kopiert werden.";
-                    };
+                    }
                 }
             }
+            echo "Fragebogen wurde erfolgreich kopiert";
 
 
 
@@ -139,8 +136,6 @@ class EditSurveyHandler
      * @author Antonia Gabriel
      */
     public function deleteSurvey(){
-
-        echo $_SESSION["editFB_title_short"];
 
         $sql = "DELETE FROM survey where title_short = ?";
         $stmt = mysqli_stmt_init(database_connect());
