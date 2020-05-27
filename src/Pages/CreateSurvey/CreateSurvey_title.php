@@ -27,8 +27,6 @@ if (!isset($createSurvey_handler)) {
 
 if (isset($_POST["CreateTitle"])) {
     $createSurvey_handler->createTitle($_POST["FBTitle"], $_POST["AnzahlFragen"]);
-}elseif (isset($_POST["ContinueQuestion"])) {
-    header("Location: CreateSurvey_questions.php");
 }
 ?>
 
@@ -37,23 +35,20 @@ if (isset($_POST["CreateTitle"])) {
 <table>
     <tr>
         <td>Titel:</td>
-        <td style="padding-left: 20px"><input type="text" name="FBTitle"/></td>
+        <td style="padding-left: 20px"><input required type="text" name="FBTitle"/></td>
 
     </tr>
 
     <tr>
         <td>Anzahl der Fragen:</td>
-        <td style="padding-left: 20px"><input type="text" name="AnzahlFragen"/></td>
+        <td style="padding-left: 20px"><input required type="number" name="AnzahlFragen"/></td>
     </tr>
 
 
     <tr style="height:50px">
-        <td><button type="submit" name="CreateTitle">Erstellen</button></td>
+        <td><button type="submit" name="CreateTitle">Fragebogen Erstellen</button></td>
     </tr>
 
-    <tr style="height:50px">
-        <td><button type="submit" name="ContinueQuestion">Weiter</button></td>
-    </tr>
 
 </table>
 </form>

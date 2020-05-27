@@ -29,12 +29,11 @@ class CreateSurveyHandler {
         } else {
             mysqli_stmt_bind_param($stmt, "ss",$title, $_SESSION['username']);
             if (mysqli_stmt_execute($stmt)) {
-                //header("Location: ../Pages/CreateSurvey/CreateSurvey_questions.php");
-                echo "Der Fragebogen mit dem Titel: " . $title . " wurde erstellt.";
+                header("Location: ../CreateSurvey/CreateSurvey_questions.php");
                 $_SESSION['title'] = $title;
             } else {
                 echo "Der Fragebogen mit dem Titel: " . $title . " existiert bereits.";
-            };
+            }
         }
 
     }
@@ -66,7 +65,7 @@ class CreateSurveyHandler {
         }
 
 
-        echo "Die Fragen: ";
+
         foreach($_POST as $key => $question){
 
             $question = escapeCharacters($question);
@@ -82,16 +81,13 @@ class CreateSurveyHandler {
                 echo "SQL statement failed";
             } else {
                 mysqli_stmt_bind_param($stmt, "si",$question, $title_short);
-                if (mysqli_stmt_execute($stmt)) {
-                    //header("Location: ../Pages/CreateSurvey/CreateSurvey_course.php");
-                    echo $question . ", ";
-                } else {
+                if (!mysqli_stmt_execute($stmt)) {
                     echo "Fragen konnten nicht hinzugefügt werden.";
-                };
+                }
             }
 
         }
-        echo "wurden hinzugefügt.";
+
 
     }
 
@@ -133,7 +129,7 @@ class CreateSurveyHandler {
                     echo "Der Kurs " . $course_short . " wurde dem Fragebogen zugeordnet.";
                 } else {
                     echo "Der Kurs " . $course_short . " konnte dem Fragebogen nicht zugeordnet werden.";
-                };
+                }
             }
         }
 

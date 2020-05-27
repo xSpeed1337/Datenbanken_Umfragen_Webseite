@@ -23,15 +23,11 @@ loginUsernameCheck();
 if (!isset($createSurvey_handler)) {
     $createSurvey_handler = new CreateSurveyHandler();
 }
+echo "Der Fragebogen mit dem Titel: " . $_SESSION['title'] . " wurde erstellt.";
 
-if (isset($_POST["CreateQuestion"])) {
-    $createSurvey_handler->createQuestion();
-}elseif (isset($_POST["ContinueCourse"])) {
-    header("Location: CreateSurvey_course.php");
-}
 ?>
 
-<form method="POST">
+<form method="POST" action="CreateSurvey_course.php">
     <table>
     <?php
     for($i = 1; $i <= $_SESSION['amountQuestions']; $i++){
@@ -40,7 +36,7 @@ if (isset($_POST["CreateQuestion"])) {
             "             
                    <tr>
                        <td>Frage $i:</td>
-                       <td style=\"padding-left: 20px\"><input type=\"text\" name= $i></td>
+                       <td style=\"padding-left: 20px\"><input required type=\"text\" name= $i></td>
                    </tr>           
               ";
 
@@ -56,10 +52,6 @@ if (isset($_POST["CreateQuestion"])) {
         <td>
             <button type="submit" name="CreateQuestion">Fragen hinzufügen</button>
         </td>
-        <td>
-            <button type="submit" name="ContinueCourse">Weiter</button>
-        </td>
-        </tr>
 
     </table>
 </form>

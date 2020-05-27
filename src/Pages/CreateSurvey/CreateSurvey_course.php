@@ -23,6 +23,11 @@ if (!isset($createSurvey_handler)) {
     $createSurvey_handler = new CreateSurveyHandler();
 }
 
+if (isset($_POST["CreateQuestion"])) {
+    $createSurvey_handler->createQuestion();
+    echo "Die Fragen wurden dem Fragebogen hinzugefügt.";
+}
+
 if (isset($_POST["AuthorizeCourse"])) {
     $createSurvey_handler->assignCourse($_POST["CourseShort"]);
 }

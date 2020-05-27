@@ -137,8 +137,6 @@ class EditSurveyHandler
      */
     public function deleteSurvey(){
 
-        echo $_SESSION["editFB_title_short"];
-
         $sql = "DELETE FROM survey where title_short = ?";
         $stmt = mysqli_stmt_init(database_connect());
         if (!mysqli_stmt_prepare($stmt, $sql)) {
