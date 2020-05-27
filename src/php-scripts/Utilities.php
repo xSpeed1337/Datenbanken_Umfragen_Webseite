@@ -60,6 +60,6 @@ function logout() {
 
     session_destroy();
     $_SESSION = array();
-    //header("Location: ../Pages/LoginPage.php");
+    header("Location: ../Pages/LoginPage.php");
 
 }
