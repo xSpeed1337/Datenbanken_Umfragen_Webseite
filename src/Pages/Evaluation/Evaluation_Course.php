@@ -30,22 +30,10 @@ if (!isset($_POST["EvaluationTitleShort"])) {
             <?php
             // get Title to display on the site
             $tile_short = escapeCharacters($_POST["EvaluationTitleShort"]);
-            $titleSql = "SELECT title FROM survey where title_short = ?";
-            $titleStmt = mysqli_stmt_init(database_connect());
-            if (!mysqli_stmt_prepare($titleStmt, $titleSql)) {
-                echo "SQL statement failed";
-            } else {
-                mysqli_stmt_bind_param($titleStmt, "s", $tile_short);
-                if (mysqli_stmt_execute($titleStmt)) {
-                    $titleStmt->bind_result($title);
-                    $titleStmt->fetch();
-                    $titleStmt->close();
-                    echo "<td style=\"padding-right:20px\"> 
+            echo "<td style=\"padding-right:20px\"> 
                             <input readonly type='hidden' name='title_short' value='" . $tile_short . "'>
-                            <input readonly name='title' value='" . $title . "'>
+                            <input readonly name='title' value='" . getTitleFromSurvey($tile_short) . "'>
                           </td>";
-                }
-            }
             ?>
         </tr>
         <tr>

@@ -45,7 +45,7 @@ if (isset($_POST["PrevQuestion"]) == true) {
         <table>
             <tr>
                 <?php
-                echo "<td style=\"padding-right:20px\">Titel: " . $evaluationHandler->getTitleShort() . "</td>"
+                echo "<td style=\"padding-right:20px\">Titel: " . getTitleFromSurvey($evaluationHandler->getTitleShort()) . "</td>"
                 ?>
             </tr>
             <tr>
