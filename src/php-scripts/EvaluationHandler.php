@@ -172,7 +172,14 @@ class EvaluationHandler {
 
                 $answerArrayRow++;
             } else {
-                echo "Keine Antworten gefunden für diese Umfrage";
+                echo "Keine Antworten gefunden für diese Umfrage und Kurs.
+                    <br>
+                    <br>
+                    <form method=\"get\" action=\"../MySurveys_Interviewer.php\">
+                        <button type=\"submit\" name=\"Quit\">Zurück zum Hauptmenu</button>
+                    </form>
+                ";
+                exit();
             }
         }
         return $answerArray;
